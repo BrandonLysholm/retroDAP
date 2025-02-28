@@ -1,3 +1,4 @@
+# Author: Brandon Lysholm
 # This program detects when the rotary encoder starts spinning, and it will read as spinning
 # until it gets spun one click the other direction
 

@@ -1,3 +1,5 @@
+# Author: Brandon Lysholm
+
 import RPi.GPIO as GPIO
 import time
 
