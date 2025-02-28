@@ -13,8 +13,8 @@ class Encoder:
         self.state = '00'
         self.direction = None
         self.callback = callback
-        GPIO.setup(self.leftPin, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
-        GPIO.setup(self.rightPin, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
+        GPIO.setup(self.leftPin, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+        GPIO.setup(self.rightPin, GPIO.IN, pull_up_down=GPIO.PUD_UP)
         GPIO.add_event_detect(self.leftPin, GPIO.BOTH, callback=self.transitionOccurred)  
         GPIO.add_event_detect(self.rightPin, GPIO.BOTH, callback=self.transitionOccurred)  
 

@@ -8,9 +8,9 @@ from encoder import Encoder
 def valueChanged(value, direction):
     print("* New value: {}, Direction: {}".format(value, direction))
 
-GPIO.setmode(GPIO.BCM)
+GPIO.setmode(GPIO.BOARD)
 
-e1 = Encoder(26, 19, valueChanged)
+e1 = Encoder(32, 33, valueChanged)
 
 try:
     while True:
