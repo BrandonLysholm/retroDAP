@@ -14,7 +14,8 @@ from PIL import ImageTk, Image
 from sys import platform
 import os
    
-  
+
+# Setting up styles  
 LARGEFONT =("ChicagoFLF", 90) 
 MED_FONT =("ChicagoFLF", 70) 
 SCALE = 1
@@ -22,13 +23,16 @@ SPOT_GREEN = "#1DB954"
 SPOT_BLACK = "#191414"
 SPOT_WHITE = "#FFFFFF"
 
+# Socket information - running on loopback address
 UDP_IP = "127.0.0.1"
 UDP_PORT = 9090
 
 DIVIDER_HEIGHT = 3
 
-UP_KEY_CODE = 8255233 if platform == "darwin" else 111
-DOWN_KEY_CODE = 8320768 if platform == "darwin" else 116
+# unsure how the buttons and clickwheel are being defined - different labelling than mine
+# DONE: Figure out the different keys, to remap to my keys
+UP_KEY_CODE = 8255233 if platform == "darwin" else 111 # guessing this is scroll right - looking at inputs this guess is correct
+DOWN_KEY_CODE = 8320768 if platform == "darwin" else 116 # guessing this is scroll left
 LEFT_KEY_CODE = 8124162 if platform == "darwin" else 113
 RIGHT_KEY_CODE = 8189699 if platform == "darwin" else 114
 PREV_KEY_CODE = 2818092 if platform == "darwin" else 0
@@ -78,7 +82,9 @@ def flattenAlpha(img):
     img.putalpha(mask)
 
     return img
-   
+
+# using the python library tkinter (import tkinter as tk)
+# DONE: tkinter is a python GUI interface, and the basis for the application   
 class tkinterApp(tk.Tk): 
       
     # __init__ function for class tkinterApp  
@@ -127,6 +133,7 @@ class tkinterApp(tk.Tk):
         frame = self.frames[cont] 
         frame.tkraise() 
 
+# DONE: Figure out what the Marquee is - quick guess is that it is scrolling text
 class Marquee(tk.Canvas):
     def __init__(self, parent, text, margin=2, borderwidth=0, relief='flat', fps=24):
         tk.Canvas.__init__(self, parent, highlightthickness=0, borderwidth=borderwidth, relief=relief, background=SPOT_BLACK)
@@ -390,11 +397,14 @@ class StartPage(tk.Frame):
         arrow.configure(background=bgColor, image=arrowImg)
         arrow.image = arrowImg
 
+# TODO: Figure out all the places that is calling this
+# TODO: Modify this to take in my input
 def processInput(app, input):
     global wheel_position, last_button, last_interaction
     position = input[2]
     button = input[0]
     button_state = input[1]
+    # TODO: Confirm that this is processing clickwheel rotation
     if button == 29 and button_state == 0:
         wheel_position = -1
     elif wheel_position == -1:
@@ -416,6 +426,7 @@ def processInput(app, input):
         onUpPressed()
         wheel_position = position
     
+    # TODO: Confirm that this is processing button input
     if button_state == 0:
         last_button = -1
     elif button == last_button:
@@ -437,6 +448,8 @@ def processInput(app, input):
         last_button = button
     
     now = time.time()
+
+    # Waking up the screen if it has timed out
     if (now - last_interaction > SCREEN_TIMEOUT_SECONDS):
         print("waking")
         screen_wake()
@@ -444,6 +457,7 @@ def processInput(app, input):
 
     # app.frames[StartPage].set_list_item(0, "Test") 
 
+# TODO: Find all places where this is being called from
 def onKeyPress(event):
     c = event.keycode
     if (c == UP_KEY_CODE):
@@ -558,9 +572,12 @@ sock.setblocking(0)
 socket_list = [sock]
 loop_count = 0
 
+# This gets called last, so the app stays in this loop once everything is initialized
 def app_main_loop():
     global app, page, loop_count, last_interaction, screen_on
     try:
+        # TODO: Figure out if I can replace the socket with my clickwheelTest code that I modify to send a value, and then modify the
+        # process input code to work with my values
         read_sockets = select(socket_list, [], [], 0)[0]
         for socket in read_sockets:
             data = socket.recv(128)

@@ -171,11 +171,14 @@ int main(void *args){
     servaddr.sin_port = htons(PORT); 
     servaddr.sin_addr.s_addr = INADDR_ANY; 
 
+    // Closing program if GPIO fails to initialize 
     if (gpioInitialise() < 0) {
        exit(1);
     }
 
     // haptic waveform - just a simple on-off pulse
+    // Not needed since I do not have haptics
+    /**
     gpioSetMode(HAPTIC_PIN, PI_OUTPUT);
     gpioPulse_t pulse[2];
     pulse[0].gpioOn = (1<<HAPTIC_PIN);
@@ -185,12 +188,15 @@ int main(void *args){
     pulse[1].gpioOn = 0;
     pulse[1].gpioOff = (1<<HAPTIC_PIN);
     pulse[1].usDelay = 2000;
+    
 
     gpioWaveAddNew();
 
     gpioWaveAddGeneric(2, pulse);
+    
 
     hapticWaveId = gpioWaveCreate();
+    */
     gpioSetPullUpDown(CLOCK_PIN, PI_PUD_UP);
     gpioSetPullUpDown(DATA_PIN, PI_PUD_UP);
     gpioSetAlertFunc(CLOCK_PIN, onClockEdge);
