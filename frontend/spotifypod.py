@@ -13,7 +13,17 @@ from view_model import *
 from PIL import ImageTk, Image
 from sys import platform
 import os
-   
+from ../clickwheelTest/fullEncoder import FullEncoder
+
+# Setting all my pins as constants for easy changing
+CENTER_BTN_PIN = 10
+DOWN_BTN_PIN = 11
+RIGHT_BTN_PIN = 7
+UP_BTN_PIN = 15
+LEFT_BTN_PIN = 16
+ENC1_PIN = 32
+ENC2_PIN = 33
+
 
 # Setting up styles  
 LARGEFONT =("ChicagoFLF", 90) 
@@ -398,7 +408,7 @@ class StartPage(tk.Frame):
         arrow.image = arrowImg
 
 # TODO: Figure out all the places that is calling this
-# TODO: Modify this to take in my input
+# DONE: Modify this to take in my input, buttons first, rotary encoder second - using new functions
 def processInput(app, input):
     global wheel_position, last_button, last_interaction
     position = input[2]
@@ -456,6 +466,28 @@ def processInput(app, input):
     last_interaction = now
 
     # app.frames[StartPage].set_list_item(0, "Test") 
+
+# Since my clickwheel has separate callbacks for buttons and rotary input,
+# I can handle them separately, and get the button inputs working before
+# tackling the rotary encoder with a separate callback function
+def processMyBtnInput(myVal):
+    if myVal == "center":
+        onSelectPressed()
+    elif myVal == "down":
+        onPlayPressed()
+    elif myVal == "right":
+        onNextPressed()
+    elif myVal == "up":
+        onBackPressed()
+    elif myVal == "left":
+        onPrevPressed()
+
+    # TODO: Handle screen wakeup/sleep 
+
+# TODO: handle rotary input
+def processMyRotaryInput(value, direction):
+    # Do nothing for now
+
 
 # TODO: Find all places where this is being called from
 def onKeyPress(event):
@@ -565,33 +597,49 @@ app = tkinterApp()
 render(app, page.render())
 app.overrideredirect(True)
 app.overrideredirect(False)
-sock = socket.socket(socket.AF_INET, # Internet
-                     socket.SOCK_DGRAM) # UDP
-sock.bind((UDP_IP, UDP_PORT))
-sock.setblocking(0)
-socket_list = [sock]
+
+# Setting up my encoder
+e1 = FullEncoder(ENC1_PIN, ENC2_PIN, CENTER_BTN_PIN, DOWN_BTN_PIN, processMyBtnInput, processMyRotaryInput)
+
+
+# DONE: Remove this code and replace it with my python code for my clickwheel
+# I can use the processInput as the callback function for my clickwheel code
+
+# sock = socket.socket(socket.AF_INET, # Internet
+#                      socket.SOCK_DGRAM) # UDP
+# sock.bind((UDP_IP, UDP_PORT))
+# sock.setblocking(0)
+# socket_list = [sock]
 loop_count = 0
 
 # This gets called last, so the app stays in this loop once everything is initialized
 def app_main_loop():
     global app, page, loop_count, last_interaction, screen_on
     try:
-        # TODO: Figure out if I can replace the socket with my clickwheelTest code that I modify to send a value, and then modify the
+        # DONE: Figure out if I can replace the socket with my clickwheelTest code that I modify to send a value, and then modify the
         # process input code to work with my values
-        read_sockets = select(socket_list, [], [], 0)[0]
-        for socket in read_sockets:
-            data = socket.recv(128)
-            processInput(app, data)
-        loop_count += 1
-        if (loop_count >= 300):
+    #     read_sockets = select(socket_list, [], [], 0)[0]
+    #     for socket in read_sockets:
+    #         data = socket.recv(128)
+    #         processInput(app, data)
+    #     loop_count += 1
+    #     if (loop_count >= 300):
+    #         if (time.time() - last_interaction > SCREEN_TIMEOUT_SECONDS and screen_on):
+    #             screen_sleep()
+    #         render(app, page.render())
+    #         loop_count = 0
+    # except:
+    #     pass
+    # finally:
+    #     app.after(2, app_main_loop)
+
+    
+    # TODO: Get sleep function working properly
+    while true:
             if (time.time() - last_interaction > SCREEN_TIMEOUT_SECONDS and screen_on):
-                screen_sleep()
-            render(app, page.render())
-            loop_count = 0
-    except:
-        pass
-    finally:
-        app.after(2, app_main_loop)
+                 screen_sleep()
+             render(app, page.render())
+       
 
 app.bind('<KeyPress>', onKeyPress)
 app.after(5, app_main_loop)
