@@ -24,7 +24,6 @@ LEFT_BTN_PIN = 16
 ENC1_PIN = 32
 ENC2_PIN = 33
 
-
 # Setting up styles  
 LARGEFONT =("ChicagoFLF", 90) 
 MED_FONT =("ChicagoFLF", 70) 
@@ -41,6 +40,7 @@ DIVIDER_HEIGHT = 3
 
 # unsure how the buttons and clickwheel are being defined - different labelling than mine
 # DONE: Figure out the different keys, to remap to my keys
+# This should be safe to delete, once I get rid of all occurences as it is unused
 UP_KEY_CODE = 8255233 if platform == "darwin" else 111 # guessing this is scroll right - looking at inputs this guess is correct
 DOWN_KEY_CODE = 8320768 if platform == "darwin" else 116 # guessing this is scroll left
 LEFT_KEY_CODE = 8124162 if platform == "darwin" else 113
@@ -104,7 +104,7 @@ class tkinterApp(tk.Tk):
         tk.Tk.__init__(self, *args, **kwargs)
 
         if (platform == 'darwin'):
-            self.geometry("320x240")
+            self.geometry("320x240") # I am using the same screen resolution, so I should not have any issues with that
             SCALE = 0.3
         else:
             self.attributes('-fullscreen', True)
@@ -315,8 +315,7 @@ class NowPlayingFrame(tk.Frame):
             return
         context_str = str(now_playing['track_index']) + " of " + str(now_playing['track_total'])
         self.context_label.configure(text=context_str)
-        
-   
+          
 class StartPage(tk.Frame): 
     def __init__(self, parent, controller):  
         tk.Frame.__init__(self, parent) 
@@ -407,7 +406,9 @@ class StartPage(tk.Frame):
         arrow.configure(background=bgColor, image=arrowImg)
         arrow.image = arrowImg
 
-# TODO: Figure out all the places that is calling this
+
+
+# DONE: Figure out all the places that is calling this - just where it was taking in information from the socket
 # DONE: Modify this to take in my input, buttons first, rotary encoder second - using new functions
 def processInput(app, input):
     global wheel_position, last_button, last_interaction
@@ -488,8 +489,7 @@ def processMyBtnInput(myVal):
 def processMyRotaryInput(value, direction):
     # Do nothing for now
 
-
-# TODO: Find all places where this is being called from
+# DONE: Find all places where this is being called from - just the key bindings at the bottom
 def onKeyPress(event):
     c = event.keycode
     if (c == UP_KEY_CODE):
@@ -508,6 +508,51 @@ def onKeyPress(event):
         onPlayPressed()
     else:
         print("unrecognized key: ", c)
+
+
+
+def onPlayPressed():
+    global page, app
+    page.nav_play()
+    render(app, page.render())
+    
+def onSelectPressed():
+    global page, app
+    if (not page.has_sub_page):
+        return
+    page.render().unsubscribe()
+    page = page.nav_select()
+    render(app, page.render())
+
+def onBackPressed():
+    global page, app
+    previous_page = page.nav_back()
+    if (previous_page):
+        page.render().unsubscribe()
+        page = previous_page
+        render(app, page.render())
+    
+def onNextPressed():
+    global page, app
+    page.nav_next()
+    render(app, page.render())
+
+def onPrevPressed():
+    global page, app
+    page.nav_prev()
+    render(app, page.render())
+
+def onUpPressed():
+    global page, app
+    page.nav_up()
+    render(app, page.render())
+
+def onDownPressed():
+    global page, app
+    page.nav_down()
+    render(app, page.render())
+
+
 
 def update_search(q, ch, loading, results):
     global app, page
@@ -550,46 +595,9 @@ def render(app, render):
     elif (render.type == SEARCH_RENDER):
         render_search(app, render)
 
-def onPlayPressed():
-    global page, app
-    page.nav_play()
-    render(app, page.render())
-    
-def onSelectPressed():
-    global page, app
-    if (not page.has_sub_page):
-        return
-    page.render().unsubscribe()
-    page = page.nav_select()
-    render(app, page.render())
 
-def onBackPressed():
-    global page, app
-    previous_page = page.nav_back()
-    if (previous_page):
-        page.render().unsubscribe()
-        page = previous_page
-        render(app, page.render())
-    
-def onNextPressed():
-    global page, app
-    page.nav_next()
-    render(app, page.render())
 
-def onPrevPressed():
-    global page, app
-    page.nav_prev()
-    render(app, page.render())
-
-def onUpPressed():
-    global page, app
-    page.nav_up()
-    render(app, page.render())
-
-def onDownPressed():
-    global page, app
-    page.nav_down()
-    render(app, page.render())
+# Here we are going from defining functions to actually writing code to initialize the program
    
 # Driver Code 
 page = RootPage(None)
@@ -633,14 +641,14 @@ def app_main_loop():
     # finally:
     #     app.after(2, app_main_loop)
 
-    
+
     # TODO: Get sleep function working properly
     while true:
             if (time.time() - last_interaction > SCREEN_TIMEOUT_SECONDS and screen_on):
                  screen_sleep()
              render(app, page.render())
        
-
+# TODO: Figure out if I need to keep this keypress binding, I do not think I do
 app.bind('<KeyPress>', onKeyPress)
 app.after(5, app_main_loop)
 app.mainloop()
