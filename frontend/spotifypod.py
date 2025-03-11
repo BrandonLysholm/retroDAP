@@ -485,9 +485,14 @@ def processMyBtnInput(myVal):
 
     # TODO: Handle screen wakeup/sleep 
 
-# TODO: handle rotary input
+# DONE: handle rotary input
 def processMyRotaryInput(value, direction):
-    myVal =1
+    if (direction == 'R'):
+        onUpPressed()
+    elif (direction == 'L'):
+        onDownPressed()
+
+
     # Do nothing for now
 
 # DONE: Find all places where this is being called from - just the key bindings at the bottom
