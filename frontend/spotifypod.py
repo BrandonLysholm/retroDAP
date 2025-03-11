@@ -486,7 +486,8 @@ def processMyBtnInput(myVal):
     # TODO: Handle screen wakeup/sleep 
 
 # TODO: handle rotary input
-# def processMyRotaryInput(value, direction):
+def processMyRotaryInput(value, direction):
+    myVal =1
     # Do nothing for now
 
 # DONE: Find all places where this is being called from - just the key bindings at the bottom
