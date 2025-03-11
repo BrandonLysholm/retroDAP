@@ -13,7 +13,7 @@ from view_model import *
 from PIL import ImageTk, Image
 from sys import platform
 import os
-from ../clickwheelTest/fullEncoder import FullEncoder
+from fullEncoder import FullEncoder
 
 # Setting all my pins as constants for easy changing
 CENTER_BTN_PIN = 10
@@ -70,7 +70,7 @@ def screen_wake():
 def flattenAlpha(img):
     global SCALE
     [img_w, img_h] = img.size
-    img = img.resize((int(img_w * SCALE), int(img_h * SCALE)), Image.ANTIALIAS)
+    img = img.resize((int(img_w * SCALE), int(img_h * SCALE)))
     alpha = img.split()[-1]  # Pull off the alpha layer
     ab = alpha.tobytes()  # Original 8-bit alpha
 
@@ -486,7 +486,7 @@ def processMyBtnInput(myVal):
     # TODO: Handle screen wakeup/sleep 
 
 # TODO: handle rotary input
-def processMyRotaryInput(value, direction):
+# def processMyRotaryInput(value, direction):
     # Do nothing for now
 
 # DONE: Find all places where this is being called from - just the key bindings at the bottom
