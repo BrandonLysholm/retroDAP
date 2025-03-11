@@ -644,9 +644,9 @@ def app_main_loop():
 
     # TODO: Get sleep function working properly
     while true:
-            if (time.time() - last_interaction > SCREEN_TIMEOUT_SECONDS and screen_on):
-                 screen_sleep()
-             render(app, page.render())
+        if (time.time() - last_interaction > SCREEN_TIMEOUT_SECONDS and screen_on):
+            screen_sleep()
+        render(app, page.render())
        
 # TODO: Figure out if I need to keep this keypress binding, I do not think I do
 app.bind('<KeyPress>', onKeyPress)
