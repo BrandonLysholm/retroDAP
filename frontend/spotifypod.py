@@ -487,9 +487,9 @@ def processMyBtnInput(myVal):
 
 # DONE: handle rotary input
 def processMyRotaryInput(value, direction):
-    if (direction == 'R'):
+    if (direction == 'L'):
         onUpPressed()
-    elif (direction == 'L'):
+    elif (direction == 'R'):
         onDownPressed()
 
 
