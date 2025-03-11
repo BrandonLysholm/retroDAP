@@ -8,6 +8,8 @@ import RPi.GPIO as GPIO
 class FullEncoder:
 
     def __init__(self, leftPin, rightPin, cBtn, dBtn, rBtn, uBtn, lBtn, btnCallback, callback=None):
+        # Setting GPIO mode
+        GPIO.setmode(GPIO.BOARD)
         # Original code declaring rotary encoders
         self.leftPin = leftPin
         self.rightPin = rightPin
