@@ -623,7 +623,7 @@ loop_count = 0
 # This gets called last, so the app stays in this loop once everything is initialized
 def app_main_loop():
     global app, page, loop_count, last_interaction, screen_on
-    try:
+    #try:
         # DONE: Figure out if I can replace the socket with my clickwheelTest code that I modify to send a value, and then modify the
         # process input code to work with my values
     #     read_sockets = select(socket_list, [], [], 0)[0]
