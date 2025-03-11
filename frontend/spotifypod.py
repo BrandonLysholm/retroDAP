@@ -608,7 +608,7 @@ app.overrideredirect(True)
 app.overrideredirect(False)
 
 # Setting up my encoder
-e1 = FullEncoder(ENC1_PIN, ENC2_PIN, CENTER_BTN_PIN, DOWN_BTN_PIN, processMyBtnInput, processMyRotaryInput)
+e1 = FullEncoder(ENC1_PIN, ENC2_PIN, CENTER_BTN_PIN, DOWN_BTN_PIN, RIGHT_BTN_PIN, UP_BTN_PIN, LEFT_BTN_PIN, processMyBtnInput, processMyRotaryInput)
 
 
 # DONE: Remove this code and replace it with my python code for my clickwheel
