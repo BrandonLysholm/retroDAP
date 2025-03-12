@@ -404,7 +404,9 @@ class ArtistsPage(MenuPage):
     def page_at(self, index):
         # play track
         artist = spotify_manager.DATASTORE.getArtist(index)
-        command = NowPlayingCommand(lambda: spotify_manager.play_artist(artist.uri))
+        # TODO: Chnage the command
+        command = NowPlayingCommand(lambda: spotify_manager.start_playback(context_uri=artist.uri))
+        # command = NowPlayingCommand(lambda: spotify_manager.play_artist(artist.uri))
         return NowPlayingPage(self, artist.name, command)
     
 class SingleArtistPage(MenuPage):
