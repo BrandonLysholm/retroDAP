@@ -405,8 +405,8 @@ class ArtistsPage(MenuPage):
         # play track
         artist = spotify_manager.DATASTORE.getArtist(index)
         # TODO: Chnage the command
-        command = NowPlayingCommand(lambda: spotify_manager.start_playback(context_uri=artist.uri))
-        # command = NowPlayingCommand(lambda: spotify_manager.play_artist(artist.uri))
+        # command = NowPlayingCommand(lambda: spotify_manager.start_playback(context_uri=artist.uri))
+        command = NowPlayingCommand(lambda: spotify_manager.play_artist(artist.uri))
         return NowPlayingPage(self, artist.name, command)
     
 class SingleArtistPage(MenuPage):
@@ -475,7 +475,9 @@ class SingleTrackPage(MenuPage):
         r = super().render()
         print("render track")
         context_uri = self.playlist.uri if self.playlist else self.album.uri
-        spotify_manager.play_from_playlist(context_uri, self.track.uri, None)
+        # TODO: Modifying this to get it working
+        spotify_manager.start_playback(context_uri=context_uri, uris=self.track.uri)
+        #spotify_manager.play_from_playlist(context_uri, self.track.uri, None)
         return r
 
 class SingleEpisodePage(MenuPage):
