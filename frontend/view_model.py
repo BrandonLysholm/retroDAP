@@ -206,9 +206,8 @@ class NowPlayingPage():
         return self.previous_page
 
     def render(self):
-        # if (not self.command.has_run):
-            # self.command.run()
-        self.command.myRun()
+        if (not self.command.has_run):
+            self.command.run()
         return self.live_render
 
 EMPTY_LINE_ITEM = LineItem()
