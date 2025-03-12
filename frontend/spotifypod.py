@@ -407,67 +407,6 @@ class StartPage(tk.Frame):
         arrow.image = arrowImg
 
 
-
-# DONE: Figure out all the places that is calling this - just where it was taking in information from the socket
-# DONE: Modify this to take in my input, buttons first, rotary encoder second - using new functions
-def processInput(app, input):
-    global wheel_position, last_button, last_interaction
-    position = input[2]
-    button = input[0]
-    button_state = input[1]
-    # TODO: Confirm that this is processing clickwheel rotation
-    if button == 29 and button_state == 0:
-        wheel_position = -1
-    elif wheel_position == -1:
-        wheel_position = position
-    elif position % 2 != 0:
-        pass
-    elif wheel_position <=1 and position > 44:
-        onDownPressed()
-        wheel_position = position
-    elif wheel_position >=44 and position < 1:
-        onUpPressed()
-        wheel_position = position
-    elif abs(wheel_position - position) > 6:
-        wheel_position = -1
-    elif wheel_position > position:
-        onDownPressed()
-        wheel_position = position
-    elif wheel_position < position:
-        onUpPressed()
-        wheel_position = position
-    
-    # TODO: Confirm that this is processing button input
-    if button_state == 0:
-        last_button = -1
-    elif button == last_button:
-        pass
-    elif button == 7:
-        onSelectPressed()
-        last_button = button
-    elif button == 11:
-        onBackPressed()
-        last_button = button
-    elif button == 10:
-        onPlayPressed()
-        last_button = button
-    elif button == 8:
-        onNextPressed()
-        last_button = button
-    elif button == 9:
-        onPrevPressed()
-        last_button = button
-    
-    now = time.time()
-
-    # Waking up the screen if it has timed out
-    if (now - last_interaction > SCREEN_TIMEOUT_SECONDS):
-        print("waking")
-        screen_wake()
-    last_interaction = now
-
-    # app.frames[StartPage].set_list_item(0, "Test") 
-
 # Since my clickwheel has separate callbacks for buttons and rotary input,
 # I can handle them separately, and get the button inputs working before
 # tackling the rotary encoder with a separate callback function
@@ -558,8 +497,6 @@ def onDownPressed():
     page.nav_down()
     render(app, page.render())
 
-
-
 def update_search(q, ch, loading, results):
     global app, page
     search_page = app.frames[SearchFrame]
@@ -601,8 +538,6 @@ def render(app, render):
     elif (render.type == SEARCH_RENDER):
         render_search(app, render)
 
-
-
 # Here we are going from defining functions to actually writing code to initialize the program
    
 # Driver Code 
@@ -615,38 +550,11 @@ app.overrideredirect(False)
 # Setting up my encoder
 e1 = FullEncoder(ENC1_PIN, ENC2_PIN, CENTER_BTN_PIN, DOWN_BTN_PIN, RIGHT_BTN_PIN, UP_BTN_PIN, LEFT_BTN_PIN, processMyBtnInput, processMyRotaryInput)
 
-
-# DONE: Remove this code and replace it with my python code for my clickwheel
-# I can use the processInput as the callback function for my clickwheel code
-
-# sock = socket.socket(socket.AF_INET, # Internet
-#                      socket.SOCK_DGRAM) # UDP
-# sock.bind((UDP_IP, UDP_PORT))
-# sock.setblocking(0)
-# socket_list = [sock]
 loop_count = 0
 
 # This gets called last, so the app stays in this loop once everything is initialized
 def app_main_loop():
     global app, page, loop_count, last_interaction, screen_on
-    #try:
-        # DONE: Figure out if I can replace the socket with my clickwheelTest code that I modify to send a value, and then modify the
-        # process input code to work with my values
-    #     read_sockets = select(socket_list, [], [], 0)[0]
-    #     for socket in read_sockets:
-    #         data = socket.recv(128)
-    #         processInput(app, data)
-    #     loop_count += 1
-    #     if (loop_count >= 300):
-    #         if (time.time() - last_interaction > SCREEN_TIMEOUT_SECONDS and screen_on):
-    #             screen_sleep()
-    #         render(app, page.render())
-    #         loop_count = 0
-    # except:
-    #     pass
-    # finally:
-    #     app.after(2, app_main_loop)
-
 
     # TODO: Get sleep function working properly
     while true:
@@ -654,7 +562,7 @@ def app_main_loop():
             screen_sleep()
         render(app, page.render())
        
-# TODO: Figure out if I need to keep this keypress binding, I do not think I do
-app.bind('<KeyPress>', onKeyPress)
+# TODO: Figure out if I need to keep this keypress binding, I do not think I do as it was probably used for developing the app and taking keyboard inputs
+# app.bind('<KeyPress>', onKeyPress)
 app.after(5, app_main_loop)
 app.mainloop()
