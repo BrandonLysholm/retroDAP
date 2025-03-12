@@ -76,6 +76,9 @@ class NowPlayingCommand():
         self.has_run = True
         self.runnable()
 
+    def myRun():
+        self.runnable()
+
 class SearchRendering(Rendering):
     def __init__(self, query, active_char):
         super().__init__(SEARCH_RENDER)
@@ -203,8 +206,9 @@ class NowPlayingPage():
         return self.previous_page
 
     def render(self):
-        if (not self.command.has_run):
-            self.command.run()
+        # if (not self.command.has_run):
+            # self.command.run()
+        self.command.myRun()
         return self.live_render
 
 EMPTY_LINE_ITEM = LineItem()

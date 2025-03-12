@@ -32,27 +32,8 @@ SPOT_GREEN = "#1DB954"
 SPOT_BLACK = "#191414"
 SPOT_WHITE = "#FFFFFF"
 
-# Socket information - running on loopback address
-UDP_IP = "127.0.0.1"
-UDP_PORT = 9090
-
 DIVIDER_HEIGHT = 3
-
-# unsure how the buttons and clickwheel are being defined - different labelling than mine
-# DONE: Figure out the different keys, to remap to my keys
-# This should be safe to delete, once I get rid of all occurences as it is unused
-UP_KEY_CODE = 8255233 if platform == "darwin" else 111 # guessing this is scroll right - looking at inputs this guess is correct
-DOWN_KEY_CODE = 8320768 if platform == "darwin" else 116 # guessing this is scroll left
-LEFT_KEY_CODE = 8124162 if platform == "darwin" else 113
-RIGHT_KEY_CODE = 8189699 if platform == "darwin" else 114
-PREV_KEY_CODE = 2818092 if platform == "darwin" else 0
-NEXT_KEY_CODE = 3080238 if platform == "darwin" else 0
-PLAY_KEY_CODE = 3211296 if platform == "darwin" else 0
-
 SCREEN_TIMEOUT_SECONDS = 60
-
-wheel_position = -1
-last_button = -1
 
 last_interaction = time.time()
 screen_on = True
@@ -431,31 +412,6 @@ def processMyRotaryInput(value, direction):
     elif (direction == 'R'):
         onDownPressed()
 
-
-    # Do nothing for now
-
-# DONE: Find all places where this is being called from - just the key bindings at the bottom
-def onKeyPress(event):
-    c = event.keycode
-    if (c == UP_KEY_CODE):
-        onUpPressed()
-    elif (c == DOWN_KEY_CODE):
-        onDownPressed()
-    elif (c == RIGHT_KEY_CODE):
-        onSelectPressed()
-    elif (c == LEFT_KEY_CODE):
-        onBackPressed()
-    elif (c == NEXT_KEY_CODE):
-        onNextPressed()
-    elif (c == PREV_KEY_CODE):
-        onPrevPressed()
-    elif (c == PLAY_KEY_CODE):
-        onPlayPressed()
-    else:
-        print("unrecognized key: ", c)
-
-
-
 def onPlayPressed():
     global page, app
     page.nav_play()
@@ -562,7 +518,5 @@ def app_main_loop():
             screen_sleep()
         render(app, page.render())
        
-# TODO: Figure out if I need to keep this keypress binding, I do not think I do as it was probably used for developing the app and taking keyboard inputs
-# app.bind('<KeyPress>', onKeyPress)
 app.after(5, app_main_loop)
 app.mainloop()
