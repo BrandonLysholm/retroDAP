@@ -478,7 +478,7 @@ class SingleTrackPage(MenuPage):
         print("render track")
         context_uri = self.playlist.uri if self.playlist else self.album.uri
         # TODO: Modifying this to get it working
-        spotify_manager.start_playback(DEVICE_ID, context_uri, self.track.uri)
+        spotify_manager.start_playback(DEVICE_ID, context_uri, self.track.uri, None)
         #spotify_manager.play_from_playlist(context_uri, self.track.uri, None)
         return r
 
