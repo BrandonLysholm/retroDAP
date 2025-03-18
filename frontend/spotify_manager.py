@@ -315,13 +315,13 @@ def play_episode(episode_uri, device_id = None):
 
 def play_from_playlist(playist_uri, track_uri, device_id = None):
     print("playing ", playist_uri, track_uri)
-    if (not device_id):
+    # if (not device_id):
         # devices = DATASTORE.getAllSavedDevices()
         # if (len(devices) == 0):
         #     print("error! no devices")
         #     return
         # device_id = devices[0].id
-        device_id = DEVICE_ID
+        # device_id = DEVICE_ID
     device_id = DEVICE_ID
     sp.start_playback(device_id=device_id, context_uri=playist_uri, uris=track_uri)
     refresh_now_playing()
