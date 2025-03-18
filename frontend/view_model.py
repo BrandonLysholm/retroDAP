@@ -365,11 +365,11 @@ class SearchResultsPage(MenuPage):
             return PlaceHolderPage("ALBUMS", self, has_sub_page=False, is_title=True)
         elif self.tracks > 0 and  index < self.header_indices[1]:
             track = self.results.tracks[index - 1]
-            command = NowPlayingCommand(lambda: spotify_manager.play_track(track.uri))
+            command = NowPlayingCommand(lambda: spotify_manager.start_playback(track.uri))
             return NowPlayingPage(self, track.title, command)
         elif self.albums > 0 and  index < self.header_indices[2]:
             artist = self.results.artists[index - (self.tracks + 1)]
-            command = NowPlayingCommand(lambda: spotify_manager.play_artist(artist.uri))
+            command = NowPlayingCommand(lambda: spotify_manager.start_playback(artist.uri))
             return NowPlayingPage(self, artist.name, command)
         else:
             album = self.results.albums[index - (self.artists + self.tracks + 1)]
@@ -407,8 +407,8 @@ class ArtistsPage(MenuPage):
         # play track
         artist = spotify_manager.DATASTORE.getArtist(index)
         # TODO: Chnage the command
-        # command = NowPlayingCommand(lambda: spotify_manager.start_playback(context_uri=artist.uri))
-        command = NowPlayingCommand(lambda: spotify_manager.play_artist(artist.uri))
+        command = NowPlayingCommand(lambda: spotify_manager.start_playback(context_uri=artist.uri))
+        # command = NowPlayingCommand(lambda: spotify_manager.play_artist(artist.uri))
         return NowPlayingPage(self, artist.name, command)
     
 class SingleArtistPage(MenuPage):
@@ -439,7 +439,7 @@ class SinglePlaylistPage(MenuPage):
 
     def page_at(self, index):
         track = self.get_tracks()[index]
-        command = NowPlayingCommand(lambda: spotify_manager.play_from_playlist(self.playlist.uri, track.uri, None))
+        command = NowPlayingCommand(lambda: spotify_manager.start_playback(DEVICE_ID, self.playlist.uri, track.uri, None))
         return NowPlayingPage(self, track.title, command)
 
 class SingleShowPage(MenuPage):
