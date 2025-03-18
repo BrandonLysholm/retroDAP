@@ -437,7 +437,7 @@ class SinglePlaylistPage(MenuPage):
 
     def page_at(self, index):
         track = self.get_tracks()[index]
-        command = NowPlayingCommand(lambda: spotify_manager.start_playback(DEVICE_ID, self.playlist.uri, track.uri, None))
+        command = NowPlayingCommand(lambda: spotify_manager.play_from_playlist(self.playlist.uri, track.uri, None))
         return NowPlayingPage(self, track.title, command)
 
 class SingleShowPage(MenuPage):
