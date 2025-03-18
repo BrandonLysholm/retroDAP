@@ -322,7 +322,7 @@ def play_from_playlist(playist_uri, track_uri, device_id = None):
         #     return
         # device_id = devices[0].id
         device_id = DEVICE_ID
-    sp.start_playback(device_id=device_id, context_uri=playist_uri, uris=track_uri, offset={"uri": track_uri})
+    sp.start_playback(device_id=device_id, context_uri=playist_uri, uris=track_uri)
     refresh_now_playing()
 
 def play_from_show(show_uri, episode_uri, device_id = None):
