@@ -1,6 +1,4 @@
-# This code is a mess.
-# This is me learning Python as I go.
-# This is not how I write code for my day job.
+# This file gets called to start the application
 
 import tkinter as tk 
 import time
@@ -38,12 +36,6 @@ def screen_wake():
     global screen_on
     screen_on = True
     os.system('xset -display :0 dpms force on')
-
-
-
-
-
-
 
 # Single function that is the callback function for the class FullEncoder, which handles all input
 # logic for my clickwheel

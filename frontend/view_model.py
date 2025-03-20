@@ -1,3 +1,4 @@
+# This file contains more of the detailed classes for specific views
 import spotify_manager
 import re as re
 from functools import lru_cache 

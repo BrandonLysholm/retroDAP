@@ -1,3 +1,6 @@
+# This file contains classses and functions to handle storing spotify information on device
+# as well as acts as middleware between spotipy and the app, creating logic to handle the spotipy requests.
+
 import spotipy
 import datastore
 from spotipy.oauth2 import SpotifyOAuth

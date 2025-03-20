@@ -1,3 +1,6 @@
+# This file contains the classes that are the default screen layouts used throughout the program
+# The classes contained in this file are only referenced in spotifypod.py
+
 import tkinter as tk 
 import json
 import time
