@@ -281,8 +281,12 @@ def refresh_data():
     refresh_devices()
     print("Refreshed devices")
 
+# This function plays the most popular songs from the artist.
+# called in view_model.py in class ArtistsPage, in the function page_at
 def play_artist(artist_uri, device_id = None):
     if (not device_id):
+        # This code was causing me issues, so I hardcoded in the device_id at the
+        # top of the page
         # devices = DATASTORE.getAllSavedDevices()
         # if (len(devices) == 0):
         #     print("error! no devices")
@@ -293,18 +297,11 @@ def play_artist(artist_uri, device_id = None):
     refresh_now_playing()
     print(response)
 
-def play_track(track_uri, device_id = None):
-    if (not device_id):
-        # devices = DATASTORE.getAllSavedDevices()
-        # if (len(devices) == 0):
-        #     print("error! no devices")
-        #     return
-        # device_id = devices[0].id
-        device_id = DEVICE_ID
-    sp.start_playback(device_id=device_id, uris=[track_uri])
-
+# Probably used for podcasts - I have not used it
 def play_episode(episode_uri, device_id = None):
     if(not device_id):
+        # This code was causing me issues, so I hardcoded in the device_id at the
+        # top of the page
         # devices = DATASTORE.getAllSavedDevices()
         # if(len(devices) == 0):
         #     print("error! no devices")
@@ -313,8 +310,16 @@ def play_episode(episode_uri, device_id = None):
         device_id = DEVICE_ID
     sp.start_playback(device_id=device_id, uris=[episode_uri])
 
+# Plays a specific song and queues up the rest of the album or playlist chosen from
+# This code is used for both albums and playlists, since they get handled
+# the same in the app, once a specific album/playlist is selected
+# If it is an album, the album uri is passed in as the playlist_uri
+# code is called in view_model.py in class SingleTrackPage function render as well
+# as the class SinglePlaylistPage in function page_at
 def play_from_playlist(playist_uri, track_uri, device_id = None):
     print("playing ", playist_uri, track_uri)
+    # This code was causing me issues, so I hardcoded in the device_id at the
+    # top of the page
     # if (not device_id):
         # devices = DATASTORE.getAllSavedDevices()
         # if (len(devices) == 0):
@@ -326,9 +331,12 @@ def play_from_playlist(playist_uri, track_uri, device_id = None):
     sp.start_playback(device_id=device_id, context_uri=playist_uri, offset={"uri": track_uri})
     refresh_now_playing()
 
+#Probably podcast playback - have not touched podcasts
 def play_from_show(show_uri, episode_uri, device_id = None):
     print("playing ", show_uri, episode_uri)
     if(not device_id):
+        # This code was causing me issues, so I hardcoded in the device_id at the
+        # top of the page
         # devices = DATASTORE.getAllSavedDevices()
         # if (len(devices) == 0):
         #     print("error! no devices")
