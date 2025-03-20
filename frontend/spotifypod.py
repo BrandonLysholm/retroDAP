@@ -74,8 +74,7 @@ def flattenAlpha(img):
 
     return img
 
-# using the python library tkinter (import tkinter as tk)
-# DONE: tkinter is a python GUI interface, and the basis for the application   
+# using the python library tkinter too create the basis of the app (import tkinter as tk)  
 class tkinterApp(tk.Tk): 
       
     # __init__ function for class tkinterApp  
@@ -124,7 +123,7 @@ class tkinterApp(tk.Tk):
         frame = self.frames[cont] 
         frame.tkraise() 
 
-# DONE: Figure out what the Marquee is - quick guess is that it is scrolling text
+# Used to create scrolling text
 class Marquee(tk.Canvas):
     def __init__(self, parent, text, margin=2, borderwidth=0, relief='flat', fps=24):
         tk.Canvas.__init__(self, parent, highlightthickness=0, borderwidth=borderwidth, relief=relief, background=SPOT_BLACK)
@@ -387,11 +386,9 @@ class StartPage(tk.Frame):
         arrow.configure(background=bgColor, image=arrowImg)
         arrow.image = arrowImg
 
-
-# Since my clickwheel has separate callbacks for buttons and rotary input,
-# I can handle them separately, and get the button inputs working before
-# tackling the rotary encoder with a separate callback function
-def processMyBtnInput(myVal):
+# Single function that is the callback function for the class FullEncoder, which handles all input
+# logic for my clickwheel
+def processMyInput(myVal):
     if myVal == "center":
         onSelectPressed()
     elif myVal == "down":
@@ -402,15 +399,13 @@ def processMyBtnInput(myVal):
         onBackPressed()
     elif myVal == "left":
         onPrevPressed()
+    elif (myVal == 'L'):
+        onUpPressed()
+    elif (myVal == 'R'):
+        onDownPressed()
 
     # TODO: Handle screen wakeup/sleep 
 
-# DONE: handle rotary input
-def processMyRotaryInput(value, direction):
-    if (direction == 'L'):
-        onUpPressed()
-    elif (direction == 'R'):
-        onDownPressed()
 
 def onPlayPressed():
     global page, app
@@ -504,7 +499,7 @@ app.overrideredirect(True)
 app.overrideredirect(False)
 
 # Setting up my encoder
-e1 = FullEncoder(ENC1_PIN, ENC2_PIN, CENTER_BTN_PIN, DOWN_BTN_PIN, RIGHT_BTN_PIN, UP_BTN_PIN, LEFT_BTN_PIN, processMyBtnInput, processMyRotaryInput)
+e1 = FullEncoder(ENC1_PIN, ENC2_PIN, CENTER_BTN_PIN, DOWN_BTN_PIN, RIGHT_BTN_PIN, UP_BTN_PIN, LEFT_BTN_PIN, processMyInput)
 
 loop_count = 0
 

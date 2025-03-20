@@ -7,7 +7,7 @@ import RPi.GPIO as GPIO
 
 class FullEncoder:
 
-    def __init__(self, leftPin, rightPin, cBtn, dBtn, rBtn, uBtn, lBtn, btnCallback, callback=None):
+    def __init__(self, leftPin, rightPin, cBtn, dBtn, rBtn, uBtn, lBtn, callback=None):
         # Setting GPIO mode
         GPIO.setmode(GPIO.BOARD)
         # Original code declaring rotary encoders
@@ -19,7 +19,6 @@ class FullEncoder:
         self.rBtn = rBtn
         self.uBtn = uBtn
         self.lBtn = lBtn
-        self.btnCallback = btnCallback
         # Original code adding functionality to get information for rotary encoder
         self.value = 0
         self.state = '00'
@@ -65,7 +64,7 @@ class FullEncoder:
 
 
 
-        self.btnCallback(btnPressed)
+        self.callback(btnPressed)
 
     def transitionOccurred(self, channel):
         p1 = GPIO.input(self.leftPin)
@@ -85,7 +84,7 @@ class FullEncoder:
                 if self.direction == "L":
                     self.value = self.value - 1
                     if self.callback is not None:
-                        self.callback(self.value, self.direction)
+                        self.callback(self.direction)
 
         elif self.state == "10": # R3 or L1
             if newState == "11": # Turned left 1
@@ -94,7 +93,7 @@ class FullEncoder:
                 if self.direction == "R":
                     self.value = self.value + 1
                     if self.callback is not None:
-                        self.callback(self.value, self.direction)
+                        self.callback(self.direction)
 
         else: # self.state == "11"
             if newState == "01": # Turned left 1
@@ -105,11 +104,11 @@ class FullEncoder:
                 if self.direction == "L":
                     self.value = self.value - 1
                     if self.callback is not None:
-                        self.callback(self.value, self.direction)
+                        self.callback(self.direction)
                 elif self.direction == "R":
                     self.value = self.value + 1
                     if self.callback is not None:
-                        self.callback(self.value, self.direction)
+                        self.callback(self.direction)
                 
         self.state = newState
 

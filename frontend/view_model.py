@@ -16,8 +16,6 @@ LINE_TITLE = 2
 
 spotify_manager.refresh_devices()
 
-DEVICE_ID = 'cfedbeff5f6505928d32230a19389f9851ddb265' # This is currently my desktop
-
 class LineItem():
     def __init__(self, title = "", line_type = LINE_NORMAL, show_arrow = False):
         self.title = title
