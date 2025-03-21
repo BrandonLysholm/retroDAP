@@ -214,7 +214,7 @@ class NowPlayingFrame(tk.Frame):
         self.track_label.grid(row=1, column=0,sticky ="we", padx=(30, 50))
         self.progress_frame = tk.Canvas(contentFrame, height=int(72 * SCALE), bg=SPOT_BLACK, highlightthickness=0)
         self.progress_frame.grid(row=4, column=0,sticky ="we", pady=(int(52 * SCALE), 0), padx=(30, 50))
-        self.frame_img = ImageTk.PhotoImage(flattenAlpha(Image.open('prog_frame.png')))
+        self.frame_img = ImageTk.PhotoImage(flattenAlpha(Image.open('images.prog_frame.png')))
         self.time_frame = tk.Canvas(contentFrame, bg=SPOT_BLACK, highlightthickness=0)
         self.time_frame.grid(row=5, column=0,sticky ="we", padx=0, pady=(10, 0))
         self.time_frame.grid_columnconfigure(0, weight=1)
