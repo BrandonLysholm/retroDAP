@@ -19,6 +19,7 @@ UP_BTN_PIN = 15
 LEFT_BTN_PIN = 16
 ENC1_PIN = 32
 ENC2_PIN = 33
+HOLDSWITCH_PIN = 31
 
 
 DIVIDER_HEIGHT = 3
@@ -40,7 +41,9 @@ def screen_wake():
 # Single function that is the callback function for the class FullEncoder, which handles all input
 # logic for my clickwheel
 def processMyInput(myVal):
-    if myVal == "center":
+    if myVal == "locked":
+        return
+    elif myVal == "center":
         onSelectPressed()
     elif myVal == "down":
         onPlayPressed()
@@ -150,7 +153,7 @@ app.overrideredirect(True)
 app.overrideredirect(False)
 
 # Setting up my encoder
-e1 = FullEncoder(ENC1_PIN, ENC2_PIN, CENTER_BTN_PIN, DOWN_BTN_PIN, RIGHT_BTN_PIN, UP_BTN_PIN, LEFT_BTN_PIN, processMyInput)
+e1 = FullEncoder(ENC1_PIN, ENC2_PIN, CENTER_BTN_PIN, DOWN_BTN_PIN, RIGHT_BTN_PIN, UP_BTN_PIN, LEFT_BTN_PIN, HOLDSWITCH_PIN, processMyInput)
 
 loop_count = 0
 

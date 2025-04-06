@@ -7,7 +7,7 @@ import RPi.GPIO as GPIO
 
 class FullEncoder:
 
-    def __init__(self, leftPin, rightPin, cBtn, dBtn, rBtn, uBtn, lBtn, callback=None):
+    def __init__(self, leftPin, rightPin, cBtn, dBtn, rBtn, uBtn, lBtn, holdSwitch, callback=None):
         # Setting GPIO mode
         GPIO.setmode(GPIO.BOARD)
         # Original code declaring rotary encoders
@@ -40,6 +40,10 @@ class FullEncoder:
         GPIO.add_event_detect(self.rBtn, GPIO.FALLING, callback=self.btnPress)
         GPIO.add_event_detect(self.uBtn, GPIO.FALLING, callback=self.btnPress)
         GPIO.add_event_detect(self.lBtn, GPIO.FALLING, callback=self.btnPress)
+        # Adding functionality for hold switch
+        self.holdSwitch = holdSwitch
+        GPIO.setup(self.holdSwitch, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+
 
 
     #Code added to detect a button press
@@ -51,7 +55,12 @@ class FullEncoder:
         uPin = GPIO.input(self.uBtn)
         lPin = GPIO.input(self.lBtn)
 
-        if cPin == GPIO.LOW:
+        # Handling the hold switch first
+        holdSwitch = GPIO.input(self.holdSwitch)
+
+        if holdSwitch == GPIO.LOW:
+            btnPressed = "locked"
+        elif cPin == GPIO.LOW:
             btnPressed = "center"
         elif dPin == GPIO.LOW:
             btnPressed = "down"
@@ -63,13 +72,18 @@ class FullEncoder:
             btnPressed = "left"
 
 
-
         self.callback(btnPressed)
 
     def transitionOccurred(self, channel):
         p1 = GPIO.input(self.leftPin)
         p2 = GPIO.input(self.rightPin)
         newState = "{}{}".format(p1, p2)
+
+        # Handling the hold switch first
+        holdSwitch = GPIO.input(self.holdSwitch)
+
+        if holdSwitch == GPIO.LOW:
+            return
 
         if self.state == "00": # Resting position
             if newState == "01": # Turned right 1

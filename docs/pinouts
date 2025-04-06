@@ -1,0 +1,18 @@
+Clickwheel Pinout:
+- Com A - 39
+- Sw 1 (center) - 10
+- Sw 2 (down) - 11
+- Sw 3 (right) - 7
+- Sw 4 (up) - 15
+- Sw 5 (left) - 16
+- Enc 1 - 32
+- Enc 2 - 33
+- Com B - 34
+
+Hold Switch Pinout: 
+- switch 1 - 31
+- ground - 30
+
+Screen Pinout:
+1, 6, 12, 13, 19, 22, 23, 24
+
