@@ -97,8 +97,6 @@ class FullEncoder:
             elif newState == "00": # Turned left 1
                 if self.direction == "L":
                     self.value = self.value - 1
-                    if self.callback is not None:
-                        self.callback(self.direction)
 
         elif self.state == "10": # R3 or L1
             if newState == "11": # Turned left 1
@@ -106,8 +104,6 @@ class FullEncoder:
             elif newState == "00": # Turned right 1
                 if self.direction == "R":
                     self.value = self.value + 1
-                    if self.callback is not None:
-                        self.callback(self.direction)
 
         else: # self.state == "11"
             if newState == "01": # Turned left 1
@@ -117,12 +113,11 @@ class FullEncoder:
             elif newState == "00": # Skipped an intermediate 01 or 10 state, but if we know direction then a turn is complete
                 if self.direction == "L":
                     self.value = self.value - 1
-                    if self.callback is not None:
-                        self.callback(self.direction)
                 elif self.direction == "R":
                     self.value = self.value + 1
-                    if self.callback is not None:
-                        self.callback(self.direction)
+
+        if self.callback is not None:
+            self.callback(self.direction)
                 
         self.state = newState
 
