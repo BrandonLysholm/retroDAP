@@ -58,7 +58,9 @@ class FullEncoder:
         # Handling the hold switch first
         holdSwitch = GPIO.input(self.holdSwitch)
 
-        if holdSwitch == GPIO.LOW:
+        if holdSwitch == GPIO.HIGH:
+            btnPressed = "unlocked"
+        elif holdSwitch == GPIO.LOW:
             btnPressed = "locked"
         elif cPin == GPIO.LOW:
             btnPressed = "center"

@@ -42,7 +42,10 @@ def screen_wake():
 # logic for my clickwheel
 def processMyInput(myVal):
     if myVal == "locked":
+        screen_sleep()
         return
+    elif myVal == "unlocked":
+        screen_wake()
     elif myVal == "center":
         onSelectPressed()
     elif myVal == "down":
