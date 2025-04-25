@@ -42,23 +42,30 @@ def screen_wake():
 # logic for my clickwheel
 def processMyInput(myVal):
     if myVal == "locked":
-        # screen_sleep()
+        screen_sleep()
         return
     # elif myVal == "unlocked":
         # screen_wake()
     elif myVal == "center":
+        screen_wake()
         onSelectPressed()
     elif myVal == "down":
+        screen_wake()
         onPlayPressed()
     elif myVal == "right":
+        screen_wake()
         onNextPressed()
     elif myVal == "up":
+        screen_wake()
         onBackPressed()
     elif myVal == "left":
+        screen_wake()
         onPrevPressed()
     elif (myVal == 'L'):
+        screen_wake()
         onUpPressed()
     elif (myVal == 'R'):
+        screen_wake()
         onDownPressed()
 
     # TODO: Handle screen wakeup/sleep 
