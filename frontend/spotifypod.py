@@ -23,9 +23,7 @@ HOLDSWITCH_PIN = 31
 
 
 DIVIDER_HEIGHT = 3
-SCREEN_TIMEOUT_SECONDS = 60
 
-last_interaction = time.time()
 screen_on = True
 
 # To get this working, you need to enable screen blanking on the pi in "sudo raspi-config" in the display options
@@ -44,35 +42,27 @@ def screen_wake():
 def processMyInput(myVal):
     if myVal == "locked":
         screen_sleep()
-    elif myVal == "center":
-        screen_wake()
-        onSelectPressed()
-    elif myVal == "down":
-        screen_wake()
-        onPlayPressed()
-    elif myVal == "right":
-        screen_wake()
-        onNextPressed()
-    elif myVal == "up":
-        screen_wake()
-        onBackPressed()
-    elif myVal == "left":
-        screen_wake()
-        onPrevPressed()
-    elif (myVal == 'L'):
-        screen_wake()
-        onUpPressed()
-    elif (myVal == 'R'):
-        screen_wake()
-        onDownPressed()
+        return
+    else:
+        global screen_on
+        if not screen_on:
+            screen_wake()
+        
 
-    now = time.time()
-    globl screen_on
-
-    if (now - last_interaction > SCREEN_TIMEOUT_SECONDS ) or (!screen_on and myVal != "locked" ):
-        screen_wake()
-    if myVal != "locked":
-        last_interaction = now
+        if myVal == "center":
+            onSelectPressed()
+        elif myVal == "down":
+            onPlayPressed()
+        elif myVal == "right":
+            onNextPressed()
+        elif myVal == "up":
+            onBackPressed()
+        elif myVal == "left":
+            onPrevPressed()
+        elif (myVal == 'L'):
+            onUpPressed()
+        elif (myVal == 'R'):
+            onDownPressed()
 
 def onPlayPressed():
     global page, app
@@ -172,18 +162,14 @@ loop_count = 0
 
 # This gets called last, so the app stays in this loop once everything is initialized
 def app_main_loop():
-    global app, page, loop_count, last_interaction, screen_on
-    if (time.time() - last_interaction > SCREEN_TIMEOUT_SECONDS and screen_on):
-        screen_sleep()
+    global app, page, loop_count, screen_on
     render(app, page.render())
     loop_count+=1
     if loop_count >= 300:
-        if (time.time() - last_interaction > SCREEN_TIMEOUT_SECONDS nd screen_on):
-            screen_sleep()
         render(app, page.render())
         loop_count=0
 
-        app.after(2, app_main_loop)
+    app.after(2, app_main_loop)
        
 app.after(5, app_main_loop)
 app.mainloop()
