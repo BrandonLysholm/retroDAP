@@ -173,10 +173,17 @@ loop_count = 0
 # This gets called last, so the app stays in this loop once everything is initialized
 def app_main_loop():
     global app, page, loop_count, last_interaction, screen_on
-    while true:
-        if (time.time() - last_interaction > SCREEN_TIMEOUT_SECONDS and screen_on):
+    if (time.time() - last_interaction > SCREEN_TIMEOUT_SECONDS and screen_on):
+        screen_sleep()
+    render(app, page.render())
+    loop_count+=1
+    if loop_count >= 300:
+        if (time.time() - last_interaction > SCREEN_TIMEOUT_SECONDS nd screen_on):
             screen_sleep()
         render(app, page.render())
+        loop_count=0
+
+        app.after(2, app_main_loop)
        
 app.after(5, app_main_loop)
 app.mainloop()
