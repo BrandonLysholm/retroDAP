@@ -28,6 +28,7 @@ SCREEN_TIMEOUT_SECONDS = 60
 last_interaction = time.time()
 screen_on = True
 
+# To get this working, you need to enable screen blanking on the pi in "sudo raspi-config" in the display options
 def screen_sleep():
     global screen_on
     screen_on = False
@@ -65,8 +66,13 @@ def processMyInput(myVal):
         screen_wake()
         onDownPressed()
 
-    # TODO: Handle screen wakeup/sleep 
+    now = time.time()
+    globl screen_on
 
+    if (now - last_interaction > SCREEN_TIMEOUT_SECONDS ) or (!screen_on and myVal != "locked" ):
+        screen_wake()
+    if myVal != "locked":
+        last_interaction = now
 
 def onPlayPressed():
     global page, app
@@ -167,8 +173,6 @@ loop_count = 0
 # This gets called last, so the app stays in this loop once everything is initialized
 def app_main_loop():
     global app, page, loop_count, last_interaction, screen_on
-
-    # TODO: Get sleep function working properly
     while true:
         if (time.time() - last_interaction > SCREEN_TIMEOUT_SECONDS and screen_on):
             screen_sleep()
