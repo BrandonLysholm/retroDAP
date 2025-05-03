@@ -29,8 +29,8 @@ last_interaction = time.time()
 screen_on = True
 
 def screen_sleep():
-    global screen_on
-    screen_on = False
+    # global screen_on
+    # screen_on = False
     os.system('xset -display :0 dpms force off')
 
 def screen_wake():
@@ -42,12 +42,12 @@ def screen_wake():
 # logic for my clickwheel
 def processMyInput(myVal):
     if myVal == "locked":
-        screen_sleep()
+        # screen_sleep()
         return
     # elif myVal == "unlocked":
         # screen_wake()
     elif myVal == "center":
-        screen_wake()
+        screen_sleep()
         onSelectPressed()
     elif myVal == "down":
         screen_wake()
