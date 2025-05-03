@@ -30,6 +30,7 @@ screen_on = True
 def screen_sleep():
     global screen_on
     screen_on = False
+    # useful to remember in the future for running system commands
     os.system('xset -display :0 dpms force off')
 
 def screen_wake():
