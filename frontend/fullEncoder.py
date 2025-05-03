@@ -43,6 +43,7 @@ class FullEncoder:
         # Adding functionality for hold switch
         self.holdSwitch = holdSwitch
         GPIO.setup(self.holdSwitch, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+        GPIO.add_event_detect(self.holdSwitch, GPIO.FALLING, callback=self.btnPress)
 
 
 

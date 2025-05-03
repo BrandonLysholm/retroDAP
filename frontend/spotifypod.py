@@ -31,7 +31,6 @@ screen_on = True
 def screen_sleep():
     global screen_on
     screen_on = False
-    # dpms is not available on my display
     os.system('xset -display :0 dpms force off')
 
 def screen_wake():
@@ -44,7 +43,6 @@ def screen_wake():
 def processMyInput(myVal):
     if myVal == "locked":
         screen_sleep()
-        return
     elif myVal == "center":
         screen_wake()
         onSelectPressed()
