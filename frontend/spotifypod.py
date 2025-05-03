@@ -40,14 +40,14 @@ def screen_wake():
 # Single function that is the callback function for the class FullEncoder, which handles all input
 # logic for my clickwheel
 def processMyInput(myVal):
+    global screen_on
     if myVal == "locked":
-        screen_sleep()
+        if screen_on:
+            screen_sleep()
         return
     else:
-        global screen_on
         if not screen_on:
-            screen_wake()
-        
+            screen_wake() 
 
         if myVal == "center":
             onSelectPressed()
