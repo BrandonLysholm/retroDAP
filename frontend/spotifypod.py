@@ -176,5 +176,5 @@ def app_main_loop():
 # calls function once after the delay
 # similar to time.sleep, but uses milliseconds instead of seconds
 # https://www.pythontutorial.net/tkinter/tkinter-after/
-app.after(5, app_main_loop)
+#app.after(5, app_main_loop)
 app.mainloop()
