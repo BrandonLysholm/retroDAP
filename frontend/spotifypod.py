@@ -164,13 +164,17 @@ loop_count = 0
 # This gets called last, so the app stays in this loop once everything is initialized
 def app_main_loop():
     global app, page, loop_count, screen_on
-    render(app, page.render())
     loop_count+=1
     if loop_count >= 300:
         render(app, page.render())
         loop_count=0
 
     app.after(2, app_main_loop)
-       
+
+
+# app.after(delay in ms, callback)
+# calls function once after the delay
+# similar to time.sleep, but uses milliseconds instead of seconds
+# https://www.pythontutorial.net/tkinter/tkinter-after/
 app.after(5, app_main_loop)
 app.mainloop()
