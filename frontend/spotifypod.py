@@ -11,6 +11,9 @@ import os
 from fullEncoder import FullEncoder
 from my_tk_pages import tkinterApp, SearchFrame, Marquee, NowPlayingFrame, StartPage
 
+# Trying to implement threading to deal with freezing GUI
+import threading
+
 # Setting all my pins as constants for easy changing
 CENTER_BTN_PIN = 10
 DOWN_BTN_PIN = 11
@@ -157,7 +160,7 @@ app.overrideredirect(True)
 app.overrideredirect(False)
 
 # Setting up my encoder
-e1 = FullEncoder(ENC1_PIN, ENC2_PIN, CENTER_BTN_PIN, DOWN_BTN_PIN, RIGHT_BTN_PIN, UP_BTN_PIN, LEFT_BTN_PIN, HOLDSWITCH_PIN, processMyInput)
+e1 = threading.Thread(target=FullEncoder(ENC1_PIN, ENC2_PIN, CENTER_BTN_PIN, DOWN_BTN_PIN, RIGHT_BTN_PIN, UP_BTN_PIN, LEFT_BTN_PIN, HOLDSWITCH_PIN, processMyInput))
 
 loop_count = 0
 
@@ -177,4 +180,5 @@ def app_main_loop():
 # similar to time.sleep, but uses milliseconds instead of seconds
 # https://www.pythontutorial.net/tkinter/tkinter-after/
 #app.after(5, app_main_loop)
+
 app.mainloop()
