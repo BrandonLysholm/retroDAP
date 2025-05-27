@@ -1,4 +1,4 @@
-# This file gets called to start the application
+ # This file gets called to start the application
 
 import tkinter as tk 
 import time
@@ -181,4 +181,14 @@ def app_main_loop():
 # https://www.pythontutorial.net/tkinter/tkinter-after/
 #app.after(5, app_main_loop)
 
+def screen_refresh():
+    global screen_on
+    # calling the screen to wakeup, which may cause it to refresh
+    if screen_on:
+        screen_wake() 
+    # recursive call, so that this gets called every 5 seconds
+    app.after(5000, screen_refresh)
+
+
+app.after(5000, screen_refresh)
 app.mainloop()
