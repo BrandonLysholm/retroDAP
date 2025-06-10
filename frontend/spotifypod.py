@@ -182,11 +182,11 @@ def app_main_loop():
 #app.after(5, app_main_loop)
 
 def screen_refresh():
-    global app, page, screen_on
+    global app, page, screen_on, render
     # calling the screen to wakeup, which may cause it to refresh
     if screen_on:
         #screen_sleep()
-        app.update_idletasks()
+        #app.update_idletasks()
         render(app, page.render())
         screen_wake() 
     # recursive call, so that this gets called every 5 seconds
