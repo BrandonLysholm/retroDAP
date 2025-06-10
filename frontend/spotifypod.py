@@ -187,7 +187,7 @@ def screen_refresh():
     if screen_on:
         #screen_sleep()
         #app.update_idletasks()
-        render(app, page.render())
+        #render(app, page.render())
         screen_wake() 
     # recursive call, so that this gets called every 5 seconds
     app.after(5000, screen_refresh)
