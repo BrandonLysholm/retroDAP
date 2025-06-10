@@ -186,7 +186,8 @@ def screen_refresh():
     # calling the screen to wakeup, which may cause it to refresh
     if screen_on:
         #screen_sleep()
-        app.update()
+        # app.update()
+        app.redraw()
         render(app, page.render())
         screen_wake() 
     # recursive call, so that this gets called every 5 seconds
