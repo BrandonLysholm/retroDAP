@@ -256,14 +256,17 @@ class NowPlayingFrame(tk.Frame):
         adjusted_progress_ms = now_playing['progress'] + update_delta
         adjusted_remaining_ms = max(0, now_playing['duration'] - adjusted_progress_ms)
         if self.update_time:
+            # This is where the timers are being updated, by just configuring the labels
             progress_txt = ":".join(str(timedelta(milliseconds=adjusted_progress_ms)).split('.')[0].split(':')[1:3])
             remaining_txt = "-" + ":".join(str(timedelta(milliseconds=adjusted_remaining_ms)).split('.')[0].split(':')[1:3])
             self.elapsed_time.configure(text=progress_txt)
             self.remaining_time.configure(text=remaining_txt)
         self.update_time = not self.update_time
         if self.inflated:
+            # This is where the progress bar is being updated, by adjusting the coords
             adjusted_progress_pct = min(1.0, adjusted_progress_ms / now_playing['duration'])
             self.progress_frame.coords(self.progress, self.progress_start_x, 0, self.progress_width * adjusted_progress_pct + self.progress_start_x, int(72 * SCALE))
+            # could I just have this call to refresh the screen anytime this is ajusted?
         if(now_playing['track_index'] < 0):
             self.context_label.configure(text="")
             return

@@ -147,6 +147,7 @@ def render(app, render):
         render_menu(app, render)
     elif (render.type == NOW_PLAYING_RENDER):
         render_now_playing(app, render)
+        app.update_idletasks()
     elif (render.type == SEARCH_RENDER):
         render_search(app, render)
 
