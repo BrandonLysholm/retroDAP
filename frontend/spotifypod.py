@@ -172,6 +172,7 @@ app.overrideredirect(False)
 # Setting up the backlight on the display
 GPIO.setmode(GPIO.BOARD)
 GPIO.setup(BACKLIGHT_PIN, GPIO.OUT)
+screen_wake()
 
 
 # Setting up my encoder
