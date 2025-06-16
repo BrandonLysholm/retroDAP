@@ -47,7 +47,7 @@ def screen_wake():
     os.system('xset -display :0 dpms force on')
 
     # Turning on the backlight
-    GPIO.output(BACKLIGHT_PIN, GPIO.LOW)
+    GPIO.output(BACKLIGHT_PIN, GPIO.HIGH)
 
 # Single function that is the callback function for the class FullEncoder, which handles all input
 # logic for my clickwheel
@@ -171,7 +171,7 @@ app.overrideredirect(False)
 
 # Setting up the backlight on the display
 GPIO.setmode(GPIO.BOARD)
-GPIO.setup(BACKLIGHT_PIN, GPIO.OUT)
+GPIO.setup(BACKLIGHT_PIN, GPIO.OUT, GPIO.HIGH)
 
 
 # Setting up my encoder
