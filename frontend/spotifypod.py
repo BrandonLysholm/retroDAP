@@ -11,8 +11,8 @@ import os
 from fullEncoder import FullEncoder
 from my_tk_pages import tkinterApp, SearchFrame, Marquee, NowPlayingFrame, StartPage
 
-# Trying to implement threading to deal with freezing GUI
-import threading
+import RPi.GPIO as GPIO
+
 
 # Setting all my pins as constants for easy changing
 CENTER_BTN_PIN = 10
@@ -23,6 +23,8 @@ LEFT_BTN_PIN = 16
 ENC1_PIN = 32
 ENC2_PIN = 33
 HOLDSWITCH_PIN = 31
+
+BACKLIGHT_PIN = 12
 
 
 DIVIDER_HEIGHT = 3
@@ -36,10 +38,16 @@ def screen_sleep():
     # useful to remember in the future for running system commands
     os.system('xset -display :0 dpms force off')
 
+    # Turning off the backlight
+    GPIO.output(BACKLIGHT_PIN, GPIO.LOW)
+
 def screen_wake():
     global screen_on
     screen_on = True
     os.system('xset -display :0 dpms force on')
+
+    # Turning on the backlight
+    GPIO.output(BACKLIGHT_PIN, GPIO.LOW)
 
 # Single function that is the callback function for the class FullEncoder, which handles all input
 # logic for my clickwheel
@@ -160,8 +168,13 @@ render(app, page.render())
 app.overrideredirect(True)
 app.overrideredirect(False)
 
+
+# Setting up the backlight on the display
+GPIO.setup(BACKLIGHT_PIN, GPIO.OUT)
+
+
 # Setting up my encoder
-e1 = threading.Thread(target=FullEncoder(ENC1_PIN, ENC2_PIN, CENTER_BTN_PIN, DOWN_BTN_PIN, RIGHT_BTN_PIN, UP_BTN_PIN, LEFT_BTN_PIN, HOLDSWITCH_PIN, processMyInput))
+e1 = FullEncoder(ENC1_PIN, ENC2_PIN, CENTER_BTN_PIN, DOWN_BTN_PIN, RIGHT_BTN_PIN, UP_BTN_PIN, LEFT_BTN_PIN, HOLDSWITCH_PIN, processMyInput))
 
 loop_count = 0
 
