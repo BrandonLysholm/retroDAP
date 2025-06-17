@@ -3,11 +3,14 @@
 This project is a fork of https://github.com/dupontgu/retro-ipod-spotify-client and is currently not ready for deployment yet
 
 # Hardware
-Raspberry Pi 3A+
-Waveshare 2" screen communicating via FBCP
-Adafruit #5001 Directional Navigation and Scroll Wheel Rotary Encoder
-Nuforce USB DAC/amp
-Waveshare BAttery HAT that takes in a 14500 battery
+See docs for more detailed list/links
+
+- Raspberry Pi 3A+ (for development, will switch to Zero 2W)
+- Waveshare 2" screen communicating via FBCP
+- Adafruit #5001 Directional Navigation and Scroll Wheel Rotary Encoder
+- Nuforce USB DAC/amp
+- 18650 battery
+
 
 # Operating System
 RaspberryOS Lite Bullseye 64 bit
