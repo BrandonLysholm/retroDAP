@@ -398,6 +398,49 @@ class NewReleasesPage(PlaylistsPage):
 class SettingsPage(MenuPage):
     def __init__(self, previous_page):
         super().__init__("Settings", previous_page, has_sub_page=True)
+        self.pages = [
+            WifiPage(self),
+            PowerPage(self)
+        ]
+        self.index = 0
+        self.page_start = 0
+
+class PowerPage(SettingsPage):
+    def __init__(self, previous_page):
+        super().__init__("Power Off", previous_page, has_sub_page=False)
+    #TODO: Add command so that when this is loaded, it runs sudo shutdown and displays shutting down
+
+class WifiPage(SettingsPage)
+    def __init__(self, previous_page)
+        super().__init__("WiFi Settings", previous_page, has_sub_page=True)
+
+
+# class RootPage(MenuPage):
+#     def __init__(self, previous_page):
+#         super().__init__("sPot", previous_page, has_sub_page=True)
+#         self.pages = [
+#             ArtistsPage(self),
+#             AlbumsPage(self),
+#             NewReleasesPage(self),
+#             PlaylistsPage(self),
+#             ShowsPage(self),
+#             SearchPage(self),
+#             SettingsPage(self),
+#             NowPlayingPage(self, "Now Playing", NowPlayingCommand())
+#         ]
+#         self.index = 0
+#         self.page_start = 0
+    
+#     def get_pages(self):
+#         if (not spotify_manager.DATASTORE.now_playing):
+#             return self.pages[0:-1]
+#         return self.pages
+    
+#     def total_size(self):
+#         return len(self.get_pages())
+
+#     def page_at(self, index):
+#         return self.get_pages()[index]
 
         
 
