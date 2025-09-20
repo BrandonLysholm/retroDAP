@@ -396,8 +396,8 @@ class NewReleasesPage(PlaylistsPage):
         return spotify_manager.DATASTORE.getAllNewReleases()
 
 class SettingsPage(MenuPage):
-    def __init__("Settings", previous_page):
-        super().__init__(self.get_title(), previous_page, has_sub_page=True)
+    def __init__(previous_page):
+        super().__init__("Settings", previous_page, has_sub_page=True)
 
         
 
