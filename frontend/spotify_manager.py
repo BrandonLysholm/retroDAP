@@ -8,7 +8,7 @@ import threading
 import time
 import json
 
-DEVICE_ID = '98bb0735e28656bac098d927d410c3138a4b5bca' # This is raspotify
+DEVICE_ID = 'c0cae32992c194d4ad59e25bf2a2751e5c6c2975' # This is raspotify
 
 class UserDevice():
     __slots__ = ['id', 'name', 'is_active']
