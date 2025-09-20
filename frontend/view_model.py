@@ -395,6 +395,12 @@ class NewReleasesPage(PlaylistsPage):
     def get_content(self):
         return spotify_manager.DATASTORE.getAllNewReleases()
 
+class SettingsPage(MenuPage):
+    def __init__("Settings", previous_page):
+        super().__init__(self.get_title(), previous_page, has_sub_page=True)
+
+        
+
 class ArtistsPage(MenuPage):
     def __init__(self, previous_page):
         super().__init__("Artists", previous_page, has_sub_page=True)
@@ -515,6 +521,7 @@ class RootPage(MenuPage):
             PlaylistsPage(self),
             ShowsPage(self),
             SearchPage(self),
+            SettingsPage(self),
             NowPlayingPage(self, "Now Playing", NowPlayingCommand())
         ]
         self.index = 0
