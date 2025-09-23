@@ -405,11 +405,14 @@ class SettingsPage(MenuPage):
         self.index = 0
         self.page_start = 0
     
-    def nav_back():
+    def nav_back(self):
         return self.previous_page
 
     def get_pages(self):
         return self.pages
+
+    def total_size(self):
+        return len(self.get_pages())
 
     def page_at(self, index):
         return self.get_pages()[index]
