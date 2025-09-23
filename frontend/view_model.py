@@ -395,6 +395,17 @@ class NewReleasesPage(PlaylistsPage):
     def get_content(self):
         return spotify_manager.DATASTORE.getAllNewReleases()
 
+class PowerPage(SettingsPage):
+    def __init__(self, previous_page):
+        self.has_sub_page = False
+        self.header = "Power Off"
+    #TODO: Add command so that when this is loaded, it runs sudo shutdown and displays shutting down
+
+class WifiPage(SettingsPage):
+    def __init__(self, previous_page):
+        self.has_sub_page = True
+        self.header = "Network Settings"
+
 class SettingsPage(MenuPage):
     def __init__(self, previous_page):
         super().__init__("Settings", previous_page, has_sub_page=True)
@@ -405,15 +416,53 @@ class SettingsPage(MenuPage):
         self.index = 0
         self.page_start = 0
 
-class PowerPage(SettingsPage):
-    def __init__(self, previous_page):
-        super().__init__("Power Off", previous_page, has_sub_page=True)
-    #TODO: Add command so that when this is loaded, it runs sudo shutdown and displays shutting down
 
-class WifiPage(SettingsPage):
-    def __init__(self, previous_page):
-        super().__init__("WiFi Settings", previous_page, has_sub_page=True)
+# class NowPlayingPage():
+#     def __init__(self, previous_page, header, command):
+#         self.has_sub_page = False
+#         self.previous_page = previous_page
+#         self.command = command
+#         self.header = header
+#         self.live_render = NowPlayingRendering()
+#         self.is_title = False
 
+#     def play_previous(self):
+#         spotify_manager.play_previous()
+#         self.live_render.refresh()
+
+#     def play_next(self):
+#         spotify_manager.play_next()
+#         self.live_render.refresh()
+
+#     def toggle_play(self):
+#         spotify_manager.toggle_play()
+#         self.live_render.refresh()
+
+#     def nav_prev(self):
+#         spotify_manager.run_async(lambda: self.play_previous()) 
+
+#     def nav_next(self):
+#         spotify_manager.run_async(lambda: self.play_next()) 
+
+#     def nav_play(self):
+#         spotify_manager.run_async(lambda: self.toggle_play()) 
+
+#     def nav_up(self):
+#         pass
+
+#     def nav_down(self):
+#         pass
+
+#     def nav_select(self):
+#         return self
+
+#     def nav_back(self):
+#         return self.previous_page
+
+#     def render(self):
+#         if (not self.command.has_run):
+#             self.command.run()
+#         return self.live_render
 
 # class RootPage(MenuPage):
 #     def __init__(self, previous_page):
