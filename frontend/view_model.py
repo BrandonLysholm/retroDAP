@@ -422,12 +422,14 @@ class PowerPage(SettingsPage):
     def __init__(self, previous_page):
         self.has_sub_page = False
         self.header = "Power Off"
+        self.is_title = False
     #TODO: Add command so that when this is loaded, it runs sudo shutdown and displays shutting down
 
 class WifiPage(SettingsPage):
     def __init__(self, previous_page):
         self.has_sub_page = True
         self.header = "Network Settings"
+        self.is_title = False
 
 # class NowPlayingPage():
 #     def __init__(self, previous_page, header, command):
