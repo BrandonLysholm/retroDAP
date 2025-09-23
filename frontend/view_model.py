@@ -395,17 +395,6 @@ class NewReleasesPage(PlaylistsPage):
     def get_content(self):
         return spotify_manager.DATASTORE.getAllNewReleases()
 
-class PowerPage(SettingsPage):
-    def __init__(self, previous_page):
-        self.has_sub_page = False
-        self.header = "Power Off"
-    #TODO: Add command so that when this is loaded, it runs sudo shutdown and displays shutting down
-
-class WifiPage(SettingsPage):
-    def __init__(self, previous_page):
-        self.has_sub_page = True
-        self.header = "Network Settings"
-
 class SettingsPage(MenuPage):
     def __init__(self, previous_page):
         super().__init__("Settings", previous_page, has_sub_page=True)
@@ -416,6 +405,16 @@ class SettingsPage(MenuPage):
         self.index = 0
         self.page_start = 0
 
+class PowerPage(SettingsPage):
+    def __init__(self, previous_page):
+        self.has_sub_page = False
+        self.header = "Power Off"
+    #TODO: Add command so that when this is loaded, it runs sudo shutdown and displays shutting down
+
+class WifiPage(SettingsPage):
+    def __init__(self, previous_page):
+        self.has_sub_page = True
+        self.header = "Network Settings"
 
 # class NowPlayingPage():
 #     def __init__(self, previous_page, header, command):
