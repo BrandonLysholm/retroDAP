@@ -404,6 +404,16 @@ class SettingsPage(MenuPage):
         ]
         self.index = 0
         self.page_start = 0
+    
+    def nav_back():
+        return self.previous_page
+
+    def get_pages(self):
+        return self.pages
+
+    def page_at(self, index):
+        return self.get_pages()[index]
+
 
 class PowerPage(SettingsPage):
     def __init__(self, previous_page):
