@@ -407,12 +407,12 @@ class SettingsPage(MenuPage):
 
 class PowerPage(SettingsPage):
     def __init__(self, previous_page):
-        super().__init__("Power Off", previous_page)
+        super().__init__("Power Off", previous_page, has_sub_page=True)
     #TODO: Add command so that when this is loaded, it runs sudo shutdown and displays shutting down
 
 class WifiPage(SettingsPage):
     def __init__(self, previous_page):
-        super().__init__("WiFi Settings", previous_page)
+        super().__init__("WiFi Settings", previous_page, has_sub_page=True)
 
 
 # class RootPage(MenuPage):
