@@ -9,6 +9,7 @@ MENU_PAGE_SIZE = 6
 MENU_RENDER_TYPE = 0
 NOW_PLAYING_RENDER = 1
 SEARCH_RENDER = 2
+POWER_RENDER =3
 
 # Menu line item types
 LINE_NORMAL = 0
@@ -417,13 +418,25 @@ class SettingsPage(MenuPage):
     def page_at(self, index):
         return self.get_pages()[index]
 
+class PowerRendering(Rendering):
+    def __init__(self):
+        super().__init__(POWER_RENDER)
+        self.callback = None
+
+
+
 
 class PowerPage(SettingsPage):
     def __init__(self, previous_page):
         self.has_sub_page = False
         self.header = "Power Off"
         self.is_title = False
+        self.previous_page = previous_page
+        self.live_render=PowerRendering()
     
+    def nav_back(self):
+        return self.previous_page
+
     def nav_select(self):
         # Call this to shutdown
         os.system('sudo shutdown')
@@ -435,6 +448,7 @@ class WifiPage(SettingsPage):
         self.has_sub_page = True
         self.header = "Network Settings"
         self.is_title = False
+        self.previous_page = previous_page
 
 # class NowPlayingPage():
 #     def __init__(self, previous_page, header, command):
