@@ -423,6 +423,11 @@ class PowerPage(SettingsPage):
         self.has_sub_page = False
         self.header = "Power Off"
         self.is_title = False
+    
+    def nav_select(self):
+        # Call this to shutdown
+        os.system('sudo shutdown')
+        return self
     #TODO: Add command so that when this is loaded, it runs sudo shutdown and displays shutting down
 
 class WifiPage(SettingsPage):
