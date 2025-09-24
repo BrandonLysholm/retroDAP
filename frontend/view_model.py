@@ -441,6 +441,9 @@ class PowerPage():
         # Call this to shutdown
         os.system('sudo shutdown')
         return self
+
+    def render(self):
+        return self.live_render
     #TODO: Add command so that when this is loaded, it runs sudo shutdown and displays shutting down
 
 class WifiPage(SettingsPage):
