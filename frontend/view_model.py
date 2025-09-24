@@ -426,9 +426,9 @@ class PowerRendering(Rendering):
 
 
 
-class PowerPage(SettingsPage):
+class PowerPage():
     def __init__(self, previous_page):
-        self.has_sub_page = True
+        self.has_sub_page = False
         self.header = "Power Off"
         self.is_title = False
         self.previous_page = previous_page
