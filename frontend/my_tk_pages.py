@@ -1,6 +1,8 @@
 # This file contains the classes that are the default screen layouts used throughout the program
 # The classes contained in this file are only referenced in spotifypod.py
 
+# This file is the view
+
 import tkinter as tk 
 import json
 import time
@@ -362,4 +364,22 @@ class StartPage(tk.Frame):
             (self.black_arrow_image if line_type == LINE_HIGHLIGHT else self.green_arrow_image)
         arrow.configure(background=bgColor, image=arrowImg)
         arrow.image = arrowImg
+
+
+class PowerFrame(tk.Frame):
+    def __init__(self, parent, controller):
+        tk.Frane.__init__(self, parent)
+        # TODO: Switch this to black background, currently using white for testing
+        self.configure(bg-SPOT_WHITE)
+        self.header_label = tk.Label(self, text ="Shutdown", font = LARGEFONT, background=SPOT_BLACK, foreground=SPOT_GREEN) 
+        self.header_label.grid(sticky='we', padx=(0, 10))
+        self.grid_columnconfigure(0, weight=1)
+        divider = tk.Canvas(self)
+        divider.configure(bg=SPOT_GREEN, height=DIVIDER_HEIGHT, bd=0, highlightthickness=0, relief='ridge')
+        divider.grid(row = 1, column = 0, sticky ="we", pady=10, padx=(10, 30))
+        contentFrame = tk.Canvas(self, bg=SPOT_BLACK, highlightthickness=0, relief='ridge')
+        contentFrame.grid(row = 2, column = 0, sticky ="nswe")
+        contentFrame.grid_columnconfigure(0, weight=1)
+        self.grid_rowconfigure(2, weight=1)
+        self.confirmation_label = tk.Label(contentFrame, text ="Press Center Button to confirm shutdown", font = MED_FONT, background=SPOT_BLACK, foreground=SPOT_GREEN)
 

@@ -1,4 +1,7 @@
 # This file contains more of the detailed classes for specific views
+
+# This file is the controller
+
 import spotify_manager
 import re as re
 from functools import lru_cache 
@@ -438,8 +441,8 @@ class PowerPage():
         return self.previous_page
 
     def nav_select(self):
-        # Call this to shutdown
-        os.system('sudo shutdown')
+        # Call this to shutdown, need to figure out a way around the sudo
+        # os.system('sudo shutdown')
         return self
 
     def render(self):
