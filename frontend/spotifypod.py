@@ -161,7 +161,7 @@ def render(app, render):
         app.update_idletasks()
     elif (render.type == SEARCH_RENDER):
         render_search(app, render)
-    elif (render.type == POWER_RENDER)
+    elif (render.type == POWER_RENDER):
         render_power(app, render)
     
 
