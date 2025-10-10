@@ -478,6 +478,7 @@ class ClosePage(SettingsPage):
         return self.previous_page
 
     def nav_select(self):
+        print("center button pushed")
         self.root.destroy()
         return self
     def render(self):
