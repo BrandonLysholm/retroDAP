@@ -214,6 +214,10 @@ def screen_refresh():
     # recursive call, so that this gets called every 5 seconds
     app.after(5000, screen_refresh)
 
+def quit_program()
+    global app
+    app.destroy()
+
 
 app.after(5000, screen_refresh)
 app.mainloop()

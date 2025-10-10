@@ -6,6 +6,7 @@ import spotify_manager
 import re as re
 from functools import lru_cache 
 import os
+from spotifypod import quit_program as myQuit
 
 MENU_PAGE_SIZE = 6
 
@@ -478,7 +479,7 @@ class WifiPage(SettingsPage):
 
 class ClosePage(SettingsPage):
     def __init__(self, previous_page):
-        self.has_sub_page = False
+        self.has_sub_page = True
         self.header = "Close Program"
         self.is_title = False
         self.previous_page = previous_page
@@ -487,12 +488,11 @@ class ClosePage(SettingsPage):
 
     def nav_back(self):
         print("menu button pushed")
-        self.root.destroy()
         return self.previous_page
 
     def nav_select(self):
         print("center button pushed")
-        
+        self.root.destroy()
         return self
 
     def nav_down(self):
@@ -503,7 +503,6 @@ class ClosePage(SettingsPage):
     def render(self):
         return self.live_render
         
-
 
 
 
