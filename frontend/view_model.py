@@ -452,20 +452,27 @@ class PowerPage():
 
 class WifiPage(SettingsPage):
     def __init__(self, previous_page):
-        self.has_sub_page = True
+        self.has_sub_page = False
         self.header = "Network Settings"
         self.is_title = False
         self.previous_page = previous_page
+        # TODO: change the rendering
+        self.live_render=PowerRendering()
     
     def nav_back(self):
         return self.previous_page
 
 class ClosePage(SettingsPage):
     def __init__(self, previous_page):
-        self.has_sub_page = True
+        self.has_sub_page = False
         self.header = "Close Program"
         self.is_title = False
         self.previous_page = previous_page
+        # TODO: change the rendering
+        self.live_render=PowerRendering()
+
+    def nav_back(self):
+        return self.previous_page
 
     def nav_select(self):
         self.root.destroy()
