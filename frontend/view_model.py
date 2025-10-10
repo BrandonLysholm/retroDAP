@@ -6,6 +6,7 @@ import spotify_manager
 import re as re
 from functools import lru_cache 
 import os
+# this does not work
 # from spotifypod import quit_program as myQuit
 
 MENU_PAGE_SIZE = 6
@@ -493,6 +494,7 @@ class ClosePage(SettingsPage):
     def nav_select(self):
         print("center button pushed")
         # self.root.destroy()
+        self.mainloop.destroy()
         return self
 
     def nav_down(self):
