@@ -461,6 +461,8 @@ class WifiPage(SettingsPage):
     
     def nav_back(self):
         return self.previous_page
+    def render(self):
+        return self.live_render
 
 class ClosePage(SettingsPage):
     def __init__(self, previous_page):
@@ -477,6 +479,8 @@ class ClosePage(SettingsPage):
     def nav_select(self):
         self.root.destroy()
         return self
+    def render(self):
+        return self.live_render
         
 
 
