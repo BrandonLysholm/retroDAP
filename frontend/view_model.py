@@ -443,7 +443,7 @@ class PowerPage():
 
     def nav_select(self):
         # Call this to shutdown, need to figure out a way around the sudo
-        # os.system('sudo shutdown')
+        os.system('echo selected')
         return self
 
     def render(self):
