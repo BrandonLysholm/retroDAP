@@ -404,7 +404,8 @@ class SettingsPage(MenuPage):
         super().__init__("Settings", previous_page, has_sub_page=True)
         self.pages = [
             WifiPage(self),
-            PowerPage(self)
+            PowerPage(self).
+            ClosePage(self)
         ]
         self.index = 0
         self.page_start = 0
@@ -455,80 +456,25 @@ class WifiPage(SettingsPage):
         self.header = "Network Settings"
         self.is_title = False
         self.previous_page = previous_page
-
-# class NowPlayingPage():
-#     def __init__(self, previous_page, header, command):
-#         self.has_sub_page = False
-#         self.previous_page = previous_page
-#         self.command = command
-#         self.header = header
-#         self.live_render = NowPlayingRendering()
-#         self.is_title = False
-
-#     def play_previous(self):
-#         spotify_manager.play_previous()
-#         self.live_render.refresh()
-
-#     def play_next(self):
-#         spotify_manager.play_next()
-#         self.live_render.refresh()
-
-#     def toggle_play(self):
-#         spotify_manager.toggle_play()
-#         self.live_render.refresh()
-
-#     def nav_prev(self):
-#         spotify_manager.run_async(lambda: self.play_previous()) 
-
-#     def nav_next(self):
-#         spotify_manager.run_async(lambda: self.play_next()) 
-
-#     def nav_play(self):
-#         spotify_manager.run_async(lambda: self.toggle_play()) 
-
-#     def nav_up(self):
-#         pass
-
-#     def nav_down(self):
-#         pass
-
-#     def nav_select(self):
-#         return self
-
-#     def nav_back(self):
-#         return self.previous_page
-
-#     def render(self):
-#         if (not self.command.has_run):
-#             self.command.run()
-#         return self.live_render
-
-# class RootPage(MenuPage):
-#     def __init__(self, previous_page):
-#         super().__init__("sPot", previous_page, has_sub_page=True)
-#         self.pages = [
-#             ArtistsPage(self),
-#             AlbumsPage(self),
-#             NewReleasesPage(self),
-#             PlaylistsPage(self),
-#             ShowsPage(self),
-#             SearchPage(self),
-#             SettingsPage(self),
-#             NowPlayingPage(self, "Now Playing", NowPlayingCommand())
-#         ]
-#         self.index = 0
-#         self.page_start = 0
     
-#     def get_pages(self):
-#         if (not spotify_manager.DATASTORE.now_playing):
-#             return self.pages[0:-1]
-#         return self.pages
-    
-#     def total_size(self):
-#         return len(self.get_pages())
+    def nav_back(self):
+        return self.previous_page
 
-#     def page_at(self, index):
-#         return self.get_pages()[index]
+class ClosePage(SettingsPage):
+    def __init__(self, previous_page):
+        self.has_sub_page = True
+        self.header = "Close Program"
+        self.is_title = False
+        self.previous_page = previous_page
+
+    def nav_select(self):
+        self.root.destroy()
+        return self
+        
+
+
+
+
 
         
 
