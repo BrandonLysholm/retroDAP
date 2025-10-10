@@ -494,7 +494,7 @@ class ClosePage(SettingsPage):
     def nav_select(self):
         print("center button pushed")
         # self.root.destroy()
-        self.previous_page.previous_page.destroy()
+        self.previous_page.previous_page.previous_page.destroy()
         return self
 
     def nav_down(self):
