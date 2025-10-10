@@ -447,6 +447,11 @@ class PowerPage():
         os.system('echo selected')
         return self
 
+    def nav_down(self):
+        return self
+    def nav_up(self):
+        return self
+
     def render(self):
         return self.live_render
     #TODO: Add command so that when this is loaded, it runs sudo shutdown and displays shutting down
@@ -462,6 +467,12 @@ class WifiPage(SettingsPage):
     
     def nav_back(self):
         return self.previous_page
+
+    def nav_down(self):
+        return self
+    def nav_up(self):
+        return self
+
     def render(self):
         return self.live_render
 
@@ -481,6 +492,12 @@ class ClosePage(SettingsPage):
         print("center button pushed")
         self.root.destroy()
         return self
+
+    def nav_down(self):
+        return self
+    def nav_up(self):
+        return self
+        
     def render(self):
         return self.live_render
         

@@ -36,7 +36,7 @@ def screen_sleep():
     global screen_on
     screen_on = False
     # useful to remember in the future for running system commands
-    os.system('xset -display :0 dpms')
+    # os.system('xset -display :0 dpms')
 
     # Turning off the backlight
     GPIO.output(BACKLIGHT_PIN, GPIO.LOW)
@@ -44,7 +44,7 @@ def screen_sleep():
 def screen_wake():
     global screen_on
     screen_on = True
-    os.system('xset -display :0 dpms')
+    # os.system('xset -display :0 dpms')
 
     # Turning on the backlight
     GPIO.output(BACKLIGHT_PIN, GPIO.HIGH)
