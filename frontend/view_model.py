@@ -486,6 +486,7 @@ class ClosePage(SettingsPage):
         self.live_render=PowerRendering()
 
     def nav_back(self):
+        print("menu button pushed")
         return self.previous_page
 
     def nav_select(self):
@@ -497,7 +498,7 @@ class ClosePage(SettingsPage):
         return self
     def nav_up(self):
         return self
-        
+
     def render(self):
         return self.live_render
         

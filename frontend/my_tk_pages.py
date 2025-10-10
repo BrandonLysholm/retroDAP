@@ -369,8 +369,8 @@ class StartPage(tk.Frame):
 class PowerFrame(tk.Frame):
     def __init__(self, parent, controller):
         tk.Frame.__init__(self, parent)
-        # TODO: Switch this to black background, currently using white for testing
-        self.configure(bg=SPOT_WHITE)
+        
+        self.configure(bg=SPOT_BLACK)
         self.header_label = tk.Label(self, text ="Shutdown", font = LARGEFONT, background=SPOT_BLACK, foreground=SPOT_GREEN) 
         self.header_label.grid(sticky='we', padx=(0, 10))
         self.grid_columnconfigure(0, weight=1)
