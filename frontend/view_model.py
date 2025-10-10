@@ -5,6 +5,7 @@
 import spotify_manager
 import re as re
 from functools import lru_cache 
+import os
 
 MENU_PAGE_SIZE = 6
 
