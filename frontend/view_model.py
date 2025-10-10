@@ -404,7 +404,7 @@ class SettingsPage(MenuPage):
         super().__init__("Settings", previous_page, has_sub_page=True)
         self.pages = [
             WifiPage(self),
-            PowerPage(self).
+            PowerPage(self),
             ClosePage(self)
         ]
         self.index = 0
