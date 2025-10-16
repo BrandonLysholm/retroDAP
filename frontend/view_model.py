@@ -494,7 +494,7 @@ class ClosePage(SettingsPage):
     def nav_select(self):
         print("center button pushed")
         # TODO: get this working. Plan to have it exit straight to terminal would be ideal, closing openbox as well
-        os.system('sudo pkill openbox')
+        os.system('pkill openbox')
         return self
 
     def nav_down(self):
