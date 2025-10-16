@@ -432,7 +432,7 @@ class PowerRendering(Rendering):
 
 
 
-
+# This is now working to shut off the system, but need to get it properly displaying
 class PowerPage():
     def __init__(self, previous_page):
         self.has_sub_page = True
@@ -445,9 +445,8 @@ class PowerPage():
         return self.previous_page
 
     def nav_select(self):
-        # Call this to shutdown, need to figure out a way around the sudo
+        # TODO: Have this trigger the backlight also going off
         os.system('sudo shutdown')
-        # os.system('echo selected')
         return self
 
     def nav_down(self):
@@ -495,9 +494,7 @@ class ClosePage(SettingsPage):
     def nav_select(self):
         print("center button pushed")
         # TODO: get this working. Plan to have it exit straight to terminal would be ideal, closing openbox as well
-        # self.root.destroy()
-        # self.previous_page.previous_page.root.destroy()
-        # self.destroy()
+        os.system('sudo pkill openbox')
         return self
 
     def nav_down(self):
