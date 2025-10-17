@@ -517,9 +517,8 @@ class UpdateSoftwarePage(SettingsPage):
         return self.previous_page
 
     def nav_select(self):
-        os.system('mkdir testDir')
-        # os.system('git pull')
-        # os.system('sudo shutdown -r')
+        os.system('git pull')
+        os.system('sudo shutdown -r')
         return self
 
     def nav_down(self):
