@@ -484,7 +484,9 @@ class PowerPage():
     def nav_select(self):
         # TODO: Have this trigger the backlight also going off
         # screen_sleep()
-        os.system('echo ' + global.BACKLIGHT_PIN)
+        # os.system('echo ' + global.BACKLIGHT_PIN)
+        my_command = 'echo' + global.BACKLIGHT_PIN
+        os.system(my_command)
         os.system('sudo shutdown')
         return self
 
@@ -571,13 +573,16 @@ class UpdateSoftwarePage(SettingsPage):
         self.is_title = False
         self.previous_page = previous_page
         self.live_render=UpdateSoftwareRendering()
+        self.has_updated = False
 
     def nav_back(self):
         return self.previous_page
 
     def nav_select(self):
-        os.system('git pull')
-        os.system('sudo shutdown -r')
+        if (not self.has_updated):
+            self.has_updated = True
+            os.system('git pull')
+            os.system('sudo shutdown -r')
         return self
 
     def nav_down(self):
