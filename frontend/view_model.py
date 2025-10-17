@@ -458,7 +458,7 @@ class WiFiRendering(Rendering):
 
 class CloseProgramRendering(Rendering):
     def __init__(self):
-        super.()__init__(CLOSE_PROGRAM_RENDER)
+        super().__init__(CLOSE_PROGRAM_RENDER)
         self.callback = None
 
 class UpdateSoftwareRendering(Rendering):
