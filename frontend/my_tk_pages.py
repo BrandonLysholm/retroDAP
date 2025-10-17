@@ -382,4 +382,5 @@ class PowerFrame(tk.Frame):
         contentFrame.grid_columnconfigure(1, weight=1)
         self.grid_rowconfigure(2, weight=1)
         self.confirmation_label = tk.Label(contentFrame, text ="Press Center Button to confirm shutdown", font = MED_FONT, background=SPOT_BLACK, foreground=SPOT_GREEN)
+        self.confirmation_label.grid(row=0, column=0,sticky ="w", padx=int(50 * SCALE))
 
