@@ -481,20 +481,16 @@ class PowerPage():
     
     def nav_back(self):
         # This will also cancel a shutdown already requested
-        GPIO.output(12, GPIO.HIGH)
+        # TODO: Implement a screen wake as well
+        # GPIO.output(12, GPIO.HIGH)
         os.system('shutdown -c')
         return self.previous_page
 
     def nav_select(self):
         # TODO: Have this trigger the backlight also going off
-        # screen_sleep()
-        # os.system('echo ' + global.BACKLIGHT_PIN)
-
-        # my_command = 'echo' + str(global.BACKLIGHT_PIN)
-        # Cannot access this global variable 
-        # test = global.BACKLIGHT_PIN
-        # os.system(my_command)
         # TODO: Implement this in a cleaner way
+        # turning off backlight like this does not work as the backlight turns
+        # back on after the program closes
         GPIO.output(12, GPIO.LOW)
         os.system('sudo shutdown')
         return self
