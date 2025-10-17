@@ -443,6 +443,8 @@ class PowerPage():
         self.live_render=PowerRendering()
     
     def nav_back(self):
+        # This will also cancel a shutdown already requested
+        os.system('shutdown -c')
         return self.previous_page
 
     def nav_select(self):
@@ -470,6 +472,13 @@ class WifiPage(SettingsPage):
     
     def nav_back(self):
         return self.previous_page
+    
+    def nav_next(self):
+        # TODO: make this change alphabet
+        return self
+    def nav_play(self):
+        # TODO: make this write to /etc/wpa_supplicant.conf
+        return self
 
     def nav_down(self):
         return self
