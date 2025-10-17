@@ -16,6 +16,7 @@ MENU_RENDER_TYPE = 0
 NOW_PLAYING_RENDER = 1
 SEARCH_RENDER = 2
 POWER_RENDER =3
+WIFI_RENDER = 4
 
 # Menu line item types
 LINE_NORMAL = 0
@@ -97,6 +98,9 @@ class SearchRendering(Rendering):
         self.results = None
 
     def get_active_char(self):
+        # Using the ASCII values, and using the ofset value of the letter 'a' by using the ord function
+        # This will work for my upper and lower case, but I will need to use a custom array for numbers
+        # and special characters
         return ' ' if self.active_char == 26 else chr(self.active_char + ord('a'))
 
     def subscribe(self, app, callback):
@@ -430,6 +434,25 @@ class PowerRendering(Rendering):
     def __init__(self):
         super().__init__(POWER_RENDER)
         self.callback = None
+class WiFiRendering(Rendering):
+    def __init__(self, ssid, pw, selected_alphabet, active_char):
+        super().__init__(WIFI_RENDER)
+        self.callback = None
+        self.ssid = ssid
+        self.pw = pw
+        self.selected_alphabet = selected_alphabet
+        self.active_char = active_char
+        # Handles numbers plus common password chars
+        self.special_characters = ['1','2','3','4','5','6','7','8','9','0','!','@','#','$','.',':']
+
+    def get_active_char(self):
+        if (self.selected_alphabet=="UC"):
+            return ' ' if self.active_char == 26 else chr(self.active_char + ord('A'))
+        elif (self.selected_alphabet=="LC"):
+            return ' ' if self.active_char == 26 else chr(self.active_char + ord('a'))
+        elif (self.selected_alphabet=="SC")
+            return self.special_characters[active_char]
+
 
 
 
@@ -467,6 +490,10 @@ class WifiPage(SettingsPage):
         self.header = "Network Settings"
         self.is_title = False
         self.previous_page = previous_page
+        self.selected_input = "SSID"
+        self.selected_alphabet="LC"
+        self.ssid=""
+        self.pw=""
         # TODO: change the rendering
         self.live_render=PowerRendering()
     
@@ -474,10 +501,22 @@ class WifiPage(SettingsPage):
         return self.previous_page
     
     def nav_next(self):
-        # TODO: make this change alphabet
+        if (self.selected_alphabet=="LC"):
+            self.selected_alphabet="UC
+            # TODO: make this change alphabet
+        elif(self.selected_alphabet=="UC"):
+            self.selected_alphabet="SC"
+            # TODO: make this change alphabet
+        else:
+            self.selected_alphabet="LC"
+            # TODO: make this change alphabet
         return self
     def nav_play(self):
-        # TODO: make this write to /etc/wpa_supplicant.conf
+        if (self.selected_input=="SSID"):
+            self.selected_input=="PW"
+        elif (self.selected_input=="PW"):
+            # TODO: make this write to /etc/wpa_supplicant.conf
+            return self
         return self
 
     def nav_down(self):
