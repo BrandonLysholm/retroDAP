@@ -502,7 +502,7 @@ class WifiPage(SettingsPage):
     
     def nav_next(self):
         if (self.selected_alphabet=="LC"):
-            self.selected_alphabet="UC
+            self.selected_alphabet="UC"
             # TODO: make this change alphabet
         elif(self.selected_alphabet=="UC"):
             self.selected_alphabet="SC"
