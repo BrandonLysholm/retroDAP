@@ -545,7 +545,7 @@ class ClosePage(SettingsPage):
         self.is_title = False
         self.previous_page = previous_page
         # TODO: change the rendering
-        self.live_render=PowerRendering()
+        self.live_render=CloseProgramRendering()
 
     def nav_back(self):
         print("menu button pushed")
@@ -570,7 +570,7 @@ class UpdateSoftwarePage(SettingsPage):
         self.is_title = False
         self.previous_page = previous_page
         # TODO: change the rendering
-        self.live_render=PowerRendering()
+        self.live_render=UpdateSoftwareRendering()
 
     def nav_back(self):
         return self.previous_page
