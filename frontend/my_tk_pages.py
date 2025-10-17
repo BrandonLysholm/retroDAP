@@ -379,7 +379,7 @@ class PowerFrame(tk.Frame):
         divider.grid(row = 1, column = 0, sticky ="we", pady=10, padx=(10, 30))
         contentFrame = tk.Canvas(self, bg=SPOT_BLACK, highlightthickness=0, relief='ridge')
         contentFrame.grid(row = 2, column = 0, sticky ="nswe")
-        contentFrame.grid_columnconfigure(0, weight=1)
+        contentFrame.grid_columnconfigure(1, weight=1)
         self.grid_rowconfigure(2, weight=1)
         self.confirmation_label = tk.Label(contentFrame, text ="Press Center Button to confirm shutdown", font = MED_FONT, background=SPOT_BLACK, foreground=SPOT_GREEN)
 
