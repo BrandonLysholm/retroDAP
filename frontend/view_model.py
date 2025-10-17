@@ -10,6 +10,7 @@ import os
 # spotifypod can access stuff from here, but I cannot access stuff from spotifypod here
 # which is problematic since this is where I want to handle the shutdown
 # from spotifypod import quit_program as myQuit
+import RPi.GPIO as GPIO
 
 MENU_PAGE_SIZE = 6
 
@@ -492,6 +493,8 @@ class PowerPage():
         # Cannot access this global variable 
         # test = global.BACKLIGHT_PIN
         # os.system(my_command)
+        # TODO: Implement this in a cleaner way
+        GPIO.output(12, GPIO.LOW)
         os.system('sudo shutdown')
         return self
 
@@ -502,7 +505,6 @@ class PowerPage():
 
     def render(self):
         return self.live_render
-    #TODO: Add command so that when this is loaded, it runs sudo shutdown and displays shutting down
 
 class WifiPage(SettingsPage):
     def __init__(self, previous_page):
