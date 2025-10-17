@@ -450,7 +450,7 @@ class WiFiRendering(Rendering):
             return ' ' if self.active_char == 26 else chr(self.active_char + ord('A'))
         elif (self.selected_alphabet=="LC"):
             return ' ' if self.active_char == 26 else chr(self.active_char + ord('a'))
-        elif (self.selected_alphabet=="SC")
+        elif (self.selected_alphabet=="SC"):
             return self.special_characters[active_char]
 
 
