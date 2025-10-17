@@ -6,7 +6,9 @@ import spotify_manager
 import re as re
 from functools import lru_cache 
 import os
-# this does not work
+# this does not work, unable to import from spotifypod
+# spotifypod can access stuff from here, but I cannot access stuff from spotifypod here
+# which is problematic since this is where I want to handle the shutdown
 # from spotifypod import quit_program as myQuit
 
 MENU_PAGE_SIZE = 6
@@ -487,7 +489,8 @@ class PowerPage():
         # os.system('echo ' + global.BACKLIGHT_PIN)
 
         # my_command = 'echo' + str(global.BACKLIGHT_PIN)
-        test = global.BACKLIGHT_PIN
+        # Cannot access this global variable 
+        # test = global.BACKLIGHT_PIN
         # os.system(my_command)
         os.system('sudo shutdown')
         return self
