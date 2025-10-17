@@ -484,6 +484,7 @@ class PowerPage():
     def nav_select(self):
         # TODO: Have this trigger the backlight also going off
         # screen_sleep()
+        os.system('echo ' + global.BACKLIGHT_PIN)
         os.system('sudo shutdown')
         return self
 
