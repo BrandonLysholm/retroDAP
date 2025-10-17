@@ -491,7 +491,7 @@ class PowerPage():
         # TODO: Implement this in a cleaner way
         # turning off backlight like this does not work as the backlight turns
         # back on after the program closes
-        GPIO.output(12, GPIO.LOW)
+        # GPIO.output(12, GPIO.LOW)
         os.system('sudo shutdown')
         return self
 
