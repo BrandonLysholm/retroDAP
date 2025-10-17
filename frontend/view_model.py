@@ -481,6 +481,7 @@ class PowerPage():
     
     def nav_back(self):
         # This will also cancel a shutdown already requested
+        GPIO.output(12, GPIO.HIGH)
         os.system('shutdown -c')
         return self.previous_page
 
@@ -588,6 +589,7 @@ class UpdateSoftwarePage(SettingsPage):
     def nav_select(self):
         if (not self.has_updated):
             self.has_updated = True
+            # TODO: test if this is async, if not, make shutdown instant
             os.system('git pull')
             os.system('sudo shutdown -r')
         return self
