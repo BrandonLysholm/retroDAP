@@ -408,7 +408,8 @@ class SettingsPage(MenuPage):
         self.pages = [
             WifiPage(self),
             PowerPage(self),
-            ClosePage(self)
+            ClosePage(self),
+            UpdateSoftwarePage(self)
         ]
         self.index = 0
         self.page_start = 0
@@ -492,8 +493,6 @@ class ClosePage(SettingsPage):
         return self.previous_page
 
     def nav_select(self):
-        print("center button pushed")
-        # TODO: get this working. Plan to have it exit straight to terminal would be ideal, closing openbox as well
         os.system('pkill openbox')
         return self
 
@@ -504,6 +503,33 @@ class ClosePage(SettingsPage):
 
     def render(self):
         return self.live_render
+
+class UpdateSoftwarePage(SettingsPage):
+    def __init__(self, previous_page):
+        self.has_sub_page = True
+        self.header = "Update Software"
+        self.is_title = False
+        self.previous_page = previous_page
+        # TODO: change the rendering
+        self.live_render=PowerRendering()
+
+    def nav_back(self):
+        return self.previous_page
+
+    def nav_select(self):
+        os.system('mkdir testDir')
+        # os.system('git pull')
+        # os.system('sudo shutdown -r')
+        return self
+
+    def nav_down(self):
+        return self
+    def nav_up(self):
+        return self
+
+    def render(self):
+        return self.live_render
+
         
 
 
