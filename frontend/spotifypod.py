@@ -9,7 +9,7 @@ from PIL import ImageTk, Image
 from sys import platform
 import os
 from fullEncoder import FullEncoder
-from my_tk_pages import tkinterApp, SearchFrame, Marquee, NowPlayingFrame, StartPage, PowerFrame
+from my_tk_pages import tkinterApp, SearchFrame, Marquee, NowPlayingFrame, StartPage, PowerFrame, UpdateSoftwareFrame, CloseProgramFrame
 
 import RPi.GPIO as GPIO
 
@@ -153,6 +153,12 @@ def render_now_playing(app, now_playing_render):
 def render_power(app, power_render):
     app.show_frame(PowerFrame)
 
+def render_close_program(app, close_render):
+    app.show_frame(CloseProgramFrame)
+
+def render_software_update(app, software_render):
+    app.show_frame(UpdateSoftwareFrame)
+
 def render(app, render):
     if (render.type == MENU_RENDER_TYPE):
         render_menu(app, render)
@@ -163,6 +169,10 @@ def render(app, render):
         render_search(app, render)
     elif (render.type == POWER_RENDER):
         render_power(app, render)
+    elif (render.type == CLOSE_PROGRAM_RENDER):
+        render_close_program(app, render)
+    elif (render.type == UPDATE_SOFTWARE_RENDER):
+        render_software_update(app, render)
     
 
 # Here we are going from defining functions to actually writing code to initialize the program

@@ -17,6 +17,8 @@ NOW_PLAYING_RENDER = 1
 SEARCH_RENDER = 2
 POWER_RENDER =3
 WIFI_RENDER = 4
+CLOSE_PROGRAM_RENDER = 5
+UPDATE_SOFTWARE_RENDER = 6
 
 # Menu line item types
 LINE_NORMAL = 0
@@ -434,6 +436,7 @@ class PowerRendering(Rendering):
     def __init__(self):
         super().__init__(POWER_RENDER)
         self.callback = None
+
 class WiFiRendering(Rendering):
     def __init__(self, ssid, pw, selected_alphabet, active_char):
         super().__init__(WIFI_RENDER)
@@ -453,7 +456,15 @@ class WiFiRendering(Rendering):
         elif (self.selected_alphabet=="SC"):
             return self.special_characters[active_char]
 
+class CloseProgramRendering(Rendering):
+    def __init__(self):
+        super.()__init__(CLOSE_PROGRAM_RENDER)
+        self.callback = None
 
+class UpdateSoftwareRendering(Rendering):
+    def __init__(self):
+        super().__init__(UPDATE_SOFTWARE_RENDER)
+        self.callback = None
 
 
 # This is now working to shut off the system, but need to get it properly displaying

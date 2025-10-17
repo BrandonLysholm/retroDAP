@@ -385,3 +385,40 @@ class PowerFrame(tk.Frame):
         self.confirmation_label = tk.Label(contentFrame, text ="Press Center Button to confirm shutdown", font = MED_FONT, background=SPOT_BLACK, foreground=SPOT_GREEN, wraplength=600)
         self.confirmation_label.grid(row=0, column=0,sticky ="w", padx=(0,10))
 
+class UpdateSoftwareFrame(tk.Frame):
+    def __init__(self, parent, controller):
+        tk.Frame.__init__(self, parent)
+        
+        self.configure(bg=SPOT_BLACK)
+        self.header_label = tk.Label(self, text ="Update Software", font = LARGEFONT, background=SPOT_BLACK, foreground=SPOT_GREEN) 
+        self.header_label.grid(sticky='we', padx=(0, 10))
+        self.grid_columnconfigure(0, weight=1)
+        divider = tk.Canvas(self)
+        divider.configure(bg=SPOT_GREEN, height=DIVIDER_HEIGHT, bd=0, highlightthickness=0, relief='ridge')
+        divider.grid(row = 1, column = 0, sticky ="we", pady=10, padx=(10, 30))
+        contentFrame = tk.Canvas(self, bg=SPOT_BLACK, highlightthickness=0, relief='ridge')
+        contentFrame.grid(row = 2, column = 0, sticky ="nswe")
+        contentFrame.grid_columnconfigure(1, weight=1)
+        self.grid_rowconfigure(2, weight=1)
+        # TODO: either figure out how to make this go on next line or use the marquee
+        self.confirmation_label = tk.Label(contentFrame, text ="Press Center Button to confirm software update and restart", font = MED_FONT, background=SPOT_BLACK, foreground=SPOT_GREEN, wraplength=600)
+        self.confirmation_label.grid(row=0, column=0,sticky ="w", padx=(0,10))
+
+class CloseProgramFrame(tk.Frame):
+    def __init__(self, parent, controller):
+        tk.Frame.__init__(self, parent)
+        
+        self.configure(bg=SPOT_BLACK)
+        self.header_label = tk.Label(self, text ="Close Program", font = LARGEFONT, background=SPOT_BLACK, foreground=SPOT_GREEN) 
+        self.header_label.grid(sticky='we', padx=(0, 10))
+        self.grid_columnconfigure(0, weight=1)
+        divider = tk.Canvas(self)
+        divider.configure(bg=SPOT_GREEN, height=DIVIDER_HEIGHT, bd=0, highlightthickness=0, relief='ridge')
+        divider.grid(row = 1, column = 0, sticky ="we", pady=10, padx=(10, 30))
+        contentFrame = tk.Canvas(self, bg=SPOT_BLACK, highlightthickness=0, relief='ridge')
+        contentFrame.grid(row = 2, column = 0, sticky ="nswe")
+        contentFrame.grid_columnconfigure(1, weight=1)
+        self.grid_rowconfigure(2, weight=1)
+        # TODO: either figure out how to make this go on next line or use the marquee
+        self.confirmation_label = tk.Label(contentFrame, text ="Press Center Button to confirm exiting software to the commandline", font = MED_FONT, background=SPOT_BLACK, foreground=SPOT_GREEN, wraplength=600)
+        self.confirmation_label.grid(row=0, column=0,sticky ="w", padx=(0,10))
