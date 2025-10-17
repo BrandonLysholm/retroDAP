@@ -485,8 +485,10 @@ class PowerPage():
         # TODO: Have this trigger the backlight also going off
         # screen_sleep()
         # os.system('echo ' + global.BACKLIGHT_PIN)
-        my_command = 'echo' + str(global.BACKLIGHT_PIN)
-        os.system(my_command)
+
+        # my_command = 'echo' + str(global.BACKLIGHT_PIN)
+        test = global.BACKLIGHT_PIN
+        # os.system(my_command)
         os.system('sudo shutdown')
         return self
 
