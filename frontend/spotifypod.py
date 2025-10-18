@@ -159,7 +159,8 @@ def render_close_program(app, close_render):
 def render_software_update(app, software_render):
     app.show_frame(UpdateSoftwareFrame)
 
-def render_wifi(app, wifi_render)
+def render_wifi(app, wifi_render):
+    app.show_frame(WiFiPageFrame)
 
 def render(app, render):
     if (render.type == MENU_RENDER_TYPE):
