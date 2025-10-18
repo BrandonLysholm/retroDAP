@@ -423,7 +423,7 @@ class CloseProgramFrame(tk.Frame):
         self.confirmation_label = tk.Label(contentFrame, text ="Press Center Button to confirm exiting software to the commandline", font = MED_FONT, background=SPOT_BLACK, foreground=SPOT_GREEN, wraplength=600)
         self.confirmation_label.grid(row=0, column=0,sticky ="w", padx=(0,10))
 
-class WiFiPageFrame(tk.frame):
+class WiFiPageFrame(tk.Frame):
      def __init__(self, parent, controller):  
         tk.Frame.__init__(self, parent) 
         self.configure(bg=SPOT_BLACK)
