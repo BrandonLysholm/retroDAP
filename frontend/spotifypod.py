@@ -176,7 +176,8 @@ def render(app, render):
         render_close_program(app, render)
     elif (render.type == UPDATE_SOFTWARE_RENDER):
         render_software_update(app, render)
-    elif(render.type == WIFI_SETTING_RENDER)
+    elif(render.type == WIFI_SETTING_RENDER):
+        render_wifi(app, render)
     
 
 # Here we are going from defining functions to actually writing code to initialize the program
