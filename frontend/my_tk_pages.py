@@ -438,7 +438,7 @@ class WiFiPageFrame(tk.Frame):
         # ssid
         self.ssid_label = tk.Label(contentFrame, text ="", font = LARGEFONT, background=SPOT_BLACK, foreground=SPOT_GREEN) 
         self.ssid_letter_label= tk.Label(contentFrame, text ="a", font = LARGEFONT, background=SPOT_GREEN, foreground=SPOT_BLACK) 
-        self.ssid_query_label.grid(row = 0, column = 0, sticky = "nsw", padx=(120,0))
+        self.ssid_label.grid(row = 0, column = 0, sticky = "nsw", padx=(120,0))
         self.ssid_letter_label.grid(row = 0, column = 1, sticky = "nsw")
         contentFrame.grid_columnconfigure(1, weight=1)
         ssid_search_line = tk.Canvas(self)
