@@ -447,7 +447,7 @@ class WiFiPageFrame(tk.Frame):
         # password
         self.pw_label = tk.Label(contentFrame, text ="", font = LARGEFONT, background=SPOT_BLACK, foreground=SPOT_GREEN) 
         self.pw_letter_label= tk.Label(contentFrame, text ="a", font = LARGEFONT, background=SPOT_GREEN, foreground=SPOT_BLACK) 
-        self.pw_query_label.grid(row = 4, column = 0, sticky = "nsw", padx=(120,0))
+        self.pw_label.grid(row = 4, column = 0, sticky = "nsw", padx=(120,0))
         self.pw_letter_label.grid(row = 4, column = 1, sticky = "nsw")
         contentFrame.grid_columnconfigure(1, weight=1)
         pw_search_line = tk.Canvas(self)
