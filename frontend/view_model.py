@@ -22,6 +22,7 @@ POWER_RENDER =3
 WIFI_RENDER = 4
 CLOSE_PROGRAM_RENDER = 5
 UPDATE_SOFTWARE_RENDER = 6
+WIFI_SETTING_RENDER = 7
 
 # Menu line item types
 LINE_NORMAL = 0
@@ -469,6 +470,11 @@ class UpdateSoftwareRendering(Rendering):
         super().__init__(UPDATE_SOFTWARE_RENDER)
         self.callback = None
 
+class WifiSettingRendering(Rendering):
+    def __init__(self):
+        super().__init__(WIFI_SETTING_RENDER)
+        self.callback = None
+
 
 # This is now working to shut off the system, but need to get it properly displaying
 class PowerPage():
@@ -513,8 +519,7 @@ class WifiPage(SettingsPage):
         self.selected_alphabet="LC"
         self.ssid=""
         self.pw=""
-        # TODO: change the rendering
-        self.live_render=PowerRendering()
+        self.live_render=WifiSettingRendering()
     
     def nav_back(self):
         return self.previous_page

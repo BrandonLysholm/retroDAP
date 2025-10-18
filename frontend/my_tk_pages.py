@@ -80,7 +80,7 @@ class tkinterApp(tk.Tk):
    
         # iterating through a tuple consisting 
         # of the different page layouts 
-        for F in (StartPage, NowPlayingFrame, SearchFrame, PowerFrame, CloseProgramFrame, UpdateSoftwareFrame): 
+        for F in (StartPage, NowPlayingFrame, SearchFrame, PowerFrame, CloseProgramFrame, UpdateSoftwareFrame, WiFiPageFrame): 
    
             frame = F(container, self) 
    
@@ -422,3 +422,36 @@ class CloseProgramFrame(tk.Frame):
         # TODO: either figure out how to make this go on next line or use the marquee
         self.confirmation_label = tk.Label(contentFrame, text ="Press Center Button to confirm exiting software to the commandline", font = MED_FONT, background=SPOT_BLACK, foreground=SPOT_GREEN, wraplength=600)
         self.confirmation_label.grid(row=0, column=0,sticky ="w", padx=(0,10))
+
+class WiFiPageFrame(tk.frame):
+     def __init__(self, parent, controller):  
+        tk.Frame.__init__(self, parent) 
+        self.configure(bg=SPOT_BLACK)
+        self.header_label = tk.Label(self, text ="Add WiFi Network", font = LARGEFONT, background=SPOT_BLACK, foreground=SPOT_GREEN) 
+        self.header_label.grid(sticky='we', padx=(0, 10))
+        self.grid_columnconfigure(0, weight=1)
+        divider = tk.Canvas(self)
+        divider.configure(bg=SPOT_GREEN, height=DIVIDER_HEIGHT, bd=0, highlightthickness=0, relief='ridge')
+        divider.grid(row = 1, column = 0, sticky ="we", pady=(10, int(160 * SCALE)), padx=(10, 30))
+        contentFrame = tk.Canvas(self, bg=SPOT_BLACK, highlightthickness=0, relief='ridge')
+        contentFrame.grid(row = 6, column = 0, sticky ="nswe")
+        # ssid
+        self.ssid_label = tk.Label(contentFrame, text ="", font = LARGEFONT, background=SPOT_BLACK, foreground=SPOT_GREEN) 
+        self.ssid_letter_label= tk.Label(contentFrame, text ="a", font = LARGEFONT, background=SPOT_GREEN, foreground=SPOT_BLACK) 
+        self.ssid_query_label.grid(row = 0, column = 0, sticky = "nsw", padx=(120,0))
+        self.ssid_letter_label.grid(row = 0, column = 1, sticky = "nsw")
+        contentFrame.grid_columnconfigure(1, weight=1)
+        ssid_search_line = tk.Canvas(self)
+        ssid_search_line.configure(bg=SPOT_GREEN, height=5, bd=0, highlightthickness=0, relief='ridge')
+        ssid_search_line.grid(row = 3, column = 0, sticky ="we", pady=10, padx=120)
+        # password
+        self.pw_label = tk.Label(contentFrame, text ="", font = LARGEFONT, background=SPOT_BLACK, foreground=SPOT_GREEN) 
+        self.pw_letter_label= tk.Label(contentFrame, text ="a", font = LARGEFONT, background=SPOT_GREEN, foreground=SPOT_BLACK) 
+        self.pw_query_label.grid(row = 4, column = 0, sticky = "nsw", padx=(120,0))
+        self.pw_letter_label.grid(row = 4, column = 1, sticky = "nsw")
+        contentFrame.grid_columnconfigure(1, weight=1)
+        pw_search_line = tk.Canvas(self)
+        pw_search_line.configure(bg=SPOT_GREEN, height=5, bd=0, highlightthickness=0, relief='ridge')
+        pw_search_line.grid(row = 6, column = 0, sticky ="we", pady=10, padx=120)
+
+
