@@ -5,7 +5,7 @@
 import spotify_manager
 import re as re
 from functools import lru_cache 
-import os
+import subprocess
 # this does not work, unable to import from spotifypod
 # spotifypod can access stuff from here, but I cannot access stuff from spotifypod here
 # which is problematic since this is where I want to handle the shutdown
@@ -489,7 +489,7 @@ class PowerPage():
         # This will also cancel a shutdown already requested
         # TODO: Implement a screen wake as well
         # GPIO.output(12, GPIO.HIGH)
-        os.system('shutdown -c')
+        subprocess.run('shutdown -c')
         return self.previous_page
 
     def nav_select(self):
@@ -498,7 +498,7 @@ class PowerPage():
         # turning off backlight like this does not work as the backlight turns
         # back on after the program closes
         # GPIO.output(12, GPIO.LOW)
-        os.system('sudo shutdown')
+        subprocess.run('sudo shutdown')
         return self
 
     def nav_down(self):
@@ -564,7 +564,7 @@ class ClosePage(SettingsPage):
         return self.previous_page
 
     def nav_select(self):
-        os.system('pkill openbox')
+        subprocess.run('pkill openbox')
         return self
 
     def nav_down(self):
@@ -590,9 +590,8 @@ class UpdateSoftwarePage(SettingsPage):
     def nav_select(self):
         if (not self.has_updated):
             self.has_updated = True
-            # TODO: test if this is async, if not, make shutdown instant
-            os.system('git pull')
-            os.system('sudo shutdown -r')
+            subprocess.run('git pull')
+            subprocess.run('sudo shutdown -r now')
         return self
 
     def nav_down(self):
