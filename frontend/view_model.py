@@ -492,7 +492,7 @@ class WifiSettingRendering(Rendering):
         
     def refresh(self):
         global selected_input
-        if not self.callback:
+        if not self.change_ssid_label:
             return
         self.change_input(selected_input)
         if (selected_input == "ssid"):
