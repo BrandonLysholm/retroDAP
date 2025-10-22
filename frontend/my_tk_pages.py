@@ -456,4 +456,3 @@ class WiFiPageFrame(tk.Frame):
         self.ssid_label.configure(text="ssid"+ssid)
         self.ssid_letter_label(text=active_char)
 
-
