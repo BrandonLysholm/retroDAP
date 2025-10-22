@@ -504,7 +504,7 @@ class WifiSettingRendering(Rendering):
     def refresh(self):
         if not self.callback:
             return
-        self.callback(self.ssid, self.get_active_char(), self.selected_alphabet)
+        self.callback(self.ssid, self.get_active_char())
 
 
 # This is now working to shut off the system, but need to get it properly displaying
