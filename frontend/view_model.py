@@ -470,9 +470,9 @@ class WifiSettingRendering(Rendering):
         self.change_input = None
 
     def subscribe(self, app, callback, update_pw_label, change_input):
-        if (callback == self.callback):
+        if (callback == self.change_ssid_label):
             return
-        new_callback = self.callback is None
+        new_callback = self.change_ssid_label is None
         self.change_ssid_label = callback
         self.change_pw_label = update_pw_label
         self.change_input = change_input
