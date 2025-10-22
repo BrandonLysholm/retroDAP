@@ -440,9 +440,9 @@ class WiFiPageFrame(tk.Frame):
         self.ssid_letter_label= tk.Label(contentFrame, text ="ssid", font = LARGEFONT, background=SPOT_GREEN, foreground=SPOT_BLACK) 
         self.ssid_label.grid(row = 0, column = 0, sticky = "nsw", padx=(120,0))
         self.ssid_letter_label.grid(row = 0, column = 1, sticky = "nsw")
-        # ssid_search_line = tk.Canvas(self)
-        # ssid_search_line.configure(bg=SPOT_GREEN, height=5, bd=0, highlightthickness=0, relief='ridge')
-        # ssid_search_line.grid(row = 5, column = 0, sticky ="we", pady=10, padx=120)
+        ssid_search_line = tk.Canvas(self)
+        ssid_search_line.configure(bg=SPOT_GREEN, height=5, bd=0, highlightthickness=0, relief='ridge')
+        ssid_search_line.grid(row = 1, column = 0, sticky ="we", pady=10, padx=120)
         # password
         self.pw_label = tk.Label(contentFrame, text ="", font = LARGEFONT, background=SPOT_BLACK, foreground=SPOT_GREEN) 
         self.pw_letter_label= tk.Label(contentFrame, text ="pw", font = LARGEFONT, background=SPOT_BLACK, foreground=SPOT_GREEN) 
