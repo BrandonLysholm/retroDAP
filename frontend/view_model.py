@@ -550,7 +550,6 @@ class WifiPage(SettingsPage):
         self.live_render=WifiSettingRendering("","",0)
     
     def nav_back(self):
-        # TODO: have this implement going from pw input to ssid
         global selected_input
         if (selected_input == "ssid"):
             return self.previous_page
@@ -571,7 +570,6 @@ class WifiPage(SettingsPage):
 
         self.live_render.refresh()
 
-
     def nav_play(self):
         global selected_input
         if (selected_input=="ssid"):
@@ -579,7 +577,15 @@ class WifiPage(SettingsPage):
             self.live_render.refresh()
         elif (selected_input=="pw"):
             # TODO: make this write to /etc/wpa_supplicant.conf
-            return self
+            os.system('sudo echo  "" >> /etc/wpa_supplicant/wpa_supplicant.conf')
+            os.system('sudo echo  "{" >> /etc/wpa_supplicant/wpa_supplicant.conf')
+            os.system('sudo echo   "    " ' + self.live_render.ssid + '>> /etc/wpa_supplicant/wpa_supplicant.conf')
+            os.system('sudo echo   "    " ' + self.live_render.pw + '>> /etc/wpa_supplicant/wpa_supplicant.conf')
+            os.system('sudo echo  "{" >> /etc/wpa_supplicant/wpa_supplicant.conf')
+            
+            # TODO: uncomment this once tested that it writes nicely to file
+            # os.system('sudo ifdown wlan0 && sudo ifup wlan0')
+            
         return self
 
     def nav_down(self):
