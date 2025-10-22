@@ -454,5 +454,5 @@ class WiFiPageFrame(tk.Frame):
 
     def update_ssid_label(self, ssid, active_char):
         self.ssid_label.configure(text="ssid"+ssid)
-        self.ssid_letter_label(text=active_char)
+        self.ssid_letter_label.configure(text=active_char)
 
