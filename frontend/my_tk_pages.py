@@ -436,8 +436,8 @@ class WiFiPageFrame(tk.Frame):
         contentFrame = tk.Canvas(self, bg=SPOT_BLACK, highlightthickness=0, relief='ridge')
         contentFrame.grid(row = 6, column = 0, sticky ="nswe")
         # ssid
-        self.ssid_label = tk.Label(contentFrame, text ="", font = LARGEFONT, background=SPOT_BLACK, foreground=SPOT_GREEN) 
-        self.ssid_letter_label= tk.Label(contentFrame, text ="ssid", font = LARGEFONT, background=SPOT_GREEN, foreground=SPOT_BLACK) 
+        self.ssid_label = tk.Label(contentFrame, text ="ssid:", font = LARGEFONT, background=SPOT_BLACK, foreground=SPOT_GREEN) 
+        self.ssid_letter_label= tk.Label(contentFrame, text ="a", font = LARGEFONT, background=SPOT_GREEN, foreground=SPOT_BLACK) 
         self.ssid_label.grid(row = 0, column = 0, sticky = "nsw", padx=(120,0))
         self.ssid_letter_label.grid(row = 0, column = 1, sticky = "nsw")
         ssid_search_line = tk.Canvas(self)
@@ -451,5 +451,9 @@ class WiFiPageFrame(tk.Frame):
         pw_search_line = tk.Canvas(self)
         pw_search_line.configure(bg=SPOT_GREEN, height=5, bd=0, highlightthickness=0, relief='ridge')
         pw_search_line.grid(row = 8, column = 0, sticky ="we", pady=10, padx=120)
+
+    def update_ssid_label(self, ssid, active_char):
+        self.ssid_label.configure(text="ssid"+ssid)
+        self.ssid_letter_label(text=active_char)
 
 

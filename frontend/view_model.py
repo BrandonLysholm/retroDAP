@@ -471,9 +471,29 @@ class UpdateSoftwareRendering(Rendering):
         self.callback = None
 
 class WifiSettingRendering(Rendering):
-    def __init__(self):
+    def __init__(self, ssid, active_char):
         super().__init__(WIFI_SETTING_RENDER)
+        self.ssid = ssid
+        self.active_char = active_char
         self.callback = None
+
+    def subscribe(self, app, callback):
+        f (callback == self.callback):
+            return
+        new_callback = self.callback is None
+        self.callback = callback
+        self.app = app
+        if new_callback:
+            self.refresh()
+
+    def get_active_char(self):
+        # TODO: add other alphabets
+        return ' ' if self.active_char == 26 else chr(self.active_char + ord('a'))
+
+    def refresh(self):
+        if not self.call_back:
+            return
+        self.callback(self.ssid, self.get_active_char())
 
 
 # This is now working to shut off the system, but need to get it properly displaying
@@ -546,6 +566,8 @@ class WifiPage(SettingsPage):
     def nav_down(self):
         return self
     def nav_up(self):
+        self.live_render.active_char += 1
+        self.live_render.refresh()
         return self
 
     def render(self):
