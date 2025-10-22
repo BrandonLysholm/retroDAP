@@ -539,7 +539,7 @@ class WifiPage(SettingsPage):
         self.selected_alphabet="LC"
         self.ssid=""
         self.pw=""
-        self.live_render=WifiSettingRendering()
+        self.live_render=WifiSettingRendering("",0)
     
     def nav_back(self):
         return self.previous_page
