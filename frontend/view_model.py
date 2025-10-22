@@ -478,7 +478,7 @@ class WifiSettingRendering(Rendering):
         self.callback = None
 
     def subscribe(self, app, callback):
-        f (callback == self.callback):
+        if (callback == self.callback):
             return
         new_callback = self.callback is None
         self.callback = callback
