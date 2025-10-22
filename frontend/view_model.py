@@ -569,7 +569,7 @@ class WifiPage(SettingsPage):
                 self.live_render.active_char = 26
         else:
             if (self.live_render.active_char < 0):
-                self.live_render.active_char = SPECIAL_CHARACTERS.len()
+                self.live_render.active_char = len(SPECIAL_CHARACTERS)
         self.live_render.refresh()
 
     def nav_up(self):
@@ -579,7 +579,7 @@ class WifiPage(SettingsPage):
             if (self.live_render.active_char > 26):
                 self.live_render.active_char = 0
         else:
-            if (self.live_render.active_char > SPECIAL_CHARACTERS.len()):
+            if (self.live_render.active_char > len(SPECIAL_CHARACTERS)):
                 self.live_render.active_char = 0
         # TODO: make this handle different alphabets
         if (self.live_render.active_char > 26):
