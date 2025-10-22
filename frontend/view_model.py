@@ -543,6 +543,7 @@ class PowerPage():
 class WifiPage(SettingsPage):
     def __init__(self, previous_page):
         self.has_sub_page = True
+        self.overrides_select = True
         self.header = "Network Settings"
         self.is_title = False
         self.previous_page = previous_page

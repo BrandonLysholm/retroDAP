@@ -85,6 +85,9 @@ def onSelectPressed():
     global page, app
     if (not page.has_sub_page):
         return
+    if (page.overrides_select):
+        page.nav_select()
+        return
     page.render().unsubscribe()
     page = page.nav_select()
     render(app, page.render())
