@@ -472,11 +472,14 @@ class UpdateSoftwareRendering(Rendering):
         self.callback = None
 
 class WifiSettingRendering(Rendering):
-    def __init__(self, ssid, active_char):
+    def __init__(self, ssid, active_char, selected_alphabet):
         super().__init__(WIFI_SETTING_RENDER)
         self.ssid = ssid
         self.active_char = active_char
         self.callback = None
+        self.selected_alphabet = selected_alphabet
+        self.special_characters = ['1','2','3','4','5','6','7','8','9','0','!','@','#','$','.',':']
+
 
     def subscribe(self, app, callback):
         if (callback == self.callback):
@@ -488,13 +491,17 @@ class WifiSettingRendering(Rendering):
             self.refresh()
 
     def get_active_char(self):
-        # TODO: add other alphabets
-        return ' ' if self.active_char == 26 else chr(self.active_char + ord('a'))
-
+        if (self.selected_alphabet=="UC"):
+            return ' ' if self.active_char == 26 else chr(self.active_char + ord('A'))
+        elif (self.selected_alphabet=="LC"):
+            return ' ' if self.active_char == 26 else chr(self.active_char + ord('a'))
+        elif (self.selected_alphabet=="SC"):
+            return self.special_characters[active_char]
+        
     def refresh(self):
         if not self.callback:
             return
-        self.callback(self.ssid, self.get_active_char())
+        self.callback(self.ssid, self.get_active_char(), self.selected_alphabet)
 
 
 # This is now working to shut off the system, but need to get it properly displaying
@@ -532,7 +539,7 @@ class PowerPage():
 
 class WifiPage(SettingsPage):
     def __init__(self, previous_page):
-        self.has_sub_page = False
+        self.has_sub_page = True
         self.header = "Network Settings"
         self.is_title = False
         self.previous_page = previous_page
@@ -540,7 +547,7 @@ class WifiPage(SettingsPage):
         self.selected_alphabet="LC"
         self.ssid=""
         self.pw=""
-        self.live_render=WifiSettingRendering("",0)
+        self.live_render=WifiSettingRendering("",0, self.selected_alphabet)
     
     def nav_back(self):
         return self.previous_page
@@ -548,14 +555,17 @@ class WifiPage(SettingsPage):
     def nav_next(self):
         if (self.selected_alphabet=="LC"):
             self.selected_alphabet="UC"
-            # TODO: make this change alphabet
         elif(self.selected_alphabet=="UC"):
             self.selected_alphabet="SC"
-            # TODO: make this change alphabet
+            self.live_render.active_char = 0
         else:
             self.selected_alphabet="LC"
-            # TODO: make this change alphabet
-        return self
+            self.live_render.active_char = 0
+
+        self.live_render.selected_alphabet = self.selected_alphabet
+        self.live_render.refresh()
+
+
     def nav_play(self):
         if (self.selected_input=="SSID"):
             self.selected_input=="PW"
