@@ -568,7 +568,7 @@ class WifiPage(SettingsPage):
             if (self.live_render.active_char < 0):
                 self.live_render.active_char = 26
         else:
-            if (self.live_render.active_char =< 0):
+            if (self.live_render.active_char <= 0):
                 self.live_render.active_char = len(SPECIAL_CHARACTERS)
         self.live_render.refresh()
 
