@@ -564,9 +564,9 @@ class WifiPage(SettingsPage):
     def nav_play(self):
         global selected_input
         if (selected_input=="ssid"):
-            selected_input=="pw"
+            selected_input="pw"
             self.live_render.refresh()
-        elif (selected_input==""):
+        elif (selected_input=="pw"):
             # TODO: make this write to /etc/wpa_supplicant.conf
             return self
         return self
