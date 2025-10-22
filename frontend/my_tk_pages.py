@@ -424,7 +424,7 @@ class CloseProgramFrame(tk.Frame):
         self.confirmation_label.grid(row=0, column=0,sticky ="w", padx=(0,10))
 
 class WiFiPageFrame(tk.Frame):
-     def __init__(self, parent, controller):  
+    def __init__(self, parent, controller):  
         tk.Frame.__init__(self, parent) 
         self.configure(bg=SPOT_BLACK)
         self.header_label = tk.Label(self, text ="Add WiFi Network", font = LARGEFONT, background=SPOT_BLACK, foreground=SPOT_GREEN) 
