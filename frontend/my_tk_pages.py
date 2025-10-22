@@ -444,8 +444,8 @@ class WiFiPageFrame(tk.Frame):
         ssid_search_line.configure(bg=SPOT_GREEN, height=5, bd=0, highlightthickness=0, relief='ridge')
         ssid_search_line.grid(row = 6, column = 0, sticky ="we", pady=10, padx=120)
         # password
-        self.pw_label = tk.Label(contentFrame, text ="", font = LARGEFONT, background=SPOT_BLACK, foreground=SPOT_GREEN) 
-        self.pw_letter_label= tk.Label(contentFrame, text ="pw", font = LARGEFONT, background=SPOT_BLACK, foreground=SPOT_GREEN) 
+        self.pw_label = tk.Label(contentFrame, text ="pw", font = LARGEFONT, background=SPOT_BLACK, foreground=SPOT_GREEN) 
+        self.pw_letter_label= tk.Label(contentFrame, text ="", font = LARGEFONT, background=SPOT_BLACK, foreground=SPOT_GREEN) 
         self.pw_label.grid(row = 4, column = 0, sticky = "nsw", padx=(120,0))
         self.pw_letter_label.grid(row = 4, column = 1, sticky = "nsw")
         pw_search_line = tk.Canvas(self)
@@ -454,8 +454,13 @@ class WiFiPageFrame(tk.Frame):
 
     # This becomes the callback in WiFiSettingRendering (view_model), that is passed through using spotifypod
     def update_ssid_label(self, ssid, active_char):
-        self.ssid_label.configure(text="ssid"+ssid)
+        self.ssid_label.configure(text="ssid:"+ssid)
         self.ssid_letter_label.configure(text=active_char)
+    
+    def update_pw_label(self, pw, active_char):
+        self.pw_label.configure(text="pw:"+pw)
+        self.pw_letter_label.configure(text=active_char)
+
 
     def update_wifi_input(self, input):
         if (input == "ssid"):

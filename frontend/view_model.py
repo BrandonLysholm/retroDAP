@@ -460,18 +460,21 @@ class UpdateSoftwareRendering(Rendering):
         self.callback = None
 
 class WifiSettingRendering(Rendering):
-    def __init__(self, ssid, active_char):
+    def __init__(self, ssid, pw, active_char):
         super().__init__(WIFI_SETTING_RENDER)
         self.ssid = ssid
+        self.pw = pw
         self.active_char = active_char
-        self.callback = None
+        self.change_ssid_label = None
+        self.change_pw_label = None
         self.change_input = None
 
-    def subscribe(self, app, callback, change_input):
+    def subscribe(self, app, callback, update_pw_label, change_input):
         if (callback == self.callback):
             return
         new_callback = self.callback is None
-        self.callback = callback
+        self.change_ssid_label = callback
+        self.change_pw_label = update_pw_label
         self.change_input = change_input
         self.app = app
         if new_callback:
@@ -492,7 +495,10 @@ class WifiSettingRendering(Rendering):
         if not self.callback:
             return
         self.change_input(selected_input)
-        self.callback(self.ssid, self.get_active_char())
+        if (selected_input == "ssid"):
+            self.change_ssid_label(self.ssid, self.get_active_char())
+        elif(selected_input == "pw"):
+            self.change_pw_label(self.pw, self.get_active_char())
     
     # TODO include an unsubscribe
         
@@ -541,7 +547,7 @@ class WifiPage(SettingsPage):
         self.previous_page = previous_page
         self.ssid=""
         self.pw=""
-        self.live_render=WifiSettingRendering("",0)
+        self.live_render=WifiSettingRendering("","",0)
     
     def nav_back(self):
         # TODO: have this implement going from pw input to ssid
@@ -594,14 +600,20 @@ class WifiPage(SettingsPage):
         self.live_render.refresh()
 
     def nav_prev(self):
-        # TODO: have this handle SSID and PW
-        self.live_render.ssid = self.live_render.ssid[0:-1]
+        global selected_input
+        if (selected_input == "ssid"):
+            self.live_render.ssid = self.live_render.ssid[0:-1]
+        elif (selected_input == "pw"):
+            self.live_render.pw = self.live_render.pw[0:1]
         self.live_render.refresh()
 
     def nav_next(self):
-        # TODO: have this handle SSID and PW
+        global selected_input
         active_char = self.live_render.get_active_char()
-        self.live_render.ssid += active_char
+        if (selected_input == "ssid"):
+            self.live_render.ssid += active_char
+        elif (selected_input == "pw"):
+            self.live_render.pw += active_char
         self.live_render.refresh()
 
 

@@ -135,6 +135,11 @@ def update_ssid_label(q, ch):
     search_page = app.frames[WiFiPageFrame]
     search_page.update_ssid_label(q, ch)
 
+def update_pw_label(q, ch):
+    global app, page
+    search_page = app.frames[WiFiPageFrame]
+    search_page.update_pw_label(q, ch)
+
 def update_wifi_input(q):
     global app, page
     search_page = app.frames[WiFiPageFrame]
@@ -174,7 +179,7 @@ def render_software_update(app, software_render):
 
 def render_wifi(app, wifi_render):
     app.show_frame(WiFiPageFrame)
-    wifi_render.subscribe(app, update_ssid_label, update_wifi_input)
+    wifi_render.subscribe(app, update_ssid_label, update_pw_label, update_wifi_input)
 
 def render(app, render):
     if (render.type == MENU_RENDER_TYPE):
