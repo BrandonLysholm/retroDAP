@@ -583,6 +583,11 @@ class WifiPage(SettingsPage):
                 self.live_render.active_char = 0
         self.live_render.refresh()
 
+    def nav_prev(self):
+        # TODO: have this handle SSID and PW
+        self.live_render.query = self.live_render.ssid[0:-1]
+        self.live_render.refresh()
+
     def nav_next(self):
         # TODO: have this handle SSID and PW
         active_char = self.live_render.get_active_char()
