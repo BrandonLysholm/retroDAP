@@ -551,7 +551,12 @@ class WifiPage(SettingsPage):
     
     def nav_back(self):
         # TODO: have this implement going from pw input to ssid
-        return self.previous_page
+        global selected_input
+        if (selected_input == "ssid"):
+            return self.previous_page
+        elif(selected_input == "pw"):
+            selected_input = "ssid"
+            self.live_render.refresh()
     
     def nav_select(self):
         global selected_alphabet
