@@ -127,6 +127,11 @@ def update_search(q, ch, loading, results):
     else:
         search_page.update_search(q, ch, loading)
 
+def update_ssid_label(q, ch):
+    global app, page
+    search_page = app.frames[WiFuPageFrame]
+    search_page.update_ssid_label(q, ch)
+
 def render_search(app, search_render):
     app.show_frame(SearchFrame)
     search_render.subscribe(app, update_search)
