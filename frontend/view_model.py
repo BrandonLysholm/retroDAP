@@ -502,7 +502,7 @@ class WifiSettingRendering(Rendering):
         elif (selected_alphabet=="LC"):
             return ' ' if self.active_char == 26 else chr(self.active_char + ord('a'))
         elif (selected_alphabet=="SC"):
-            return self.special_characters[active_char]
+            return self.special_characters[self.active_char]
         
     def refresh(self):
         if not self.callback:
