@@ -33,6 +33,7 @@ spotify_manager.refresh_devices()
 
 # Used for WiFi settings
 selected_alphabet = "LC"
+selected_input = "ssid"
 SPECIAL_CHARACTERS = ['1','2','3','4','5','6','7','8','9','0','!','@','#','$','.',':']
 
 class LineItem():
@@ -464,12 +465,14 @@ class WifiSettingRendering(Rendering):
         self.ssid = ssid
         self.active_char = active_char
         self.callback = None
+        self.change_input = None
 
-    def subscribe(self, app, callback):
+    def subscribe(self, app, callback, change_input):
         if (callback == self.callback):
             return
         new_callback = self.callback is None
         self.callback = callback
+        self.change_input = change_input
         self.app = app
         if new_callback:
             self.refresh()
@@ -485,9 +488,14 @@ class WifiSettingRendering(Rendering):
             return SPECIAL_CHARACTERS[self.active_char]
         
     def refresh(self):
+        global selected_input
         if not self.callback:
             return
+        self.change_input(selected_input)
         self.callback(self.ssid, self.get_active_char())
+    
+    # TODO include an unsubscribe
+        
 
 
 # This is now working to shut off the system, but need to get it properly displaying
@@ -531,12 +539,12 @@ class WifiPage(SettingsPage):
         self.header = "Network Settings"
         self.is_title = False
         self.previous_page = previous_page
-        self.selected_input = "SSID"
         self.ssid=""
         self.pw=""
         self.live_render=WifiSettingRendering("",0)
     
     def nav_back(self):
+        # TODO: have this implement going from pw input to ssid
         return self.previous_page
     
     def nav_select(self):
@@ -554,9 +562,11 @@ class WifiPage(SettingsPage):
 
 
     def nav_play(self):
-        if (self.selected_input=="SSID"):
-            self.selected_input=="PW"
-        elif (self.selected_input=="PW"):
+        global selected_input
+        if (selected_input=="ssid"):
+            selected_input=="pw"
+            self.live_render.refresh()
+        elif (selected_input==""):
             # TODO: make this write to /etc/wpa_supplicant.conf
             return self
         return self
