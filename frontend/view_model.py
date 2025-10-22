@@ -136,6 +136,7 @@ class SearchPage():
     def __init__(self, previous_page):
         self.header = "Search"
         self.has_sub_page = True
+        self.overrides_select = False
         self.previous_page = previous_page
         self.live_render = SearchRendering("", 0)
         self.is_title = False
@@ -187,6 +188,7 @@ class SearchPage():
 class NowPlayingPage():
     def __init__(self, previous_page, header, command):
         self.has_sub_page = False
+        self.overrides_select = False
         self.previous_page = previous_page
         self.command = command
         self.header = header
@@ -238,6 +240,7 @@ class MenuPage():
         self.page_start = 0
         self.header = header
         self.has_sub_page = has_sub_page
+        self.overrides_select = False
         self.previous_page = previous_page
         self.is_title = is_title
 
@@ -511,6 +514,7 @@ class WifiSettingRendering(Rendering):
 class PowerPage():
     def __init__(self, previous_page):
         self.has_sub_page = True
+        self.overrides_select = False
         self.header = "Power Off"
         self.is_title = False
         self.previous_page = previous_page
@@ -597,6 +601,7 @@ class WifiPage(SettingsPage):
 class ClosePage(SettingsPage):
     def __init__(self, previous_page):
         self.has_sub_page = True
+        self.overrides_select = False
         self.header = "Close Program"
         self.is_title = False
         self.previous_page = previous_page
@@ -621,6 +626,7 @@ class ClosePage(SettingsPage):
 class UpdateSoftwarePage(SettingsPage):
     def __init__(self, previous_page):
         self.has_sub_page = True
+        self.overrides_select = False
         self.header = "Update Software"
         self.is_title = False
         self.previous_page = previous_page
