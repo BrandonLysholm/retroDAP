@@ -129,7 +129,7 @@ def update_search(q, ch, loading, results):
 
 def update_ssid_label(q, ch):
     global app, page
-    search_page = app.frames[WiFuPageFrame]
+    search_page = app.frames[WiFiPageFrame]
     search_page.update_ssid_label(q, ch)
 
 def render_search(app, search_render):
