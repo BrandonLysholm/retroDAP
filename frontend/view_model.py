@@ -33,6 +33,7 @@ spotify_manager.refresh_devices()
 
 # Used for WiFi settings
 selected_alphabet = "LC"
+SPECIAL_CHARACTERS = ['1','2','3','4','5','6','7','8','9','0','!','@','#','$','.',':']
 
 class LineItem():
     def __init__(self, title = "", line_type = LINE_NORMAL, show_arrow = False):
@@ -457,7 +458,7 @@ class WiFiRendering(Rendering):
         self.selected_alphabet = selected_alphabet
         self.active_char = active_char
         # Handles numbers plus common password chars
-        self.special_characters = ['1','2','3','4','5','6','7','8','9','0','!','@','#','$','.',':']
+        self.special_characters = global SPECIAL_CHARACTERS
 
     def get_active_char(self):
         if (self.selected_alphabet=="UC"):
@@ -583,13 +584,24 @@ class WifiPage(SettingsPage):
 
     def nav_down(self):
         self.live_render.active_char -= 1
-        # TODO: make this handle different alphabets
-        if (self.live_render.active_char < 0):
-            self.live_render.active_char = 26
+        global selected_alphabet
+        if (selected_alphabet == "UC" or selected_alphabet == "LC"):
+            if (self.live_render.active_char < 0):
+                self.live_render.active_char = 26
+        else:
+            if (self.live_render.active_char < 0):
+                self.live_render.active_char = SPECIAL_CHARACTERS.len
         self.live_render.refresh()
 
     def nav_up(self):
         self.live_render.active_char += 1
+        global selected_alphabet
+        if (selected_alphabet == "UC" or selected_alphabet == "LC"):
+            if (self.live_render.active_char > 26):
+                self.live_render.active_char = 0
+        else:
+            if (self.live_render.active_char > SPECIAL_CHARACTERS.len):
+                self.live_render.active_char = 0
         # TODO: make this handle different alphabets
         if (self.live_render.active_char > 26):
             self.live_render.active_char = 0
