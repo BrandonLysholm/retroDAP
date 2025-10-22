@@ -441,6 +441,7 @@ class PowerRendering(Rendering):
         super().__init__(POWER_RENDER)
         self.callback = None
 
+# This is not used, which is a massive oversight
 class WiFiRendering(Rendering):
     def __init__(self, ssid, pw, selected_alphabet, active_char):
         super().__init__(WIFI_RENDER)
@@ -564,11 +565,18 @@ class WifiPage(SettingsPage):
         return self
 
     def nav_down(self):
-        return self
+        self.live_render.active_char -= 1
+        # TODO: make this handle different alphabets
+        if (self.live_render.active_char < 0):
+            self.live_render.active_char = 26
+        self.live_render.refresh()
+
     def nav_up(self):
         self.live_render.active_char += 1
+        # TODO: make this handle different alphabets
+        if (self.live_render.active_char > 26):
+            self.live_render.active_char = 0
         self.live_render.refresh()
-        return self
 
     def render(self):
         return self.live_render
