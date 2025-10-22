@@ -448,26 +448,6 @@ class PowerRendering(Rendering):
         super().__init__(POWER_RENDER)
         self.callback = None
 
-# This is not used, which is a massive oversight
-class WiFiRendering(Rendering):
-    def __init__(self, ssid, pw, selected_alphabet, active_char):
-        super().__init__(WIFI_RENDER)
-        self.callback = None
-        self.ssid = ssid
-        self.pw = pw
-        self.selected_alphabet = selected_alphabet
-        self.active_char = active_char
-        # Handles numbers plus common password chars
-        self.special_characters = global SPECIAL_CHARACTERS
-
-    def get_active_char(self):
-        if (self.selected_alphabet=="UC"):
-            return ' ' if self.active_char == 26 else chr(self.active_char + ord('A'))
-        elif (self.selected_alphabet=="LC"):
-            return ' ' if self.active_char == 26 else chr(self.active_char + ord('a'))
-        elif (self.selected_alphabet=="SC"):
-            return self.special_characters[active_char]
-
 class CloseProgramRendering(Rendering):
     def __init__(self):
         super().__init__(CLOSE_PROGRAM_RENDER)
@@ -484,8 +464,6 @@ class WifiSettingRendering(Rendering):
         self.ssid = ssid
         self.active_char = active_char
         self.callback = None
-        self.special_characters = ['1','2','3','4','5','6','7','8','9','0','!','@','#','$','.',':']
-
 
     def subscribe(self, app, callback):
         if (callback == self.callback):
@@ -498,12 +476,13 @@ class WifiSettingRendering(Rendering):
 
     def get_active_char(self):
         global selected_alphabet
+        global SPECIAL_CHARACTERS
         if (selected_alphabet=="UC"):
             return ' ' if self.active_char == 26 else chr(self.active_char + ord('A'))
         elif (selected_alphabet=="LC"):
             return ' ' if self.active_char == 26 else chr(self.active_char + ord('a'))
         elif (selected_alphabet=="SC"):
-            return self.special_characters[self.active_char]
+            return SPECIAL_CHARACTERS[self.active_char]
         
     def refresh(self):
         if not self.callback:
