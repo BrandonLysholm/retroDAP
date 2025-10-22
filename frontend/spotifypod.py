@@ -161,6 +161,7 @@ def render_software_update(app, software_render):
 
 def render_wifi(app, wifi_render):
     app.show_frame(WiFiPageFrame)
+    wifi_render.subscribe(app, update_ssid_label)
 
 def render(app, render):
     if (render.type == MENU_RENDER_TYPE):
