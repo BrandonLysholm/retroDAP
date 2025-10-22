@@ -491,7 +491,7 @@ class WifiSettingRendering(Rendering):
         return ' ' if self.active_char == 26 else chr(self.active_char + ord('a'))
 
     def refresh(self):
-        if not self.call_back:
+        if not self.callback:
             return
         self.callback(self.ssid, self.get_active_char())
 
