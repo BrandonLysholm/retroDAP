@@ -31,6 +31,9 @@ LINE_TITLE = 2
 
 spotify_manager.refresh_devices()
 
+# Used for WiFi settings
+selected_alphabet = "LC"
+
 class LineItem():
     def __init__(self, title = "", line_type = LINE_NORMAL, show_arrow = False):
         self.title = title
@@ -472,12 +475,11 @@ class UpdateSoftwareRendering(Rendering):
         self.callback = None
 
 class WifiSettingRendering(Rendering):
-    def __init__(self, ssid, active_char, selected_alphabet):
+    def __init__(self, ssid, active_char):
         super().__init__(WIFI_SETTING_RENDER)
         self.ssid = ssid
         self.active_char = active_char
         self.callback = None
-        self.selected_alphabet = selected_alphabet
         self.special_characters = ['1','2','3','4','5','6','7','8','9','0','!','@','#','$','.',':']
 
 
@@ -491,11 +493,12 @@ class WifiSettingRendering(Rendering):
             self.refresh()
 
     def get_active_char(self):
-        if (self.selected_alphabet=="UC"):
+        global selected_alphabet
+        if (selected_alphabet=="UC"):
             return ' ' if self.active_char == 26 else chr(self.active_char + ord('A'))
-        elif (self.selected_alphabet=="LC"):
+        elif (selected_alphabet=="LC"):
             return ' ' if self.active_char == 26 else chr(self.active_char + ord('a'))
-        elif (self.selected_alphabet=="SC"):
+        elif (selected_alphabet=="SC"):
             return self.special_characters[active_char]
         
     def refresh(self):
@@ -544,25 +547,24 @@ class WifiPage(SettingsPage):
         self.is_title = False
         self.previous_page = previous_page
         self.selected_input = "SSID"
-        self.selected_alphabet="LC"
         self.ssid=""
         self.pw=""
-        self.live_render=WifiSettingRendering("",0, self.selected_alphabet)
+        self.live_render=WifiSettingRendering("",0)
     
     def nav_back(self):
         return self.previous_page
     
-    def nav_next(self):
-        if (self.selected_alphabet=="LC"):
-            self.selected_alphabet="UC"
-        elif(self.selected_alphabet=="UC"):
-            self.selected_alphabet="SC"
+    def nav_select(self):
+        global selected_alphabet
+        if (selected_alphabet=="LC"):
+            selected_alphabet="UC"
+        elif(selected_alphabet=="UC"):
+            selected_alphabet="SC"
             self.live_render.active_char = 0
         else:
-            self.selected_alphabet="LC"
+            selected_alphabet="LC"
             self.live_render.active_char = 0
 
-        self.live_render.selected_alphabet = self.selected_alphabet
         self.live_render.refresh()
 
 
