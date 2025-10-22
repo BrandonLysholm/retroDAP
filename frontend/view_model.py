@@ -581,8 +581,14 @@ class WifiPage(SettingsPage):
         else:
             if (self.live_render.active_char >= len(SPECIAL_CHARACTERS)):
                 self.live_render.active_char = 0
-        # TODO: make this handle different alphabets
         self.live_render.refresh()
+
+    def nav_next(self):
+        # TODO: have this handle SSID and PW
+        active_char = self.live_render.active_char
+        self.live_render.ssid += active_char
+        self.live_render.refresh()
+
 
     def render(self):
         return self.live_render
@@ -638,14 +644,7 @@ class UpdateSoftwarePage(SettingsPage):
         return self
 
     def render(self):
-        return self.live_render
-
-        
-
-
-
-
-        
+        return self.live_render     
 
 class ArtistsPage(MenuPage):
     def __init__(self, previous_page):
