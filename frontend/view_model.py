@@ -581,7 +581,7 @@ class WifiPage(SettingsPage):
             pw_line = 'echo "    '+self.live_render.pw +'" | sudo tee -a /etc/wpa_supplicant/wpa_supplicant.conf'
             os.system ('echo "" | sudo tee -a /etc/wpa_supplicant/wpa_supplicant.conf')
             os.system ('echo "network={" | sudo tee -a /etc/wpa_supplicant/wpa_supplicant.conf')
-            os.systeM(ssid_line)
+            os.system(ssid_line)
             os.system(pw_line)
             os.system ('echo "}" | sudo tee -a /etc/wpa_supplicant/wpa_supplicant.conf')
             
@@ -617,7 +617,7 @@ class WifiPage(SettingsPage):
         if (selected_input == "ssid"):
             self.live_render.ssid = self.live_render.ssid[0:-1]
         elif (selected_input == "pw"):
-            self.live_render.pw = self.live_render.pw[0:1]
+            self.live_render.pw = self.live_render.pw[0:-1]
         self.live_render.refresh()
 
     def nav_next(self):
