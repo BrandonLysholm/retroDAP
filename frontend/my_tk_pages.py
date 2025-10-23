@@ -369,7 +369,6 @@ class StartPage(tk.Frame):
 class PowerFrame(tk.Frame):
     def __init__(self, parent, controller):
         tk.Frame.__init__(self, parent)
-        
         self.configure(bg=SPOT_BLACK)
         self.header_label = tk.Label(self, text ="Shutdown", font = LARGEFONT, background=SPOT_BLACK, foreground=SPOT_GREEN) 
         self.header_label.grid(sticky='we', padx=(0, 10))
@@ -381,9 +380,11 @@ class PowerFrame(tk.Frame):
         contentFrame.grid(row = 2, column = 0, sticky ="nswe")
         contentFrame.grid_columnconfigure(1, weight=1)
         self.grid_rowconfigure(2, weight=1)
-        # TODO: either figure out how to make this go on next line or use the marquee
         self.confirmation_label = tk.Label(contentFrame, text ="Press Center Button to confirm shutdown", font = MED_FONT, background=SPOT_BLACK, foreground=SPOT_GREEN, wraplength=600)
-        self.confirmation_label.grid(row=0, column=0,sticky ="w", padx=(0,10))
+        self.confirmation_label.grid(row=0, column=0,sticky ="nswe", padx=(0,10))
+    
+    def update_power_label(self):
+        self.confirmation_label.configure(text="preparing shutdown")
 
 class UpdateSoftwareFrame(tk.Frame):
     def __init__(self, parent, controller):
@@ -400,9 +401,8 @@ class UpdateSoftwareFrame(tk.Frame):
         contentFrame.grid(row = 2, column = 0, sticky ="nswe")
         contentFrame.grid_columnconfigure(1, weight=1)
         self.grid_rowconfigure(2, weight=1)
-        # TODO: either figure out how to make this go on next line or use the marquee
         self.confirmation_label = tk.Label(contentFrame, text ="Press Center Button to confirm software update and restart", font = MED_FONT, background=SPOT_BLACK, foreground=SPOT_GREEN, wraplength=600)
-        self.confirmation_label.grid(row=0, column=0,sticky ="w", padx=(0,10))
+        self.confirmation_label.grid(row=0, column=0,sticky ="nswe", padx=(0,10))
 
 class CloseProgramFrame(tk.Frame):
     def __init__(self, parent, controller):
@@ -419,9 +419,8 @@ class CloseProgramFrame(tk.Frame):
         contentFrame.grid(row = 2, column = 0, sticky ="nswe")
         contentFrame.grid_columnconfigure(1, weight=1)
         self.grid_rowconfigure(2, weight=1)
-        # TODO: either figure out how to make this go on next line or use the marquee
         self.confirmation_label = tk.Label(contentFrame, text ="Press Center Button to confirm exiting software to the commandline", font = MED_FONT, background=SPOT_BLACK, foreground=SPOT_GREEN, wraplength=600)
-        self.confirmation_label.grid(row=0, column=0,sticky ="w", padx=(0,10))
+        self.confirmation_label.grid(row=0, column=0,sticky ="nswe", padx=(0,10))
 
 class WiFiPageFrame(tk.Frame):
     def __init__(self, parent, controller):  

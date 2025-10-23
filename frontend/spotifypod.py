@@ -83,10 +83,10 @@ def onPlayPressed():
     
 def onSelectPressed():
     global page, app
-    if (not page.has_sub_page):
-        return
     if (page.overrides_select):
         page.nav_select()
+        return
+    if (not page.has_sub_page):
         return
     page.render().unsubscribe()
     page = page.nav_select()
@@ -145,6 +145,11 @@ def update_wifi_input(q):
     search_page = app.frames[WiFiPageFrame]
     search_page.update_wifi_input(q)
 
+def shutdown_confirmed():
+    global app, page
+    power_page = app.frames[PowerFrame]
+    power_page.update_power_label()
+
 def render_search(app, search_render):
     app.show_frame(SearchFrame)
     search_render.subscribe(app, update_search)
@@ -170,6 +175,7 @@ def render_now_playing(app, now_playing_render):
 
 def render_power(app, power_render):
     app.show_frame(PowerFrame)
+    power_render.subscribe(app, shutdown_confirmed)
 
 def render_close_program(app, close_render):
     app.show_frame(CloseProgramFrame)

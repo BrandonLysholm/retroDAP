@@ -448,6 +448,26 @@ class PowerRendering(Rendering):
     def __init__(self):
         super().__init__(POWER_RENDER)
         self.callback = None
+    
+    def subscribe(self, app, callback):
+        if (callback == self.callback):
+            return
+        new_callback = self.callback is None
+        self.callback = callback
+        self.app = app
+        if new_callback:
+            self.refresh()
+
+    def refresh(self):
+        if not self.callback:
+            return
+        self.callback()
+    
+    def unsubscribe(self):
+        super().unsubscribe()
+        self.callback = None
+        self.app = None
+  
 
 class CloseProgramRendering(Rendering):
     def __init__(self):
@@ -459,6 +479,7 @@ class UpdateSoftwareRendering(Rendering):
         super().__init__(UPDATE_SOFTWARE_RENDER)
         self.callback = None
 
+# Logic to change the WiFi pagee frame
 class WifiSettingRendering(Rendering):
     def __init__(self, ssid, pw, active_char):
         super().__init__(WIFI_SETTING_RENDER)
@@ -500,15 +521,18 @@ class WifiSettingRendering(Rendering):
         elif(selected_input == "pw"):
             self.change_pw_label(self.pw, self.get_active_char())
     
-    # TODO include an unsubscribe
-        
+    def unsubscribe(self):
+        super().unsubscribe()
+        self.change_ssid_label = None
+        self.change_pw_label = None
+        self.change_input = None
+        self.app = None
 
-
-# This is now working to shut off the system, but need to get it properly displaying
+# TODO: have this display when shutdown has been called
 class PowerPage():
     def __init__(self, previous_page):
-        self.has_sub_page = True
-        self.overrides_select = False
+        self.has_sub_page = False
+        self.overrides_select = True
         self.header = "Power Off"
         self.is_title = False
         self.previous_page = previous_page
@@ -516,17 +540,13 @@ class PowerPage():
     
     def nav_back(self):
         # This will also cancel a shutdown already requested
-        # TODO: Implement a screen wake as well
-        # GPIO.output(12, GPIO.HIGH)
+        # TODO: Implement a screen wake as well)
         os.system('shutdown -c')
         return self.previous_page
 
     def nav_select(self):
         # TODO: Have this trigger the backlight also going off
-        # TODO: Implement this in a cleaner way
-        # turning off backlight like this does not work as the backlight turns
-        # back on after the program closes
-        # GPIO.output(12, GPIO.LOW)
+        self.live_render.refresh()
         os.system('sudo shutdown')
         return self
 
@@ -538,9 +558,10 @@ class PowerPage():
     def render(self):
         return self.live_render
 
+# Logic to handle inputs of the WiFi page
 class WifiPage(SettingsPage):
     def __init__(self, previous_page):
-        self.has_sub_page = True
+        self.has_sub_page = False
         self.overrides_select = True
         self.header = "Network Settings"
         self.is_title = False
@@ -576,19 +597,19 @@ class WifiPage(SettingsPage):
             selected_input="pw"
             self.live_render.refresh()
         elif (selected_input=="pw"):
-            # TODO: make this write to /etc/wpa_supplicant/wpa_supplicant.conf
-            ssid_line = 'echo "    '+self.live_render.ssid +'" | sudo tee -a /etc/wpa_supplicant/wpa_supplicant.conf'
-            pw_line = 'echo "    '+self.live_render.pw +'" | sudo tee -a /etc/wpa_supplicant/wpa_supplicant.conf'
+            # writes to /etc/wpa_supplicant/wpa_supplicant.conf
+            ssid_line = 'echo "    ssid=\"'+self.live_render.ssid +'\"" | sudo tee -a /etc/wpa_supplicant/wpa_supplicant.conf'
+            pw_line = 'echo "    psk=\"'+self.live_render.pw +'\"" | sudo tee -a /etc/wpa_supplicant/wpa_supplicant.conf'
             os.system ('echo "" | sudo tee -a /etc/wpa_supplicant/wpa_supplicant.conf')
             os.system ('echo "network={" | sudo tee -a /etc/wpa_supplicant/wpa_supplicant.conf')
             os.system(ssid_line)
             os.system(pw_line)
             os.system ('echo "}" | sudo tee -a /etc/wpa_supplicant/wpa_supplicant.conf')
             
-            # TODO: uncomment this once tested that it writes nicely to file
-            # os.system('sudo ifdown wlan0 && sudo ifup wlan0')
+            os.system('sudo ifdown wlan0 && sudo ifup wlan0')
             
-        return self
+            # closes the page once the wifi network is added
+            return self.previous_page
 
     def nav_down(self):
         self.live_render.active_char -= 1
@@ -633,10 +654,11 @@ class WifiPage(SettingsPage):
     def render(self):
         return self.live_render
 
+# Closes page and exits to terminal
 class ClosePage(SettingsPage):
     def __init__(self, previous_page):
-        self.has_sub_page = True
-        self.overrides_select = False
+        self.has_sub_page = False
+        self.overrides_select = True
         self.header = "Close Program"
         self.is_title = False
         self.previous_page = previous_page
@@ -652,6 +674,7 @@ class ClosePage(SettingsPage):
 
     def nav_down(self):
         return self
+
     def nav_up(self):
         return self
 
@@ -660,8 +683,8 @@ class ClosePage(SettingsPage):
 
 class UpdateSoftwarePage(SettingsPage):
     def __init__(self, previous_page):
-        self.has_sub_page = True
-        self.overrides_select = False
+        self.has_sub_page = False
+        self.overrides_select = True
         self.header = "Update Software"
         self.is_title = False
         self.previous_page = previous_page
