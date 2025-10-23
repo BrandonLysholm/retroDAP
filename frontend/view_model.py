@@ -576,12 +576,14 @@ class WifiPage(SettingsPage):
             selected_input="pw"
             self.live_render.refresh()
         elif (selected_input=="pw"):
-            # TODO: make this write to /etc/wpa_supplicant.conf
-            os.system('sudo echo  "" >> /etc/wpa_supplicant/wpa_supplicant.conf')
-            os.system('sudo echo  "{" >> /etc/wpa_supplicant/wpa_supplicant.conf')
-            os.system('sudo echo   "    " ' + self.live_render.ssid + '>> /etc/wpa_supplicant/wpa_supplicant.conf')
-            os.system('sudo echo   "    " ' + self.live_render.pw + '>> /etc/wpa_supplicant/wpa_supplicant.conf')
-            os.system('sudo echo  "{" >> /etc/wpa_supplicant/wpa_supplicant.conf')
+            # TODO: make this write to /etc/wpa_supplicant/wpa_supplicant.conf
+            ssid_line = 'echo "    '+self.live_render.ssid +'" | sudo tee -a /etc/wpa_supplicant/wpa_supplicant.conf'
+            pw_line = 'echo "    '+self.live_render.pw +'" | sudo tee -a /etc/wpa_supplicant/wpa_supplicant.conf'
+            os.system ('echo "" | sudo tee -a /etc/wpa_supplicant/wpa_supplicant.conf')
+            os.system ('echo "network={" | sudo tee -a /etc/wpa_supplicant/wpa_supplicant.conf')
+            os.systeM(ssid_line)
+            os.system(pw_line)
+            os.system ('echo "}" | sudo tee -a /etc/wpa_supplicant/wpa_supplicant.conf')
             
             # TODO: uncomment this once tested that it writes nicely to file
             # os.system('sudo ifdown wlan0 && sudo ifup wlan0')
