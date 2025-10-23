@@ -435,6 +435,15 @@ class SettingsPage(MenuPage):
     def nav_back(self):
         return self.previous_page
 
+    def nav_play(self):
+        pass
+    
+    def nav_prev(self):
+        pass
+    
+    def nav_next(self):
+        pass
+
     def get_pages(self):
         return self.pages
 
@@ -533,7 +542,6 @@ class WifiSettingRendering(Rendering):
         self.change_input = None
         self.app = None
 
-# TODO: have this display when shutdown has been called
 class PowerPage():
     def __init__(self, previous_page):
         self.has_sub_page = False
