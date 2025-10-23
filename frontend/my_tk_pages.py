@@ -385,6 +385,8 @@ class PowerFrame(tk.Frame):
     
     def update_power_label(self):
         self.confirmation_label.configure(text="preparing shutdown")
+    def revert_power_label(self):
+        self.confirmation_label.configure(text="Press Center Button to confirm shutdown")
 
 class UpdateSoftwareFrame(tk.Frame):
     def __init__(self, parent, controller):

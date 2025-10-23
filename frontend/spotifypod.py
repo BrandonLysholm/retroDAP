@@ -150,6 +150,11 @@ def shutdown_confirmed():
     power_page = app.frames[PowerFrame]
     power_page.update_power_label()
 
+def shutdown_cancelled():
+    global app, page
+    power_page = app.frames[PowerFrame]
+    power_page.revert_power_label()
+
 def render_search(app, search_render):
     app.show_frame(SearchFrame)
     search_render.subscribe(app, update_search)

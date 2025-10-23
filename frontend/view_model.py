@@ -448,21 +448,29 @@ class PowerRendering(Rendering):
     def __init__(self):
         super().__init__(POWER_RENDER)
         self.callback = None
+        self.reset_label = None
     
-    def subscribe(self, app, callback):
+    def subscribe(self, app, callback, reset_label):
         if (callback == self.callback):
             return
         self.callback = callback
+        self.reset_label = reset_label
         self.app = app
 
     def update_label(self):
         if not self.callback:
             return
         self.callback()
+
+    def cancelled_shutdown(self):
+        if not self.reset_label:
+            return
+        self.reset_label()
     
     def unsubscribe(self):
         super().unsubscribe()
         self.callback = None
+        self.reset_label = None
         self.app = None
   
 
@@ -538,6 +546,7 @@ class PowerPage():
     def nav_back(self):
         # This will also cancel a shutdown already requested
         # TODO: Implement a screen wake as well)
+        self.live_render.cancelled_shutdown()
         os.system('shutdown -c')
         return self.previous_page
 
