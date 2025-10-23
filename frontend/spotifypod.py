@@ -180,7 +180,7 @@ def render_now_playing(app, now_playing_render):
 
 def render_power(app, power_render):
     app.show_frame(PowerFrame)
-    power_render.subscribe(app, shutdown_confirmed)
+    power_render.subscribe(app, shutdown_confirmed, shutdown_cancelled)
 
 def render_close_program(app, close_render):
     app.show_frame(CloseProgramFrame)
