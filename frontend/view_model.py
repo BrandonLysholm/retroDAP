@@ -452,13 +452,10 @@ class PowerRendering(Rendering):
     def subscribe(self, app, callback):
         if (callback == self.callback):
             return
-        new_callback = self.callback is None
         self.callback = callback
         self.app = app
-        if new_callback:
-            self.refresh()
 
-    def refresh(self):
+    def update_label(self):
         if not self.callback:
             return
         self.callback()
@@ -546,7 +543,7 @@ class PowerPage():
 
     def nav_select(self):
         # TODO: Have this trigger the backlight also going off
-        self.live_render.refresh()
+        self.live_render.update_label()
         os.system('sudo shutdown')
         return self
 
