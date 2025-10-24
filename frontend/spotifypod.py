@@ -158,7 +158,7 @@ def shutdown_cancelled():
 def closeRetroDAP():
     global app, page
     closeRetroDAP_page = app.frames[CloseRetroDAPFrame]
-    closeRetroDAP_page.kill_app()
+    closeRetroDAP_page.kill_app(app)
 
 def render_search(app, search_render):
     app.show_frame(SearchFrame)
