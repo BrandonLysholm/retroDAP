@@ -155,7 +155,7 @@ def shutdown_cancelled():
     power_page = app.frames[PowerFrame]
     power_page.revert_power_label()
 
-def closeeRetroDAP():
+def closeRetroDAP():
     global app, page
     closeRetroDAP_page = app.frames[CloseRetroDAPFrame]
     closeRetroDAP_page.kill_app()
