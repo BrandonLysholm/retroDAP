@@ -9,7 +9,7 @@ from PIL import ImageTk, Image
 from sys import platform
 import os
 from fullEncoder import FullEncoder
-from my_tk_pages import tkinterApp, SearchFrame, Marquee, NowPlayingFrame, StartPage, PowerFrame, UpdateSoftwareFrame, CloseProgramFrame, WiFiPageFrame
+from my_tk_pages import tkinterApp, SearchFrame, Marquee, NowPlayingFrame, StartPage, PowerFrame, UpdateSoftwareFrame, CloseProgramFrame, WiFiPageFrame, CloseRetroDAPFrame
 
 import RPi.GPIO as GPIO
 
@@ -155,9 +155,18 @@ def shutdown_cancelled():
     power_page = app.frames[PowerFrame]
     power_page.revert_power_label()
 
+def closeeRetroDAP():
+    global app, page
+    closeRetroDAP_page = app.frames[CloseRetroDAPFrame]
+    closeRetroDAP_page.kill_app()
+
 def render_search(app, search_render):
     app.show_frame(SearchFrame)
     search_render.subscribe(app, update_search)
+
+def render_closeRetroDAP(app, closeRetroDAP_render):
+    app.show_frame(CloseRetroDAPFrame)
+    closeRetroDAP_render.subscribe(app, )
 
 def render_menu(app, menu_render):
     app.show_frame(StartPage)
@@ -206,8 +215,10 @@ def render(app, render):
         render_close_program(app, render)
     elif (render.type == UPDATE_SOFTWARE_RENDER):
         render_software_update(app, render)
-    elif(render.type == WIFI_SETTING_RENDER):
+    elif (render.type == WIFI_SETTING_RENDER):
         render_wifi(app, render)
+    elif (render.type == CLOSE_RETRODAP_RENDER):
+        render_closeRetroDAP(app, render)
     
 
 # Here we are going from defining functions to actually writing code to initialize the program

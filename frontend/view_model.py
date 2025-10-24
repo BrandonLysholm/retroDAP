@@ -23,6 +23,7 @@ WIFI_RENDER = 4
 CLOSE_PROGRAM_RENDER = 5
 UPDATE_SOFTWARE_RENDER = 6
 WIFI_SETTING_RENDER = 7
+CLOSE_RETRODAP_RENDER = 8
 
 # Menu line item types
 LINE_NORMAL = 0
@@ -426,8 +427,7 @@ class SettingsPage(MenuPage):
         self.pages = [
             WifiPage(self),
             PowerPage(self),
-            ClosePage(self),
-            UpdateSoftwarePage(self)
+            DeveloperOptionsPage(self)
         ]
         self.index = 0
         self.page_start = 0
@@ -443,6 +443,30 @@ class SettingsPage(MenuPage):
     
     def nav_next(self):
         pass
+
+    def get_pages(self):
+        return self.pages
+
+    def total_size(self):
+        return len(self.get_pages())
+
+    def page_at(self, index):
+        return self.get_pages()[index]
+
+class DeveloperOptionsPage(MenuPage):
+    def __init__(self, previous_page):
+        super().__init__("Developer Options", previous_page, has_sub_page=True)
+        # TODO: implement page for closing only python app
+        self.pages = [
+            ClosePage(self),
+            UpdateSoftwarePage(self),
+            closeRetroDAPPage(self)
+        ]
+        self.index = 0
+        self.page_start = 0
+
+    def nav_back(self):
+        return self.previous_page
 
     def get_pages(self):
         return self.pages
@@ -486,6 +510,11 @@ class PowerRendering(Rendering):
 class CloseProgramRendering(Rendering):
     def __init__(self):
         super().__init__(CLOSE_PROGRAM_RENDER)
+        self.callback = None
+
+class CloseRetroDAPRendering(Rendering):
+    def __init__(self):
+        super().__init__(CLOSE_RETRODAP_RENDER)
         self.callback = None
 
 class UpdateSoftwareRendering(Rendering):
@@ -669,11 +698,11 @@ class WifiPage(SettingsPage):
         return self.live_render
 
 # Closes page and exits to terminal
-class ClosePage(SettingsPage):
+class ClosePage(DeveloperOptionsPage):
     def __init__(self, previous_page):
         self.has_sub_page = False
         self.overrides_select = True
-        self.header = "Close Program"
+        self.header = "Close Openbox"
         self.is_title = False
         self.previous_page = previous_page
         self.live_render=CloseProgramRendering()
@@ -695,7 +724,32 @@ class ClosePage(SettingsPage):
     def render(self):
         return self.live_render
 
-class UpdateSoftwarePage(SettingsPage):
+class CloseRetroDAPPage(DeveloperOptionsPage):
+    def __init__(self, previous_page):
+        self.has_sub_page = False
+        self.overrides_select = True
+        self.header = "Close retroDAP"
+        self.is_title = False
+        self.previous_page = previous_page
+        self.live_render=CloseRetroDAPRendering()
+
+    def nav_back(self):
+        return self.previous_page
+
+    def nav_select(self):
+        self.live_render.callback()
+        return self
+
+    def nav_down(self):
+        return self
+
+    def nav_up(self):
+        return self
+
+    def render(self):
+        return self.live_render
+
+class UpdateSoftwarePage(DeveloperOptionsPage):
     def __init__(self, previous_page):
         self.has_sub_page = False
         self.overrides_select = True
