@@ -9,7 +9,7 @@ from PIL import ImageTk, Image
 from sys import platform
 import os
 from fullEncoder import FullEncoder
-from my_tk_pages import tkinterApp, SearchFrame, Marquee, NowPlayingFrame, StartPage, PowerFrame, UpdateSoftwareFrame, CloseProgramFrame, WiFiPageFrame, CloseRetroDAPFrame
+from my_tk_pages import tkinterApp, SearchFrame, Marquee, NowPlayingFrame, StartPage, PowerFrame, UpdateSoftwareFrame, CloseOpenboxFrame, WiFiPageFrame, CloseRetroDAPFrame
 
 import RPi.GPIO as GPIO
 
@@ -31,13 +31,10 @@ DIVIDER_HEIGHT = 3
 
 screen_on = True
 
-# To get this working, you need to enable screen blanking on the pi in "sudo raspi-config" in the display options
+# turns off the backlight by not supplying power to the backlight pin
 def screen_sleep():
     global screen_on
     screen_on = False
-    # useful to remember in the future for running system commands
-    # os.system('xset -display :0 dpms')
-
     # Turning off the backlight
     GPIO.output(BACKLIGHT_PIN, GPIO.LOW)
 
@@ -76,13 +73,17 @@ def processMyInput(myVal):
         elif (myVal == 'R'):
             onDownPressed()
 
+# Buttom button of clickwheel
 def onPlayPressed():
     global page, app
     page.nav_play()
     render(app, page.render())
-    
+
+# Center button of clickwheel 
 def onSelectPressed():
     global page, app
+    # Used so that I still get center button interaction without having the arrow
+    # indicating that there is a subpage
     if (page.overrides_select):
         page.nav_select()
         return
@@ -92,6 +93,7 @@ def onSelectPressed():
     page = page.nav_select()
     render(app, page.render())
 
+# Top button of clickwheel
 def onBackPressed():
     global page, app
     previous_page = page.nav_back()
@@ -100,21 +102,25 @@ def onBackPressed():
         page = previous_page
         render(app, page.render())
     
+# Right button of clickwheel
 def onNextPressed():
     global page, app
     page.nav_next()
     render(app, page.render())
 
+# Left button of clickwhee;
 def onPrevPressed():
     global page, app
     page.nav_prev()
     render(app, page.render())
 
+# clockwise (?) rotation of clickwheel
 def onUpPressed():
     global page, app
     page.nav_up()
     render(app, page.render())
 
+# counter-clockwise (?) rotation of clickwheel
 def onDownPressed():
     global page, app
     page.nav_down()
@@ -130,35 +136,40 @@ def update_search(q, ch, loading, results):
     else:
         search_page.update_search(q, ch, loading)
 
+# Used on WiFi settings page. Used to pass through function to update ssid label from the tk frame to the rendering in view model
 def update_ssid_label(q, ch):
     global app, page
     search_page = app.frames[WiFiPageFrame]
     search_page.update_ssid_label(q, ch)
 
+# Used on WiFi settings page. Used to pass through function to update pw label from the tk frame to the rendering in view model
 def update_pw_label(q, ch):
     global app, page
     search_page = app.frames[WiFiPageFrame]
     search_page.update_pw_label(q, ch)
 
+# Used on WiFi settings page. Used to pass through function to update which input is being used (ssid or pw) from the tk frame to the rendering in view model
 def update_wifi_input(q):
     global app, page
     search_page = app.frames[WiFiPageFrame]
     search_page.update_wifi_input(q)
 
+# Used on shutdown page. Passes through the function to update the label on the shutdown frame when the shutdown has been scheduled
 def shutdown_confirmed():
     global app, page
     power_page = app.frames[PowerFrame]
     power_page.update_power_label()
 
+# Used on shutdown page. Passes through the function to update the label on the shutdown frame when the shutdown has been cancelled
 def shutdown_cancelled():
     global app, page
     power_page = app.frames[PowerFrame]
     power_page.revert_power_label()
 
+# Used to close the program and enter the openbox. 
 def closeRetroDAP():
-    global app, page
-    closeRetroDAP_page = app.frames[CloseRetroDAPFrame]
-    closeRetroDAP_page.kill_app(app)
+    global app
+    app.destroy()
 
 def render_search(app, search_render):
     app.show_frame(SearchFrame)
@@ -191,8 +202,8 @@ def render_power(app, power_render):
     app.show_frame(PowerFrame)
     power_render.subscribe(app, shutdown_confirmed, shutdown_cancelled)
 
-def render_close_program(app, close_render):
-    app.show_frame(CloseProgramFrame)
+def render_close_openbox(app, close_render):
+    app.show_frame(CloseOpenboxFrame)
 
 def render_software_update(app, software_render):
     app.show_frame(UpdateSoftwareFrame)
@@ -211,8 +222,8 @@ def render(app, render):
         render_search(app, render)
     elif (render.type == POWER_RENDER):
         render_power(app, render)
-    elif (render.type == CLOSE_PROGRAM_RENDER):
-        render_close_program(app, render)
+    elif (render.type == CLOSE_OPENBOX_RENDER):
+        render_close_openbox(app, render)
     elif (render.type == UPDATE_SOFTWARE_RENDER):
         render_software_update(app, render)
     elif (render.type == WIFI_SETTING_RENDER):

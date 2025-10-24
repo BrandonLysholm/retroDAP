@@ -79,7 +79,7 @@ class tkinterApp(tk.Tk):
    
         # iterating through a tuple consisting 
         # of the different page layouts 
-        for F in (StartPage, NowPlayingFrame, SearchFrame, PowerFrame, CloseProgramFrame, UpdateSoftwareFrame, WiFiPageFrame, CloseRetroDAPFrame): 
+        for F in (StartPage, NowPlayingFrame, SearchFrame, PowerFrame, CloseOpenboxFrame, UpdateSoftwareFrame, WiFiPageFrame, CloseRetroDAPFrame): 
    
             frame = F(container, self) 
    
@@ -406,12 +406,12 @@ class UpdateSoftwareFrame(tk.Frame):
         self.confirmation_label.grid(row=0, column=0,sticky ="nswe", padx=(0,10))
 
 #  This closes the python program to the terminal
-class CloseProgramFrame(tk.Frame):
+class CloseOpenboxFrame(tk.Frame):
     def __init__(self, parent, controller):
         tk.Frame.__init__(self, parent)
         
         self.configure(bg=SPOT_BLACK)
-        self.header_label = tk.Label(self, text ="Close Program", font = LARGEFONT, background=SPOT_BLACK, foreground=SPOT_GREEN) 
+        self.header_label = tk.Label(self, text ="Close Openbox", font = LARGEFONT, background=SPOT_BLACK, foreground=SPOT_GREEN) 
         self.header_label.grid(sticky='we', padx=(0, 10))
         self.grid_columnconfigure(0, weight=1)
         divider = tk.Canvas(self)
@@ -490,7 +490,4 @@ class CloseRetroDAPFrame(tk.Frame):
         self.grid_rowconfigure(2, weight=1)
         self.confirmation_label = tk.Label(contentFrame, text ="Press Center Button to confirm exiting software to openbox", font = MED_FONT, background=SPOT_BLACK, foreground=SPOT_GREEN, wraplength=600)
         self.confirmation_label.grid(row=0, column=0,sticky ="nswe", padx=(0,10))
-
-    def kill_app(self, app):
-        app.destroy()
 

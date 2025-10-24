@@ -20,7 +20,7 @@ NOW_PLAYING_RENDER = 1
 SEARCH_RENDER = 2
 POWER_RENDER =3
 WIFI_RENDER = 4
-CLOSE_PROGRAM_RENDER = 5
+CLOSE_OPENBOX_RENDER = 5
 UPDATE_SOFTWARE_RENDER = 6
 WIFI_SETTING_RENDER = 7
 CLOSE_RETRODAP_RENDER = 8
@@ -456,9 +456,8 @@ class SettingsPage(MenuPage):
 class DeveloperOptionsPage(MenuPage):
     def __init__(self, previous_page):
         super().__init__("Developer Options", previous_page, has_sub_page=True)
-        # TODO: implement page for closing only python app
         self.pages = [
-            ClosePage(self),
+            CloseOpenboxPage(self),
             UpdateSoftwarePage(self),
             CloseRetroDAPPage(self)
         ]
@@ -480,7 +479,9 @@ class DeveloperOptionsPage(MenuPage):
 class PowerRendering(Rendering):
     def __init__(self):
         super().__init__(POWER_RENDER)
+        # callback references update_power_label method in PowerFrame (my_tk_pages)
         self.callback = None
+        # reset_label references revert_power_label method in PowerFrame (my_tk_pages)
         self.reset_label = None
     
     def subscribe(self, app, callback, reset_label):
@@ -507,14 +508,15 @@ class PowerRendering(Rendering):
         self.app = None
   
 
-class CloseProgramRendering(Rendering):
+class CloseOpenboxRendering(Rendering):
     def __init__(self):
-        super().__init__(CLOSE_PROGRAM_RENDER)
+        super().__init__(CLOSE_OPENBOX_RENDER)
         self.callback = None
 
 class CloseRetroDAPRendering(Rendering):
     def __init__(self):
         super().__init__(CLOSE_RETRODAP_RENDER)
+        # callback references closeRetroDAP method in spotifypod.py
         self.callback = None
 
     def subscribe(self, app, callback):
@@ -536,8 +538,11 @@ class WifiSettingRendering(Rendering):
         self.ssid = ssid
         self.pw = pw
         self.active_char = active_char
+        # change_ssid_label references update_ssid_label method in WiFiPageFrame (my_tk_pages)
         self.change_ssid_label = None
+        # change_pw_label references update_pw_label method in WiFiPageFrame (my_tk_pages)
         self.change_pw_label = None
+        # change_input references update_wifi_input method in WiFiPageFrame (my_tk_pages)
         self.change_input = None
 
     def subscribe(self, app, callback, update_pw_label, change_input):
@@ -656,6 +661,7 @@ class WifiPage(SettingsPage):
             os.system(pw_line)
             os.system ('echo "}" | sudo tee -a /etc/wpa_supplicant/wpa_supplicant.conf')
             
+            # restarts wifi, to load the changes made in the file
             os.system('sudo ifdown wlan0 && sudo ifup wlan0')
             
             # closes the page once the wifi network is added
@@ -705,14 +711,14 @@ class WifiPage(SettingsPage):
         return self.live_render
 
 # Closes page and exits to terminal
-class ClosePage(DeveloperOptionsPage):
+class CloseOpenboxPage(DeveloperOptionsPage):
     def __init__(self, previous_page):
         self.has_sub_page = False
         self.overrides_select = True
         self.header = "Close Openbox"
         self.is_title = False
         self.previous_page = previous_page
-        self.live_render=CloseProgramRendering()
+        self.live_render=CloseOpenboxRendering()
 
     def nav_back(self):
         print("menu button pushed")
