@@ -460,7 +460,7 @@ class DeveloperOptionsPage(MenuPage):
         self.pages = [
             ClosePage(self),
             UpdateSoftwarePage(self),
-            closeRetroDAPPage(self)
+            CloseRetroDAPPage(self)
         ]
         self.index = 0
         self.page_start = 0
