@@ -517,6 +517,13 @@ class CloseRetroDAPRendering(Rendering):
         super().__init__(CLOSE_RETRODAP_RENDER)
         self.callback = None
 
+    def subscribe(self, app, callback):
+        if (callback == self.callback):
+            return
+        new_callback = self.callback is None
+        self.callback = callback
+        self.app = app
+
 class UpdateSoftwareRendering(Rendering):
     def __init__(self):
         super().__init__(UPDATE_SOFTWARE_RENDER)
