@@ -492,5 +492,5 @@ class CloseRetroDAPFrame(tk.Frame):
         self.confirmation_label.grid(row=0, column=0,sticky ="nswe", padx=(0,10))
 
     def kill_app(self, app):
-        app.kill()
+        app.destroy()
 
