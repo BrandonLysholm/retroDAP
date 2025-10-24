@@ -166,7 +166,7 @@ def render_search(app, search_render):
 
 def render_closeRetroDAP(app, closeRetroDAP_render):
     app.show_frame(CloseRetroDAPFrame)
-    closeRetroDAP_render.subscribe(app)
+    closeRetroDAP_render.subscribe(app, closeRetroDAP)
 
 def render_menu(app, menu_render):
     app.show_frame(StartPage)
