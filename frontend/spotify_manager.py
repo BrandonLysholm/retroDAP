@@ -8,7 +8,7 @@ import threading
 import time
 import json
 
-DEVICE_ID = 'c0cae32992c194d4ad59e25bf2a2751e5c6c2975' # This is raspotify
+DEVICE_ID = 'f1a1b95ebf2fb51c91e400366a05fd2b6f60dd43' # This is raspotify
 
 class UserDevice():
     __slots__ = ['id', 'name', 'is_active']
@@ -176,13 +176,9 @@ def get_album_tracks(id):
     return tracks
 
 def refresh_devices():
-    results = sp.devices()
-    DATASTORE.clearDevices()
-    for _, item in enumerate(results['devices']):
-        if "Spotifypod" in item['name']:
-            print(item['name'])
-            device = UserDevice(item['id'], item['name'], item['is_active'])
-            DATASTORE.setUserDevice(device)
+    # TODO: switch this over to using variable for ID
+    device = UserDevice('f1a1b95ebf2fb51c91e400366a05fd2b6f60dd43','raspotify', True)
+    DATASTORE.setUserDevice(device)
 
 def parse_album(album):
     artist = album['artists'][0]['name']
