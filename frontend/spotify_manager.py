@@ -176,8 +176,7 @@ def get_album_tracks(id):
     return tracks
 
 def refresh_devices():
-    # TODO: switch this over to using variable for ID
-    device = UserDevice('f1a1b95ebf2fb51c91e400366a05fd2b6f60dd43','raspotify', True)
+    device = UserDevice(DEVICE_ID,'raspotify', True)
     DATASTORE.setUserDevice(device)
 
 def parse_album(album):
