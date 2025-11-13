@@ -653,8 +653,8 @@ class WifiPage(SettingsPage):
             self.live_render.refresh()
         elif (selected_input=="pw"):
             # writes to /etc/wpa_supplicant/wpa_supplicant.conf
-            ssid_line = 'echo "    ssid=\"'+self.live_render.ssid +'\"" | sudo tee -a /etc/wpa_supplicant/wpa_supplicant.conf'
-            pw_line = 'echo "    psk=\"'+self.live_render.pw +'\"" | sudo tee -a /etc/wpa_supplicant/wpa_supplicant.conf'
+            ssid_line = 'echo "    ssid=\\"'+self.live_render.ssid +'\\"" | sudo tee -a /etc/wpa_supplicant/wpa_supplicant.conf'
+            pw_line = 'echo "    psk=\\"'+self.live_render.pw +'\\"" | sudo tee -a /etc/wpa_supplicant/wpa_supplicant.conf'
             os.system ('echo "" | sudo tee -a /etc/wpa_supplicant/wpa_supplicant.conf')
             os.system ('echo "network={" | sudo tee -a /etc/wpa_supplicant/wpa_supplicant.conf')
             os.system(ssid_line)
