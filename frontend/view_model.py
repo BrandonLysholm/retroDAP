@@ -662,7 +662,7 @@ class WifiPage(SettingsPage):
             os.system ('echo "}" | sudo tee -a /etc/wpa_supplicant/wpa_supplicant.conf')
             
             # restarts wifi, to load the changes made in the file
-            os.system('sudo ifdown wlan0 && sudo ifup wlan0')
+            # os.system('sudo ifdown wlan0 && sudo ifup wlan0')
             
             # closes the page once the wifi network is added
             return self.previous_page
