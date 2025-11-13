@@ -455,11 +455,23 @@ class WiFiPageFrame(tk.Frame):
 
     # This becomes the callback in WiFiSettingRendering (view_model), that is passed through using spotifypod
     def update_ssid_label(self, ssid, active_char):
-        self.ssid_label.configure(text="ssid:"+ssid)
+        new_text = ""
+        if (len(ssid) > 9):
+            new_text="..."+ssid[-7:]
+        else:
+            new_text=ssid    
+            
+        self.ssid_label.configure(text="ssid:"+new_text)
+        
         self.ssid_letter_label.configure(text=active_char)
     
     def update_pw_label(self, pw, active_char):
-        self.pw_label.configure(text="pw:"+pw)
+        new_text = ""
+        if (len(pw) > 9):
+            new_text="..."+pw[-7:]
+        else:
+            new_text=pw    
+        self.pw_label.configure(text="pw:"+new_text)
         self.pw_letter_label.configure(text=active_char)
 
 
