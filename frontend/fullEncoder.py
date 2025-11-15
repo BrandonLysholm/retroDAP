@@ -4,6 +4,7 @@
 # you can configure a callback which will be called whenever the value changes.
 
 import RPi.GPIO as GPIO
+from timeit import default_timer as timer
 
 class FullEncoder:
 
@@ -44,6 +45,10 @@ class FullEncoder:
         self.holdSwitch = holdSwitch
         GPIO.setup(self.holdSwitch, GPIO.IN, pull_up_down=GPIO.PUD_UP)
         GPIO.add_event_detect(self.holdSwitch, GPIO.FALLING, callback=self.btnPress)
+        # Value for preventing double input presses
+        self.last_button_time = 0
+        # value for setting how much delay on button presses - in milliseconds
+        self.delay_time = 0.250
 
 
 
@@ -59,21 +64,25 @@ class FullEncoder:
         # Handling the hold switch first
         holdSwitch = GPIO.input(self.holdSwitch)
 
+        current_press = timer()
+
         if holdSwitch == GPIO.LOW:
             btnPressed = "locked"
-        elif cPin == GPIO.LOW:
-            btnPressed = "center"
-        elif dPin == GPIO.LOW:
-            btnPressed = "down"
-        elif rPin == GPIO.LOW:
-            btnPressed = "right"
-        elif uPin == GPIO.LOW:
-            btnPressed = "up"
-        elif lPin == GPIO.LOW:
-            btnPressed = "left"
+            self.callback(btnPressed)
+        elif ((current_press - self.last_button_time) > self.delay_time):
+            if cPin == GPIO.LOW:
+                btnPressed = "center"
+            elif dPin == GPIO.LOW:
+                btnPressed = "down"
+            elif rPin == GPIO.LOW:
+                btnPressed = "right"
+            elif uPin == GPIO.LOW:
+                btnPressed = "up"
+            elif lPin == GPIO.LOW:
+                btnPressed = "left"
 
-
-        self.callback(btnPressed)
+            self.last_button_time = current_press
+            self.callback(btnPressed)
 
     def transitionOccurred(self, channel):
         p1 = GPIO.input(self.leftPin)
