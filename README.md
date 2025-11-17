@@ -55,7 +55,7 @@ If this project is still being actively maintained when you are deploying, it ma
 Create a Spotify Developer Account, then create an app where you will get your Client ID, Client Secret, and create a Redirect URI
 https://developer.spotify.com/dashboard/applications/
 
-!(./docs/deploymentSteps/step1.jpg)
+![Alt text](./docs/deploymentSteps/step1.jpg)
 
 Add an app name and description can be anything
 
