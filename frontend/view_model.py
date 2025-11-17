@@ -455,7 +455,7 @@ class SettingsPage(MenuPage):
 
 class DeveloperOptionsPage(MenuPage):
     def __init__(self, previous_page):
-        super().__init__("Developer Options", previous_page, has_sub_page=True)
+        super().__init__("Advanced", previous_page, has_sub_page=True)
         self.pages = [
             CloseOpenboxPage(self),
             UpdateSoftwarePage(self),
@@ -594,13 +594,12 @@ class PowerPage():
     
     def nav_back(self):
         # This will also cancel a shutdown already requested
-        # TODO: Implement a screen wake as well)
         self.live_render.cancelled_shutdown()
         os.system('shutdown -c')
         return self.previous_page
 
     def nav_select(self):
-        # TODO: Have this trigger the backlight also going off
+        # TODO: Have this trigger the backlight also going off permanently so it does not turn on when the system goes off if possible
         self.live_render.update_label()
         os.system('sudo shutdown')
         return self
@@ -624,6 +623,8 @@ class WifiPage(SettingsPage):
         self.ssid=""
         self.pw=""
         self.live_render=WifiSettingRendering("","",0)
+        # Used to prevent double entries
+        self.has_submitted = False
     
     def nav_back(self):
         global selected_input
@@ -651,7 +652,11 @@ class WifiPage(SettingsPage):
         if (selected_input=="ssid"):
             selected_input="pw"
             self.live_render.refresh()
-        elif (selected_input=="pw"):
+        elif (selected_input=="pw" and not self.has_submitted):
+            self.has_submitted = True
+
+            # TODO: Consider adding possibility of connecting to unsecured networks
+
             # writes to /etc/wpa_supplicant/wpa_supplicant.conf
             ssid_line = 'echo "    ssid=\\"'+self.live_render.ssid +'\\"" | sudo tee -a /etc/wpa_supplicant/wpa_supplicant.conf'
             pw_line = 'echo "    psk=\\"'+self.live_render.pw +'\\"" | sudo tee -a /etc/wpa_supplicant/wpa_supplicant.conf'
@@ -662,7 +667,8 @@ class WifiPage(SettingsPage):
             os.system ('echo "}" | sudo tee -a /etc/wpa_supplicant/wpa_supplicant.conf')
             
             # restarts wifi, to load the changes made in the file
-            # os.system('sudo ifdown wlan0 && sudo ifup wlan0')
+            os.system('sudo ip link set wlan0 down')
+            os.system('sudo ip link set wlan0 down')
             
             # closes the page once the wifi network is added
             return self.previous_page

@@ -52,7 +52,20 @@ If this project is still being actively maintained when you are deploying, it ma
 
 ## Setup spotify API
 
-TODO: copy the section from https://github.com/dupontgu/retro-ipod-spotify-client/issues/69
+Create a Spotify Developer Account, then create an app where you will get your Client ID, Client Secret, and create a Redirect URI
+https://developer.spotify.com/dashboard/applications/
+
+!(./docs/deploymentSteps/step1.jpg)
+
+Add an app name and description can be anything
+
+!(./docs/deploymentSteps/step2.jpg)
+!(./docs/deploymentSteps/step3.jpg)
+!(./docs/deploymentSteps/step4.jpg)
+!(./docs/deploymentSteps/step5.png)
+!(./docs/deploymentSteps/step6.jpg)
+Save client id and save secret id
+!(./docs/deploymentSteps/step7.jpg)
 
 ## Disable screensavers
     cd ~
@@ -81,7 +94,7 @@ Make that file look like the following:
 
     exec openbox-session #-> This is the one that launches Openbox
     
-## Spotify Chredentials:
+## Spotify Credentials:
 
     sudo vi /etc/xdg/openbox/environment
 Paste the following in:
@@ -188,7 +201,11 @@ The screen installation is following the manufacturer's setup instructions found
 
 Then, you need to modify the config file, to set the inactive percentage to 0.1%
 
-    TODO: Add instructions here
+    vi ~/Waveshare_fbcp/src/config/config.h
+
+Then on line 22 change to the following
+
+    #define DISPLAY_CONSIDERED_INACTIVE_PERCENTAGE (0.1 / 100.0)
 
 Modify the config file
 
@@ -232,7 +249,7 @@ Disable the cursor:
 
     sudo vi /.bash_profile
 
-change the second line to the following:
+change the second line to the following to disable the cursor:
 
     [[ -z $DISPLAY && $XDG_VTNR -eq 1 ]] && startx -- -nocursor
 
@@ -246,8 +263,23 @@ And paste the following at the end
     sudo -H -u YOUR_USERNAME --preserve-env=SPOTIPY_REDIRECT_URI,SPOTIPY_CLIENT_ID,SPOTIPY_CLIENT_SECRET python3 spotifypod.py &
 
 ## Finishing up
+
+The first time the program launches, you need to load your Spotify library:
+
+    vi ~/retroDAP/frontend/view_model.py
+
+Swap line 33 from:
+    spotify_manager.refresh_devices()
+to the following:
+    spotify_manager.refresh_data()
+
 Restart the Pi and it should autolaunch the program. It will take a few moments. For the first launch, it takes longer since it needs to load your library. Once launched, it is ready, but we need to revert it back to not load your library each time, since it caches it. Edit the following:
 
-    TODO add instructions for this
+    vi ~/retroDAP/frontend/view_model.py
+
+Swap line 33 from:
+    spotify_manager.refresh_data()
+to the following:
+    spotify_manager.refresh_devices()
 
 Then, it is ready for use. So far, I have noticed that it requires me to start playback on a separate device, connect to retroDAP, and then it is ready for use. I suspect this issue is due to not authenticating raspotify yet, and plan on debugging this in the future
