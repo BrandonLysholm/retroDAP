@@ -55,17 +55,19 @@ If this project is still being actively maintained when you are deploying, it ma
 Create a Spotify Developer Account, then create an app where you will get your Client ID, Client Secret, and create a Redirect URI
 https://developer.spotify.com/dashboard/applications/
 
+# TODO implement proper alt text descriptors
+
 ![Alt text](./docs/deploymentSteps/step1.jpg)
 
 Add an app name and description can be anything
 
-!(./docs/deploymentSteps/step2.jpg)
-!(./docs/deploymentSteps/step3.jpg)
-!(./docs/deploymentSteps/step4.jpg)
-!(./docs/deploymentSteps/step5.png)
-!(./docs/deploymentSteps/step6.jpg)
-Save client id and save secret id
-!(./docs/deploymentSteps/step7.jpg)
+![Alt text](./docs/deploymentSteps/step2.jpg)
+![Alt text](./docs/deploymentSteps/step3.jpg)
+![Alt text](./docs/deploymentSteps/step4.jpg)
+![Alt text](./docs/deploymentSteps/step5.png)
+![Alt text](./docs/deploymentSteps/step6.jpg)
+Save client id and save secret id for future reference in this tutorial
+![Alt text](./docs/deploymentSteps/step7.jpg)
 
 ## Disable screensavers
     cd ~
