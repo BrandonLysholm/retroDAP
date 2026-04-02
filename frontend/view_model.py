@@ -601,7 +601,7 @@ class PowerPage():
     def nav_select(self):
         # TODO: Have this trigger the backlight also going off permanently so it does not turn on when the system goes off if possible
         self.live_render.update_label()
-        os.system('sudo shutdown 0.25')
+        os.system('sudo shutdown')
         return self
 
     def nav_down(self):
