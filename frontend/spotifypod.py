@@ -24,54 +24,28 @@ ENC1_PIN = 32
 ENC2_PIN = 33
 HOLDSWITCH_PIN = 31
 
-BACKLIGHT_PIN = 12
-
 
 DIVIDER_HEIGHT = 3
 
-screen_on = True
-
-# turns off the backlight by not supplying power to the backlight pin
-def screen_sleep():
-    global screen_on
-    screen_on = False
-    # Turning off the backlight
-    GPIO.output(BACKLIGHT_PIN, GPIO.LOW)
-
-def screen_wake():
-    global screen_on
-    screen_on = True
-    # os.system('xset -display :0 dpms')
-
-    # Turning on the backlight
-    GPIO.output(BACKLIGHT_PIN, GPIO.HIGH)
 
 # Single function that is the callback function for the class FullEncoder, which handles all input
 # logic for my clickwheel
 def processMyInput(myVal):
-    global screen_on
-    if myVal == "locked":
-        if screen_on:
-            screen_sleep()
-        return
-    else:
-        if not screen_on:
-            screen_wake() 
 
-        if myVal == "center":
-            onSelectPressed()
-        elif myVal == "down":
-            onPlayPressed()
-        elif myVal == "right":
-            onNextPressed()
-        elif myVal == "up":
-            onBackPressed()
-        elif myVal == "left":
-            onPrevPressed()
-        elif (myVal == 'L'):
-            onUpPressed()
-        elif (myVal == 'R'):
-            onDownPressed()
+    if myVal == "center":
+        onSelectPressed()
+    elif myVal == "down":
+        onPlayPressed()
+    elif myVal == "right":
+        onNextPressed()
+    elif myVal == "up":
+        onBackPressed()
+    elif myVal == "left":
+        onPrevPressed()
+    elif (myVal == 'L'):
+        onUpPressed()
+    elif (myVal == 'R'):
+        onDownPressed()
 
 # Buttom button of clickwheel
 def onPlayPressed():
@@ -242,12 +216,6 @@ app.overrideredirect(True)
 app.overrideredirect(False)
 
 
-# Setting up the backlight on the display
-GPIO.setmode(GPIO.BOARD)
-GPIO.setup(BACKLIGHT_PIN, GPIO.OUT)
-screen_wake()
-
-
 # Setting up my encoder
 e1 = FullEncoder(ENC1_PIN, ENC2_PIN, CENTER_BTN_PIN, DOWN_BTN_PIN, RIGHT_BTN_PIN, UP_BTN_PIN, LEFT_BTN_PIN, HOLDSWITCH_PIN, processMyInput)
 
@@ -270,23 +238,8 @@ def app_main_loop():
 # https://www.pythontutorial.net/tkinter/tkinter-after/
 #app.after(5, app_main_loop)
 
-def screen_refresh():
-    global app, page, screen_on, render
-    # calling the screen to wakeup, which may cause it to refresh
-    if screen_on:
-        #screen_sleep()
-        #app.update_idletasks()
-        #render(app, page.render())
-        # removed this this so that the shutdown works better - did not work as the
-        # backlight turned back on when program closed
-        screen_wake() 
-    # recursive call, so that this gets called every 5 seconds
-    app.after(5000, screen_refresh)
-
 def quit_program():
     global app
     app.destroy()
 
-
-app.after(5000, screen_refresh)
 app.mainloop()

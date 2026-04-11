@@ -43,8 +43,8 @@ class FullEncoder:
         GPIO.add_event_detect(self.lBtn, GPIO.FALLING, callback=self.btnPress)
         # Adding functionality for hold switch
         self.holdSwitch = holdSwitch
-        GPIO.setup(self.holdSwitch, GPIO.IN, pull_up_down=GPIO.PUD_UP)
-        GPIO.add_event_detect(self.holdSwitch, GPIO.FALLING, callback=self.btnPress)
+        GPIO.setup(self.holdSwitch, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
+        GPIO.add_event_detect(self.holdSwitch, GPIO.RISING, callback=self.btnPress)
         # Value for preventing double input presses
         self.last_button_time = 0
         # value for setting how much delay on button presses - in milliseconds
@@ -66,7 +66,7 @@ class FullEncoder:
 
         current_press = timer()
 
-        if holdSwitch == GPIO.LOW:
+        if holdSwitch == GPIO.HIGH:
             btnPressed = "locked"
             self.callback(btnPressed)
         elif ((current_press - self.last_button_time) > self.delay_time):
