@@ -92,7 +92,7 @@ class FullEncoder:
         # Handling the hold switch first
         holdSwitch = GPIO.input(self.holdSwitch)
 
-        if holdSwitch == GPIO.LOW:
+        if holdSwitch == GPIO.HIGH:
             return
 
         if self.state == "00": # Resting position
