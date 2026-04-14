@@ -11,8 +11,9 @@ Clickwheel Pinout:
 
 Hold Switch Pinout: 
 - switch 1 - 31
-- ground - 30
+- center pin - 1
+- switch 2 - screen power
 
 Screen Pinout:
-1, 6, 12, 13, 19, 22, 23, 24
+6, 12, 13, 19, 22, 23, 24
 
