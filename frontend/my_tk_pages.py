@@ -79,7 +79,7 @@ class tkinterApp(tk.Tk):
    
         # iterating through a tuple consisting 
         # of the different page layouts 
-        for F in (StartPage, NowPlayingFrame, SearchFrame, PowerFrame, CloseOpenboxFrame, UpdateSoftwareFrame, WiFiPageFrame, CloseRetroDAPFrame): 
+        for F in (StartPage, NowPlayingFrame, SearchFrame, PowerFrame, CloseOpenboxFrame, UpdateSoftwareFrame, WiFiPageFrame, CloseRetroDAPFrame, USBPassthroughFrame): 
    
             frame = F(container, self) 
    
