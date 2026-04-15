@@ -915,7 +915,7 @@ class PlaceHolderPage(MenuPage):
 
 # Will shutdown immediately after the hold switch has been toggled
 class usbPassthroughPage(MenuPage):
-        def __init__(self, previous_page):
+    def __init__(self, previous_page):
         self.has_sub_page = False
         self.overrides_select = False
         self.header = "Enable USB Passthrough"
