@@ -508,7 +508,7 @@ class USBPassthroughFrame(tk.Frame):
         tk.Frame.__init__(self, parent)
         
         self.configure(bg=SPOT_BLACK)
-        self.header_label = tk.Label(self, text ="USB Passthrough", font = LARGEFONT, background=SPOT_BLACK, foreground=SPOT_GREEN) 
+        self.header_label = tk.Label(self, text ="Enable USB Passthrough", font = LARGEFONT, background=SPOT_BLACK, foreground=SPOT_GREEN) 
         self.header_label.grid(sticky='we', padx=(0, 10))
         self.grid_columnconfigure(0, weight=1)
         divider = tk.Canvas(self)

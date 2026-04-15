@@ -918,7 +918,7 @@ class usbPassthroughPage(MenuPage):
     def __init__(self, previous_page):
         self.has_sub_page = False
         self.overrides_select = False
-        self.header = "Enable USB Passthrough"
+        self.header = "USB Passthrough"
         self.is_title = False
         self.previous_page = previous_page
         self.live_render=USBPassthroughRendering()
