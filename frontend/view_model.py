@@ -24,6 +24,7 @@ CLOSE_OPENBOX_RENDER = 5
 UPDATE_SOFTWARE_RENDER = 6
 WIFI_SETTING_RENDER = 7
 CLOSE_RETRODAP_RENDER = 8
+USB_PASSTHROUGH_RENDER = 9
 
 # Menu line item types
 LINE_NORMAL = 0
@@ -531,6 +532,11 @@ class UpdateSoftwareRendering(Rendering):
         super().__init__(UPDATE_SOFTWARE_RENDER)
         self.callback = None
 
+class USBPassthroughRendering(Rendering):
+    def __init__(self):
+        super().__init__(USB_PASSTHROUGH_RENDER)
+        self.callback = None
+
 # Logic to change the WiFi pagee frame
 class WifiSettingRendering(Rendering):
     def __init__(self, ssid, pw, active_char):
@@ -906,6 +912,35 @@ class PlaceHolderPage(MenuPage):
     def __init__(self, header, previous_page, has_sub_page=True, is_title = False):
         super().__init__(header, previous_page, has_sub_page, is_title)
 
+
+# Will shutdown immediately after the hold switch has been toggled
+class usbPassthroughPage(MenuPage):
+        def __init__(self, previous_page):
+        self.has_sub_page = False
+        self.overrides_select = False
+        self.header = "Enable USB Passthrough"
+        self.is_title = False
+        self.previous_page = previous_page
+        self.live_render=USBPassthroughRendering()
+
+    def nav_hold(self):
+        os.system('sudo shutdown now')
+        return self
+
+    def nav_back(self):
+        return self.previous_page
+
+    def nav_down(self):
+        return self
+
+    def nav_up(self):
+        return self
+
+    def render(self):
+        return self.live_render
+
+
+
 class RootPage(MenuPage):
     def __init__(self, previous_page):
         super().__init__("retroDAP", previous_page, has_sub_page=True)
@@ -914,8 +949,10 @@ class RootPage(MenuPage):
             AlbumsPage(self),
             NewReleasesPage(self),
             PlaylistsPage(self),
+            # TODO: remove podcasts
             ShowsPage(self),
             SearchPage(self),
+            usbPassthroughPage(self),
             SettingsPage(self),
             NowPlayingPage(self, "Now Playing", NowPlayingCommand())
         ]

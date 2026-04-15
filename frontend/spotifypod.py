@@ -9,7 +9,7 @@ from PIL import ImageTk, Image
 from sys import platform
 import os
 from fullEncoder import FullEncoder
-from my_tk_pages import tkinterApp, SearchFrame, Marquee, NowPlayingFrame, StartPage, PowerFrame, UpdateSoftwareFrame, CloseOpenboxFrame, WiFiPageFrame, CloseRetroDAPFrame
+from my_tk_pages import tkinterApp, SearchFrame, Marquee, NowPlayingFrame, StartPage, PowerFrame, UpdateSoftwareFrame, CloseOpenboxFrame, WiFiPageFrame, CloseRetroDAPFrame, USBPassthroughFrame
 
 import RPi.GPIO as GPIO
 
@@ -31,8 +31,9 @@ DIVIDER_HEIGHT = 3
 # Single function that is the callback function for the class FullEncoder, which handles all input
 # logic for my clickwheel
 def processMyInput(myVal):
-
-    if myVal == "center":
+    if myVal == "locked":
+        onLockedPressed()
+    elif myVal == "center":
         onSelectPressed()
     elif myVal == "down":
         onPlayPressed()
@@ -75,6 +76,10 @@ def onBackPressed():
         page.render().unsubscribe()
         page = previous_page
         render(app, page.render())
+
+
+def onLockedPressed():
+    page.nav_hold()
     
 # Right button of clickwheel
 def onNextPressed():
@@ -186,6 +191,9 @@ def render_wifi(app, wifi_render):
     app.show_frame(WiFiPageFrame)
     wifi_render.subscribe(app, update_ssid_label, update_pw_label, update_wifi_input)
 
+def render_usb_passthrough(app, usb_passthrough_render)
+    app.show_frame(USBPassthroughFrame)
+
 def render(app, render):
     if (render.type == MENU_RENDER_TYPE):
         render_menu(app, render)
@@ -204,6 +212,8 @@ def render(app, render):
         render_wifi(app, render)
     elif (render.type == CLOSE_RETRODAP_RENDER):
         render_closeRetroDAP(app, render)
+    elif (render.type == USB_PASSTHROUGH_RENDER):
+        render_usb_passthrough(app, render)
     
 
 # Here we are going from defining functions to actually writing code to initialize the program
