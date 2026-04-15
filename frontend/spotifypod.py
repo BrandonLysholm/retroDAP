@@ -191,7 +191,7 @@ def render_wifi(app, wifi_render):
     app.show_frame(WiFiPageFrame)
     wifi_render.subscribe(app, update_ssid_label, update_pw_label, update_wifi_input)
 
-def render_usb_passthrough(app, usb_passthrough_render)
+def render_usb_passthrough(app, usb_passthrough_render):
     app.show_frame(USBPassthroughFrame)
 
 def render(app, render):
