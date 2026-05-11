@@ -36,7 +36,7 @@ spotify_manager.refresh_devices()
 # Used for WiFi settings
 selected_alphabet = "LC"
 selected_input = "ssid"
-SPECIAL_CHARACTERS = ['1','2','3','4','5','6','7','8','9','0','!','@','#','$','.',':']
+SPECIAL_CHARACTERS = ['1','2','3','4','5','6','7','8','9','0','!','@','#','$','.',':','-','_']
 
 class LineItem():
     def __init__(self, title = "", line_type = LINE_NORMAL, show_arrow = False):
@@ -775,6 +775,11 @@ class CloseRetroDAPPage(DeveloperOptionsPage):
         return self.live_render
 
 class UpdateSoftwarePage(DeveloperOptionsPage):
+    # TODO: upgrade this
+    # Features to implement:
+    # Indicate which branch I am on
+    # Change branches - generate dynamically?
+    # Change software relaunch? Schedule system to run a command in 1min, then close retroDAP
     def __init__(self, previous_page):
         self.has_sub_page = False
         self.overrides_select = True
