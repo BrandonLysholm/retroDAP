@@ -388,7 +388,6 @@ class PowerFrame(tk.Frame):
         self.confirmation_label.configure(text="Press Center Button to confirm shutdown")
 
 class UpdateSoftwareFrame(tk.Frame):
-    # TODO: change which branch is selected
     # TODO: change which branch is currently main
     def __init__(self, parent, controller):
         tk.Frame.__init__(self, parent)
@@ -408,7 +407,7 @@ class UpdateSoftwareFrame(tk.Frame):
         self.confirmation_label.grid(row=0, column=0,sticky ="nswe", padx=(0,10))
 
         # added features to support multiple branches
-        self.branch_index = 0
+        self.branch_index
         self.branch_names = []
         self.branch_labels = []
 
@@ -435,6 +434,18 @@ class UpdateSoftwareFrame(tk.Frame):
         self.branch_labels[label_index].configure(font = MED_FONT, background=SPOT_BLACK, foreground=SPOT_GREEN)
     def select_label(self, label_index):
         self.branch_labels[label_index].configure(font = MED_FONT, background=SPOT_GREEN, foreground=SPOT_BLACK)
+
+    # TODO the logic for the ends should be handled elsewhere
+
+    def select_branch(self, index):
+        if not self.branch_index:
+            self.branch_index = index
+            self.select_label(self.branch_index)
+        else:
+            self.unselect_label(self.branch_index)
+            self.branch_index = index
+            self.select_label(self.branch_index)
+
 
     def scroll_up(self):
         if self.branch_index == 0:

@@ -534,11 +534,13 @@ class UpdateSoftwareRendering(Rendering):
         self.add_branches = None
         self.branch_names = branch_names
         self.add_branch_label = None
-        self.scroll_up_callback = None
-        self.scroll_down_callback = None
+        self.select_branch_callback = None
+        self.update_branch_labels_callback = None
 
 
-    def subscribe(self, app, add_branch_label, scroll_up, scroll_down):
+
+
+    def subscribe(self, app, add_branch_label, select_branch, update_branch_labels, active_index):
         if (add_branch_label == self.add_branch_label):
             return
 
@@ -546,29 +548,29 @@ class UpdateSoftwareRendering(Rendering):
         self.app = app
 
         self.add_branch_label = add_branch_label
-        self.scroll_up_callback = scroll_up
-        self.scroll_down_callback = scroll_down
+        self.select_branch_callback = select_branch
+        self.update_branch_labels_callback = update_branch_labels
 
         for temp_branch in self.branch_names:
             self.add_branch_label(temp_branch)
 
+        self.select_branch_callback(active_index)
 
-    def scroll_up(self):
-        if not self.scroll_up_callback:
-            return
-        self.scroll_up_callback()
 
-    def scroll_down(self):
-        if not self.scroll_down_callback:
+    def scroll(self, index):
+        if not self.select_branch_callback:
             return
-        self.scroll_down_callback()
+        self.select_branch_callback(index)
+
 
 
     def unsubscribe(self):
+        # TODO: implement the removing of all branches on the tk_page
         super().unsubscribe()
         self.add_branch_label = None
-        self.scroll_down_callback = None
-        self.scroll_up_callback = None
+        self.select_branch_callback = None
+        self.update_branch_labels_callback = None
+
 
 class USBPassthroughRendering(Rendering):
     def __init__(self):
@@ -826,10 +828,11 @@ class UpdateSoftwarePage(DeveloperOptionsPage):
         self.previous_page = previous_page
         
         self.has_updated = False
-
-       
         self.git_branches = self.get_branches()
-        self.live_render=UpdateSoftwareRendering(self.git_branches)
+        self.active_branch
+        self.selected_branch
+
+        self.live_render=UpdateSoftwareRendering(self.git_branches, self.active_branch)
 
     # fetches all the branches, and then formats it into a clean array
     def get_branches(self):
@@ -837,24 +840,54 @@ class UpdateSoftwarePage(DeveloperOptionsPage):
         result_string = ((subprocess.Popen("git branch", shell=True, stdout=subprocess.PIPE)).stdout.read()).decode("utf-8")
         # removing whitespace, the ending new line (to avoid an empty array item), and then splitting on the new lines to get each branch as a separate item
         result_array = ((result_string.replace(" ",""))[:-1]).split('\n')
+
+        # finding the active branch
+        selected_branch = 0
+        for branch in result_array:
+            if branch[0] == '*':
+                active_branch = selected_branch
+                return result_array
+            selected_branch += 1
+
+                
+
         return result_array
 
     def nav_back(self):
         return self.previous_page
 
     def nav_select(self):
-        if (not self.has_updated):
-            self.has_updated = True
-            os.system('git reset -- hard')
-            os.system('git pull')
-            os.system('sudo shutdown -r now')
+        # TODO: implement branch switching
+        # hovering over currently active branch, so just need to update
+        if self.selected_branch == self.active_branch
+            if (not self.has_updated):
+                self.has_updated = True
+                os.system('git reset -- hard')
+                os.system('git pull')
+                os.system('sudo shutdown -r now')
+        # hovering over not the active branch, so need to swap over
+        else:
+            # checking out a different branch
+            os.system('git checkout ' + self.git_branches[self.selected_branch])
+            # updating the list of branches
+            self.git_branches = self.get_branches
+            self.live_render.update_branch_labels_callback(self.git_branches)
+
+
+        
         return self
 
     def nav_down(self):
-        self.live_render.scroll_up()
+        if self.selected_branch == 0:
+            return
+        self.selected_branch -= 1
+        self.live_render.scroll(self.selected_branch)
 
     def nav_up(self):
-        self.live_render.scroll_down()
+        if self.selected_branch == len(self.git_branches) + 1:
+            return
+        self.selected_branch += 1
+        self.live_render.scroll(self.selected_branch)
 
 
     def render(self):

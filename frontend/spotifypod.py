@@ -116,21 +116,22 @@ def update_search(q, ch, loading, results):
         search_page.update_search(q, ch, loading)
 
 
-# Used on update software page
+# Used on update software page, adds another branch to the list of options
 def add_branch_label(branch_name):
     global app, page
     software_page = app.frames[UpdateSoftwareFrame]
     software_page.add_branch_label(branch_name)
 
-def software_scroll_up():
+# changes which branch is currently being hovered over
+def software_select_branch(index):
     global app, page
     software_page = app.frames[UpdateSoftwareFrame]
-    software_page.scroll_up()
+    software_page.select_branch(index)
 
-def software_scroll_down():
+def update_branch_labels(branch_labels):
     global app, page
     software_page = app.frames[UpdateSoftwareFrame]
-    software_page.scroll_down()
+    software_page.update_all_labels(branch_labels)
 
 
 # Used on WiFi settings page. Used to pass through function to update ssid label from the tk frame to the rendering in view model
@@ -204,7 +205,7 @@ def render_close_openbox(app, close_render):
 
 def render_software_update(app, software_render):
     app.show_frame(UpdateSoftwareFrame)
-    software_render.subscribe(app, add_branch_label, software_scroll_up, software_scroll_down)
+    software_render.subscribe(app, add_branch_label, software_select_branch, update_branch_labels)
 
 def render_wifi(app, wifi_render):
     app.show_frame(WiFiPageFrame)
