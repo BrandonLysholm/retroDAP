@@ -832,7 +832,7 @@ class UpdateSoftwarePage(DeveloperOptionsPage):
         self.live_render=UpdateSoftwareRendering(self.git_branches)
 
     # fetches all the branches, and then formats it into a clean array
-    def get_branches():
+    def get_branches(self):
         # getting all the current branches
         result_string = ((subprocess.Popen("git branch", shell=True, stdout=subprocess.PIPE)).stdout.read()).decode("utf-8")
         # removing whitespace, the ending new line (to avoid an empty array item), and then splitting on the new lines to get each branch as a separate item
