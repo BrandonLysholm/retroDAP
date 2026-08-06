@@ -419,10 +419,10 @@ class UpdateSoftwareFrame(tk.Frame):
         
         self.branch_names.append(new_branch)
         temp_label = tk.Label(self.contentFrame, text = new_branch, font = MED_FONT, background=SPOT_BLACK, foreground=SPOT_GREEN, wraplength=600)
-        self.grid_rowconfigure(self.total_branches + 2, weight=1)
+        self.grid_rowconfigure(len(self.branch_names) + 1, weight=1)
         self.branch_labels.append(temp_label)
-        self.branch_labels[total_branches].grid(row=self.total_branches, column=0,sticky="nswe",padx=(0,10))
-        
+        self.branch_labels[len(self.branch_labels)-1].grid(row=len(self.branch_names) + 1, column=0,sticky="nswe",padx=(0,10))
+
     def update_all_labels(self, new_branch_names):
         index = 0
         for temp_branch in new_branch_names:
@@ -439,16 +439,16 @@ class UpdateSoftwareFrame(tk.Frame):
     def scroll_up(self):
         if self.branch_index == 0:
             return
-        unselect_label(self, self.branch_index)
+        self.unselect_label(self, self.branch_index)
         self.branch_index -= 1
-        select_label(self, self.branch_index)
+        self.select_label(self, self.branch_index)
 
     def scroll_down(self):
         if self.branch_index == len(self.branch_labels)-1:
             return
-        unselect_label(self, self.branch_index)
+        self.unselect_label(self, self.branch_index)
         self.branch_index += 1
-        select_label(self, self.branch_index)
+        self.select_label(self, self.branch_index)
 
 
 

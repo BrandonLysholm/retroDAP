@@ -828,7 +828,7 @@ class UpdateSoftwarePage(DeveloperOptionsPage):
         self.has_updated = False
 
        
-        self.git_branches = get_branches
+        self.git_branches = self.get_branches()
         self.live_render=UpdateSoftwareRendering(self.git_branches)
 
     # fetches all the branches, and then formats it into a clean array
