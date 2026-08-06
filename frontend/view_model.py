@@ -794,10 +794,10 @@ class UpdateSoftwarePage(DeveloperOptionsPage):
         # self.git_branches = os.system('git branch')
         # self.git_branches 
 
-        subprocess.run("git branch")
+        self.git_branches = (subprocess.Popen("git branch", stdout=subprocess.PIPE)).stdout.read()
 
-        # print('testing to see if git_branches is correct')
-        # print(git_branches)
+        print('testing to see if git_branches is correct')
+        print(git_branches)
 
     def nav_back(self):
         return self.previous_page
