@@ -6,6 +6,7 @@ import spotify_manager
 import re as re
 from functools import lru_cache 
 import os
+import subprocess
 # this does not work, unable to import from spotifypod
 # spotifypod can access stuff from here, but I cannot access stuff from spotifypod here
 # which is problematic since this is where I want to handle the shutdown
@@ -790,10 +791,13 @@ class UpdateSoftwarePage(DeveloperOptionsPage):
         self.has_updated = False
 
         # Testing to figure out if this works properly
-        self.git_branches = os.system('git branch')
+        # self.git_branches = os.system('git branch')
+        # self.git_branches 
 
-        console.log('testing to see if git_branches is correct')
-        console.log(git_branches)
+        subprocess.run("git branch")
+
+        # print('testing to see if git_branches is correct')
+        # print(git_branches)
 
     def nav_back(self):
         return self.previous_page
