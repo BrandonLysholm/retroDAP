@@ -438,27 +438,8 @@ class UpdateSoftwareFrame(tk.Frame):
     # TODO the logic for the ends should be handled elsewhere
 
     def select_branch(self, index):
-        if not self.branch_index:
-            self.branch_index = index
-            self.select_label(self.branch_index)
-        else:
-            self.unselect_label(self.branch_index)
-            self.branch_index = index
-            self.select_label(self.branch_index)
-
-
-    def scroll_up(self):
-        if self.branch_index == 0:
-            return
         self.unselect_label(self.branch_index)
-        self.branch_index -= 1
-        self.select_label(self.branch_index)
-
-    def scroll_down(self):
-        if self.branch_index == len(self.branch_labels)-1:
-            return
-        self.unselect_label(self.branch_index)
-        self.branch_index += 1
+        self.branch_index = index
         self.select_label(self.branch_index)
 
 

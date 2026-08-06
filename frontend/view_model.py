@@ -555,6 +555,8 @@ class UpdateSoftwareRendering(Rendering):
         for temp_branch in self.branch_names:
             self.add_branch_label(temp_branch)
 
+        print("rendering subscribe active branch: " + self.active_branch)
+
         self.select_branch_callback(self.active_branch)
 
     def update_labels(self, branch_labels, index):
@@ -849,8 +851,10 @@ class UpdateSoftwarePage(DeveloperOptionsPage):
         # finding the active branch
         self.selected_branch = 0
         for branch in result_array:
-            if branch[0] == '*':
+            if branch[0] == '*': 
                 self.active_branch = self.selected_branch
+                print('active branch is: ' + branch)
+                print('active branch index is: ' + self.active_branch)
                 return result_array
             self.selected_branch += 1
 
@@ -887,12 +891,14 @@ class UpdateSoftwarePage(DeveloperOptionsPage):
             return
         self.selected_branch -= 1
         self.live_render.scroll(self.selected_branch)
+        print('viewmodel selected branch: ' + self.selected_branch)
 
     def nav_up(self):
         if self.selected_branch == len(self.git_branches) - 1:
             return
         self.selected_branch += 1
         self.live_render.scroll(self.selected_branch)
+        print('viewmodel selected branch: ' + self.selected_branch)
 
 
     def render(self):
