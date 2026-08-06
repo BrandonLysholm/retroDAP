@@ -115,6 +115,13 @@ def update_search(q, ch, loading, results):
     else:
         search_page.update_search(q, ch, loading)
 
+
+# Used on update software page
+def add_branch_label(branch_name):
+    global app, page
+    software_page = app.frames[UpdateSoftwareFrame]
+    software_page.add_branch_label(branch_name)
+
 # Used on WiFi settings page. Used to pass through function to update ssid label from the tk frame to the rendering in view model
 def update_ssid_label(q, ch):
     global app, page
@@ -185,7 +192,7 @@ def render_close_openbox(app, close_render):
     app.show_frame(CloseOpenboxFrame)
 
 def render_software_update(app, software_render):
-    app.show_frame(UpdateSoftwareFrame)
+    app.show_frame(UpdateSoftwareFrame, add_branch_label)
 
 def render_wifi(app, wifi_render):
     app.show_frame(WiFiPageFrame)

@@ -529,9 +529,28 @@ class CloseRetroDAPRendering(Rendering):
         self.app = app
 
 class UpdateSoftwareRendering(Rendering):
-    def __init__(self):
+    def __init__(self, branch_names):
         super().__init__(UPDATE_SOFTWARE_RENDER)
-        self.callback = None
+        self.add_branches = None
+        self.branch_names = branch_names
+        self.add_branch_label = None
+
+
+    def subscribe(self, app, add_branch_label):
+        if (add_branch_label == self.add_branch_label):
+            return
+
+        # Here is where we will make the call to add each label
+        self.app = app
+
+        self.add_branch_label = add_branch_label
+
+        for temp_branch in sell.branch_names:
+            self.add_branch_label(temp_branch)
+
+    def unsubscribe(self):
+        super().unsubscribe()
+        self.add_branch_label = None
 
 class USBPassthroughRendering(Rendering):
     def __init__(self):
@@ -787,20 +806,19 @@ class UpdateSoftwarePage(DeveloperOptionsPage):
         self.header = "Update Software"
         self.is_title = False
         self.previous_page = previous_page
-        self.live_render=UpdateSoftwareRendering()
+        
         self.has_updated = False
 
-        # Testing to figure out if this works properly
-        # self.git_branches = os.system('git branch')
-        # self.git_branches 
+        # getting all the current branches
+        result_string = ((subprocess.Popen("git branch", shell=True, stdout=subprocess.PIPE)).stdout.read()).decode("utf-8")
+        # removing whitespace, the ending new line (to avoid an empty array item), and then splitting on the new lines to get each branch as a separate item
+        self.git_branches = ((result_string.replace(" ",""))[:-2]).split('\n')
 
-        result = ((subprocess.Popen("git branch", shell=True, stdout=subprocess.PIPE)).stdout.read())
-        result_string = result.decode("utf-8")
-        self.git_branches = (result_string.replace(" ","")).split('\n')
+        # print('testing to see if git_branches is correct')
+        # for x in self.git_branches:
+        #     print("branch: " + x)
 
-        print('testing to see if git_branches is correct')
-        for x in self.git_branches:
-            print("branch: " + x)
+        self.live_render=UpdateSoftwareRendering(self.git_branches)
 
     def nav_back(self):
         return self.previous_page
@@ -808,6 +826,7 @@ class UpdateSoftwarePage(DeveloperOptionsPage):
     def nav_select(self):
         if (not self.has_updated):
             self.has_updated = True
+            os.system('git reset -- hard')
             os.system('git pull')
             os.system('sudo shutdown -r now')
         return self
