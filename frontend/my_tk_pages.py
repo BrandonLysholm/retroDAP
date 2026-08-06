@@ -388,6 +388,8 @@ class PowerFrame(tk.Frame):
         self.confirmation_label.configure(text="Press Center Button to confirm shutdown")
 
 class UpdateSoftwareFrame(tk.Frame):
+    # TODO: change which branch is selected
+    # TODO: change which branch is currently main
     def __init__(self, parent, controller):
         tk.Frame.__init__(self, parent)
         
@@ -406,7 +408,6 @@ class UpdateSoftwareFrame(tk.Frame):
         self.confirmation_label.grid(row=0, column=0,sticky ="nswe", padx=(0,10))
 
         # added features to support multiple branches
-        self.total_branches = 0
         self.branch_index = 0
         self.branch_names = []
         self.branch_labels = []
@@ -415,13 +416,39 @@ class UpdateSoftwareFrame(tk.Frame):
     # takes in a string of the name of a branch, and adds it to the grid view
     def add_branch_label(self, new_branch):
         print('adding branch label' + new_branch)
-        self.total_branches +=1
+        
         self.branch_names.append(new_branch)
         temp_label = tk.Label(self.contentFrame, text = new_branch, font = MED_FONT, background=SPOT_BLACK, foreground=SPOT_GREEN, wraplength=600)
         self.grid_rowconfigure(self.total_branches + 2, weight=1)
         self.branch_labels.append(temp_label)
-        temp_label.grid(row=self.total_branches, column=0,sticky="nswe",padx=(0,10))
+        self.branch_labels[total_branches].grid(row=self.total_branches, column=0,sticky="nswe",padx=(0,10))
         
+    def update_all_labels(self, new_branch_names):
+        index = 0
+        for temp_branch in new_branch_names:
+            self.branch_names[index] = temp_branch
+            self.branch_labels[index].configure(text=temp_branch)
+            index += 1
+
+    # stylizes the labels based on if they are selected or not
+    def unselect_label(self, label_index):
+        self.branch_labels[label_index].configure(font = MED_FONT, background=SPOT_BLACK, foreground=SPOT_GREEN)
+    def select_label(self, label_index):
+        self.branch_labels[label_index].configure(font = MED_FONT, background=SPOT_GREEN, foreground=SPOT_BLACK)
+
+    def scroll_up(self):
+        if self.branch_index == 0:
+            return
+        unselect_label(self, self.branch_index)
+        self.branch_index -= 1
+        select_label(self, self.branch_index)
+
+    def scroll_down(self):
+        if self.branch_index == len(self.branch_labels)-1:
+            return
+        unselect_label(self, self.branch_index)
+        self.branch_index += 1
+        select_label(self, self.branch_index)
 
 
 

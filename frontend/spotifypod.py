@@ -122,6 +122,17 @@ def add_branch_label(branch_name):
     software_page = app.frames[UpdateSoftwareFrame]
     software_page.add_branch_label(branch_name)
 
+def software_scroll_up():
+    global app, page
+    software_page = app.frames[UpdateSoftwareFrame]
+    software_page.scroll_up()
+
+def software_scroll_down():
+    global app, page
+    software_page = app.frames[UpdateSoftwareFrame]
+    software_page.scroll_down()
+
+
 # Used on WiFi settings page. Used to pass through function to update ssid label from the tk frame to the rendering in view model
 def update_ssid_label(q, ch):
     global app, page
@@ -193,7 +204,7 @@ def render_close_openbox(app, close_render):
 
 def render_software_update(app, software_render):
     app.show_frame(UpdateSoftwareFrame)
-    software_render.subscribe(app, add_branch_label)
+    software_render.subscribe(app, add_branch_label, software_scroll_up, software_scroll_down)
 
 def render_wifi(app, wifi_render):
     app.show_frame(WiFiPageFrame)

@@ -534,9 +534,11 @@ class UpdateSoftwareRendering(Rendering):
         self.add_branches = None
         self.branch_names = branch_names
         self.add_branch_label = None
+        self.scroll_up_callback = None
+        self.scroll_down_callback = None
 
 
-    def subscribe(self, app, add_branch_label):
+    def subscribe(self, app, add_branch_label, scroll_up, scroll_down):
         if (add_branch_label == self.add_branch_label):
             return
 
@@ -544,13 +546,29 @@ class UpdateSoftwareRendering(Rendering):
         self.app = app
 
         self.add_branch_label = add_branch_label
+        self.scroll_up_callback = scroll_up
+        self.scroll_down_callback = scroll_down
 
         for temp_branch in self.branch_names:
             self.add_branch_label(temp_branch)
 
+
+    def scroll_up(self):
+        if not self.scroll_up_callback:
+            return
+        self.scroll_up_callback()
+
+    def scroll_down(self):
+        if not self.scroll_down_callback:
+            return
+        self.scroll_down_callback()
+
+
     def unsubscribe(self):
         super().unsubscribe()
         self.add_branch_label = None
+        self.scroll_down_callback = None
+        self.scroll_up_callback = None
 
 class USBPassthroughRendering(Rendering):
     def __init__(self):
@@ -797,8 +815,8 @@ class CloseRetroDAPPage(DeveloperOptionsPage):
 class UpdateSoftwarePage(DeveloperOptionsPage):
     # TODO: upgrade this
     # Features to implement:
-    # Indicate which branch I am on
-    # Change branches - generate dynamically?
+    # Indicate which branch I am on - done
+    # Change branches - generate dynamically? - generating dynamically, just need to change it
     # Change software relaunch? Schedule system to run a command in 1min, then close retroDAP
     def __init__(self, previous_page):
         self.has_sub_page = False
@@ -809,16 +827,17 @@ class UpdateSoftwarePage(DeveloperOptionsPage):
         
         self.has_updated = False
 
+       
+        self.git_branches = get_branches
+        self.live_render=UpdateSoftwareRendering(self.git_branches)
+
+    # fetches all the branches, and then formats it into a clean array
+    def get_branches():
         # getting all the current branches
         result_string = ((subprocess.Popen("git branch", shell=True, stdout=subprocess.PIPE)).stdout.read()).decode("utf-8")
         # removing whitespace, the ending new line (to avoid an empty array item), and then splitting on the new lines to get each branch as a separate item
-        self.git_branches = ((result_string.replace(" ",""))[:-2]).split('\n')
-
-        # print('testing to see if git_branches is correct')
-        # for x in self.git_branches:
-        #     print("branch: " + x)
-
-        self.live_render=UpdateSoftwareRendering(self.git_branches)
+        result_array = ((result_string.replace(" ",""))[:-1]).split('\n')
+        return result_array
 
     def nav_back(self):
         return self.previous_page
@@ -832,9 +851,11 @@ class UpdateSoftwarePage(DeveloperOptionsPage):
         return self
 
     def nav_down(self):
-        return self
+        self.live_render.scroll_up()
+
     def nav_up(self):
-        return self
+        self.live_render.scroll_down()
+
 
     def render(self):
         return self.live_render     
