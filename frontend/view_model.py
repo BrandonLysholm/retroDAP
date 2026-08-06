@@ -556,9 +556,7 @@ class UpdateSoftwareRendering(Rendering):
 
         for temp_branch in self.branch_names:
             self.add_branch_label(temp_branch)
-
-        print("rendering subscribe active branch: " + str(self.active_branch))
-
+            
         self.select_branch_callback(self.active_branch)
 
     def update_labels(self, branch_labels, index):
@@ -825,9 +823,6 @@ class CloseRetroDAPPage(DeveloperOptionsPage):
 
 class UpdateSoftwarePage(DeveloperOptionsPage):
     # TODO: upgrade this
-    # Features to implement:
-    # Indicate which branch I am on - done
-    # Change branches - generate dynamically? - generating dynamically, just need to change it
     # Change software relaunch? Schedule system to run a command in 1min, then close retroDAP
     def __init__(self, previous_page):
         self.has_sub_page = False
@@ -855,12 +850,8 @@ class UpdateSoftwarePage(DeveloperOptionsPage):
         for branch in result_array:
             if branch[0] == '*': 
                 self.active_branch = self.selected_branch
-                print('active branch is: ' + branch)
-                print('active branch index is: ' + str(self.active_branch))
                 return result_array
-            self.selected_branch += 1
-
-                
+            self.selected_branch += 1      
 
         return result_array
 
@@ -868,7 +859,6 @@ class UpdateSoftwarePage(DeveloperOptionsPage):
         return self.previous_page
 
     def nav_select(self):
-        # TODO: implement branch switching
         # hovering over currently active branch, so just need to update
         if self.selected_branch == self.active_branch:
             if (not self.has_updated):
@@ -881,11 +871,8 @@ class UpdateSoftwarePage(DeveloperOptionsPage):
             # checking out a different branch
             os.system('git checkout ' + self.git_branches[self.selected_branch])
             # updating the list of branches
-            self.git_branches = self.get_branches
-            self.live_render.update_labels(self.git_branches, self.active_branch)
-
-
-        
+            self.git_branches = self.get_branches()
+            self.live_render.update_labels(self.git_branches, self.active_branch)        
         return self
 
     def nav_down(self):
@@ -893,15 +880,12 @@ class UpdateSoftwarePage(DeveloperOptionsPage):
             return
         self.selected_branch -= 1
         self.live_render.scroll(self.selected_branch)
-        print('viewmodel selected branch: ' + str(self.selected_branch))
 
     def nav_up(self):
         if self.selected_branch == len(self.git_branches) - 1:
             return
         self.selected_branch += 1
         self.live_render.scroll(self.selected_branch)
-        print('viewmodel selected branch: ' + str(self.selected_branch))
-
 
     def render(self):
         return self.live_render     

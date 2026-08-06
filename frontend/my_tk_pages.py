@@ -388,7 +388,6 @@ class PowerFrame(tk.Frame):
         self.confirmation_label.configure(text="Press Center Button to confirm shutdown")
 
 class UpdateSoftwareFrame(tk.Frame):
-    # TODO: change which branch is currently main
     def __init__(self, parent, controller):
         tk.Frame.__init__(self, parent)
         
