@@ -65,6 +65,7 @@ Add an app name and description can be anything
 ![Alt text](./docs/deploymentSteps/step3.jpg)
 ![Alt text](./docs/deploymentSteps/step4.jpg)
 ![Alt text](./docs/deploymentSteps/step5.png)
+Instead of http://localhost:8080/, Spotify now requires http://127.0.0.1:8080/
 ![Alt text](./docs/deploymentSteps/step6.jpg)
 Save client id and save secret id for future reference in this tutorial
 ![Alt text](./docs/deploymentSteps/step7.jpg)
@@ -103,7 +104,8 @@ Paste the following in:
 
     export SPOTIPY_CLIENT_ID='your_SPOTIPY_CLIENT_ID'
     export SPOTIPY_CLIENT_SECRET='your_SPOTIPY_CLIENT_SECRET'
-    export SPOTIPY_REDIRECT_URI='http://localhost:8080'
+    export RASPOTIFY_ID='f1a1b95ebf2fb51c91e400366a05fd2b6f60dd43'
+    export SPOTIPY_REDIRECT_URI='http://127.0.0.1:8080/'
 
 ## Configure Raspotify
 
@@ -153,7 +155,7 @@ For this section, I recommend using a more powerful Pi. I used a Raspberry Pi 3a
     sudo apt-get install python3-pip python-dev
     pip3 install -r requirements.txt
 
-Before running it modify the client id and secret also your scopes in with:
+Before running it modify the client id, redirect URI to 127.0.0.1 and secret also your scopes in with:
     vi spotipy_oath_demo.py
 
 Scope:
@@ -188,6 +190,7 @@ Once the Pi is connected, you will just see a black screen and a cursor. Right c
 Then, on the black desktop, right click and select Web Browser Midori. Once the browser launches, visit the website http://localhost:8080 and go through the process of logging in via that website. Once you reach the page of gibberish, the authentication is successful. Once done, you can close both the web browser and the terminal emulator. If using a Raspberry Pi other than a Zero 2W, shutdown and switch back to the Zero 2W. SSH back into the Pi 
 
 Once logged back in enter the following commands:
+
     cp ~/spotipy_oauth_demo/.spotipyoauthcache ~/retroDAP/frontend/.cache
     chmod 777 ~/retroDAP/frontend/.cache
 

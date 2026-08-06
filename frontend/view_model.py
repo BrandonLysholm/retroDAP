@@ -789,6 +789,9 @@ class UpdateSoftwarePage(DeveloperOptionsPage):
         self.live_render=UpdateSoftwareRendering()
         self.has_updated = False
 
+        # Testing to figure out if this works properly
+        self.git_branches = os.system('git branch')
+
     def nav_back(self):
         return self.previous_page
 

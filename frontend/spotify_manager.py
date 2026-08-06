@@ -115,8 +115,9 @@ def check_internet(request):
     try:
         result = request()
         has_internet = True
-    except Exception as _:
-        print("no ints")
+    except Exception as e:
+        print("check_internet failure (spotify_manager.py line 119)")
+        print(e)
         result = None
         has_internet = False
     return result
