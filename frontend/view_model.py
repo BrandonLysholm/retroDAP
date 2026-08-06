@@ -555,7 +555,7 @@ class UpdateSoftwareRendering(Rendering):
         for temp_branch in self.branch_names:
             self.add_branch_label(temp_branch)
 
-        print("rendering subscribe active branch: " + self.active_branch)
+        print("rendering subscribe active branch: " + str(self.active_branch))
 
         self.select_branch_callback(self.active_branch)
 
@@ -854,7 +854,7 @@ class UpdateSoftwarePage(DeveloperOptionsPage):
             if branch[0] == '*': 
                 self.active_branch = self.selected_branch
                 print('active branch is: ' + branch)
-                print('active branch index is: ' + self.active_branch)
+                print('active branch index is: ' + str(self.active_branch))
                 return result_array
             self.selected_branch += 1
 

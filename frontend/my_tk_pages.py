@@ -414,7 +414,7 @@ class UpdateSoftwareFrame(tk.Frame):
 
     # takes in a string of the name of a branch, and adds it to the grid view
     def add_branch_label(self, new_branch):
-        print('adding branch label' + new_branch)
+        # print('adding branch label' + new_branch)
         
         self.branch_names.append(new_branch)
         temp_label = tk.Label(self.contentFrame, text = new_branch, font = MED_FONT, background=SPOT_BLACK, foreground=SPOT_GREEN, wraplength=600)
