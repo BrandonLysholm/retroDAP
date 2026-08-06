@@ -439,16 +439,16 @@ class UpdateSoftwareFrame(tk.Frame):
     def scroll_up(self):
         if self.branch_index == 0:
             return
-        self.unselect_label(self, self.branch_index)
+        self.unselect_label(self.branch_index)
         self.branch_index -= 1
-        self.select_label(self, self.branch_index)
+        self.select_label(self.branch_index)
 
     def scroll_down(self):
         if self.branch_index == len(self.branch_labels)-1:
             return
-        self.unselect_label(self, self.branch_index)
+        self.unselect_label(self.branch_index)
         self.branch_index += 1
-        self.select_label(self, self.branch_index)
+        self.select_label(self.branch_index)
 
 
 
