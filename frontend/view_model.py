@@ -792,6 +792,9 @@ class UpdateSoftwarePage(DeveloperOptionsPage):
         # Testing to figure out if this works properly
         self.git_branches = os.system('git branch')
 
+        console.log('testing to see if git_branches is correct')
+        console.log(git_branches)
+
     def nav_back(self):
         return self.previous_page
 
