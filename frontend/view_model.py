@@ -529,18 +529,19 @@ class CloseRetroDAPRendering(Rendering):
         self.app = app
 
 class UpdateSoftwareRendering(Rendering):
-    def __init__(self, branch_names):
+    def __init__(self, branch_names, active_branch):
         super().__init__(UPDATE_SOFTWARE_RENDER)
         self.add_branches = None
         self.branch_names = branch_names
         self.add_branch_label = None
         self.select_branch_callback = None
         self.update_branch_labels_callback = None
+        self.active_branch = active_branch
 
 
 
 
-    def subscribe(self, app, add_branch_label, select_branch, update_branch_labels, active_index):
+    def subscribe(self, app, add_branch_label, select_branch, update_branch_labels):
         if (add_branch_label == self.add_branch_label):
             return
 
@@ -554,7 +555,11 @@ class UpdateSoftwareRendering(Rendering):
         for temp_branch in self.branch_names:
             self.add_branch_label(temp_branch)
 
-        self.select_branch_callback(active_index)
+        self.select_branch_callback(self.active_branch)
+
+    def update_labels(branch_labels, index):
+        self.update_branch_labels_callback(branch_labels)
+        self.select_branch_callback(index)
 
 
     def scroll(self, index):
@@ -829,8 +834,8 @@ class UpdateSoftwarePage(DeveloperOptionsPage):
         
         self.has_updated = False
         self.git_branches = self.get_branches()
-        self.active_branch
-        self.selected_branch
+        self.active_branch = 0
+        self.selected_branch = 0
 
         self.live_render=UpdateSoftwareRendering(self.git_branches, self.active_branch)
 
@@ -842,12 +847,12 @@ class UpdateSoftwarePage(DeveloperOptionsPage):
         result_array = ((result_string.replace(" ",""))[:-1]).split('\n')
 
         # finding the active branch
-        selected_branch = 0
+        self.selected_branch = 0
         for branch in result_array:
             if branch[0] == '*':
-                active_branch = selected_branch
+                self.active_branch = self.selected_branch
                 return result_array
-            selected_branch += 1
+            self.selected_branch += 1
 
                 
 
@@ -859,7 +864,7 @@ class UpdateSoftwarePage(DeveloperOptionsPage):
     def nav_select(self):
         # TODO: implement branch switching
         # hovering over currently active branch, so just need to update
-        if self.selected_branch == self.active_branch
+        if self.selected_branch == self.active_branch:
             if (not self.has_updated):
                 self.has_updated = True
                 os.system('git reset -- hard')
@@ -871,7 +876,7 @@ class UpdateSoftwarePage(DeveloperOptionsPage):
             os.system('git checkout ' + self.git_branches[self.selected_branch])
             # updating the list of branches
             self.git_branches = self.get_branches
-            self.live_render.update_branch_labels_callback(self.git_branches)
+            self.live_render.update_labels(self.git_branches, self.active_branch)
 
 
         
@@ -884,7 +889,7 @@ class UpdateSoftwarePage(DeveloperOptionsPage):
         self.live_render.scroll(self.selected_branch)
 
     def nav_up(self):
-        if self.selected_branch == len(self.git_branches) + 1:
+        if self.selected_branch == len(self.git_branches) - 1:
             return
         self.selected_branch += 1
         self.live_render.scroll(self.selected_branch)

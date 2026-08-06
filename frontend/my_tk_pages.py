@@ -407,7 +407,7 @@ class UpdateSoftwareFrame(tk.Frame):
         self.confirmation_label.grid(row=0, column=0,sticky ="nswe", padx=(0,10))
 
         # added features to support multiple branches
-        self.branch_index
+        self.branch_index = 0
         self.branch_names = []
         self.branch_labels = []
 
