@@ -557,7 +557,7 @@ class UpdateSoftwareRendering(Rendering):
 
         self.select_branch_callback(self.active_branch)
 
-    def update_labels(branch_labels, index):
+    def update_labels(self, branch_labels, index):
         self.update_branch_labels_callback(branch_labels)
         self.select_branch_callback(index)
 
