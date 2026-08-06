@@ -545,7 +545,7 @@ class UpdateSoftwareRendering(Rendering):
 
         self.add_branch_label = add_branch_label
 
-        for temp_branch in sell.branch_names:
+        for temp_branch in self.branch_names:
             self.add_branch_label(temp_branch)
 
     def unsubscribe(self):

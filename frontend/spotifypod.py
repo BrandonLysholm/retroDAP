@@ -192,7 +192,8 @@ def render_close_openbox(app, close_render):
     app.show_frame(CloseOpenboxFrame)
 
 def render_software_update(app, software_render):
-    app.show_frame(UpdateSoftwareFrame, add_branch_label)
+    app.show_frame(UpdateSoftwareFrame)
+    software_render.subscribe(app, add_branch_label)
 
 def render_wifi(app, wifi_render):
     app.show_frame(WiFiPageFrame)

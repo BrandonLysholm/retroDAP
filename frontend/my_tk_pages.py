@@ -398,11 +398,11 @@ class UpdateSoftwareFrame(tk.Frame):
         divider = tk.Canvas(self)
         divider.configure(bg=SPOT_GREEN, height=DIVIDER_HEIGHT, bd=0, highlightthickness=0, relief='ridge')
         divider.grid(row = 1, column = 0, sticky ="we", pady=10, padx=(10, 30))
-        contentFrame = tk.Canvas(self, bg=SPOT_BLACK, highlightthickness=0, relief='ridge')
-        contentFrame.grid(row = 2, column = 0, sticky ="nswe")
-        contentFrame.grid_columnconfigure(1, weight=1)
+        self.contentFrame = tk.Canvas(self, bg=SPOT_BLACK, highlightthickness=0, relief='ridge')
+        self.contentFrame.grid(row = 2, column = 0, sticky ="nswe")
+        self.contentFrame.grid_columnconfigure(1, weight=1)
         self.grid_rowconfigure(2, weight=1)
-        self.confirmation_label = tk.Label(contentFrame, text ="Branch list:", font = MED_FONT, background=SPOT_BLACK, foreground=SPOT_GREEN, wraplength=600)
+        self.confirmation_label = tk.Label(self.contentFrame, text ="Branch list:", font = MED_FONT, background=SPOT_BLACK, foreground=SPOT_GREEN, wraplength=600)
         self.confirmation_label.grid(row=0, column=0,sticky ="nswe", padx=(0,10))
 
         # added features to support multiple branches
@@ -417,10 +417,10 @@ class UpdateSoftwareFrame(tk.Frame):
         print('adding branch label' + new_branch)
         self.total_branches +=1
         self.branch_names.append(new_branch)
-        temp_label = tk.Label(contentFrame, text = new_branch, font = MED_FONT, background=SPOT_BLACK, foreground=SPOT_GREEN, wraplength=600)
+        temp_label = tk.Label(self.contentFrame, text = new_branch, font = MED_FONT, background=SPOT_BLACK, foreground=SPOT_GREEN, wraplength=600)
         self.grid_rowconfigure(self.total_branches + 2, weight=1)
         self.branch_labels.append(temp_label)
-        self.temp_label.grid(row=total_branches, column=0,sticky="nswe",padx=(0,10))
+        temp_label.grid(row=self.total_branches, column=0,sticky="nswe",padx=(0,10))
         
 
 
