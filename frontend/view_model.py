@@ -794,7 +794,9 @@ class UpdateSoftwarePage(DeveloperOptionsPage):
         # self.git_branches = os.system('git branch')
         # self.git_branches 
 
-        self.git_branches = ((((subprocess.Popen("git branch", shell=True, stdout=subprocess.PIPE)).stdout.read()).replace(" ","")).replace("b'","")).split('\n')
+        result = ((subprocess.Popen("git branch", shell=True, stdout=subprocess.PIPE)).stdout.read())
+        result_string = result.decode("utf-8")
+        self.git_branches = (result_string.replace(" ","")).split('\n')
 
         print('testing to see if git_branches is correct')
         for x in self.git_branches:
