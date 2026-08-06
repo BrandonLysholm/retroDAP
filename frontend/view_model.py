@@ -538,6 +538,8 @@ class UpdateSoftwareRendering(Rendering):
         self.update_branch_labels_callback = None
         self.active_branch = active_branch
 
+        print('constructer of rendering active branch is: ' + str(self.active_branch))
+
 
 
 
@@ -835,9 +837,9 @@ class UpdateSoftwarePage(DeveloperOptionsPage):
         self.previous_page = previous_page
         
         self.has_updated = False
-        self.git_branches = self.get_branches()
         self.active_branch = 0
         self.selected_branch = 0
+        self.git_branches = self.get_branches()
 
         self.live_render=UpdateSoftwareRendering(self.git_branches, self.active_branch)
 
@@ -891,14 +893,14 @@ class UpdateSoftwarePage(DeveloperOptionsPage):
             return
         self.selected_branch -= 1
         self.live_render.scroll(self.selected_branch)
-        print('viewmodel selected branch: ' + self.selected_branch)
+        print('viewmodel selected branch: ' + str(self.selected_branch))
 
     def nav_up(self):
         if self.selected_branch == len(self.git_branches) - 1:
             return
         self.selected_branch += 1
         self.live_render.scroll(self.selected_branch)
-        print('viewmodel selected branch: ' + self.selected_branch)
+        print('viewmodel selected branch: ' + str(self.selected_branch))
 
 
     def render(self):
