@@ -538,8 +538,9 @@ class UpdateSoftwareRendering(Rendering):
         self.update_branch_labels_callback = None
         self.clear_labels_callback = None
         self.active_branch = active_branch
+        self.closeRetroDAP = None
 
-    def subscribe(self, app, add_branch_label, select_branch, update_branch_labels, clear_labels):
+    def subscribe(self, app, add_branch_label, select_branch, update_branch_labels, clear_labels, closeRetroDAP):
         if (add_branch_label == self.add_branch_label):
             return
 
@@ -549,6 +550,7 @@ class UpdateSoftwareRendering(Rendering):
         self.select_branch_callback = select_branch
         self.update_branch_labels_callback = update_branch_labels
         self.clear_labels_callback = clear_labels
+        self.closeRetroDAP = closeRetroDAP
 
         # adding the branches labels to the view
         for temp_branch in self.branch_names:
@@ -819,6 +821,7 @@ class CloseRetroDAPPage(DeveloperOptionsPage):
 class UpdateSoftwarePage(DeveloperOptionsPage):
     # TODO: upgrade this
     # Change software relaunch? Schedule system to run a command in 1min, then close retroDAP
+    # Best way to achieve this is to run the at command
     def __init__(self, previous_page):
         self.has_sub_page = False
         self.overrides_select = True
@@ -860,7 +863,21 @@ class UpdateSoftwarePage(DeveloperOptionsPage):
                 self.has_updated = True
                 os.system('git reset -- hard')
                 os.system('git pull')
-                os.system('sudo shutdown -r now')
+
+                # attempting to use the at command to get the program to close and relaunch, instead of restarting
+                # needs yet another callback function to close retroDAP
+                self.live_render.closeRetroDAP()
+
+
+                # using the at command to go to the right directory, and then reeopen retroDAP
+                os.system('at now + 1min')
+                os.system('cd ~/retroDAP/frontend')
+                os.system('echo "hello"')
+                os.system('python3 spotifypod.py')
+                os.system('<EOT>')
+
+
+                # os.system('sudo shutdown -r now')
         # hovering over not the active branch, so need to swap over
         else:
             # checking out a different branch
