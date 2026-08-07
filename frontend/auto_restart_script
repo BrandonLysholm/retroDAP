@@ -1,0 +1,2 @@
+touch madeFromScript
+python3 spotifypod.py

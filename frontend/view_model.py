@@ -870,11 +870,7 @@ class UpdateSoftwarePage(DeveloperOptionsPage):
 
 
                 # using the at command to go to the right directory, and then reeopen retroDAP
-                os.system('at now + 1min')
-                os.system('cd ~/retroDAP/frontend')
-                os.system('echo "hello"')
-                os.system('python3 spotifypod.py')
-                os.system('<EOT>')
+                os.system('at -f auto_restart_script now + 1min')
 
 
                 # os.system('sudo shutdown -r now')
