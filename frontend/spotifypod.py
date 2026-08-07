@@ -128,6 +128,11 @@ def software_select_branch(index):
     software_page = app.frames[UpdateSoftwareFrame]
     software_page.select_branch(index)
 
+def software_clear():
+    global app, page
+    software_page = app.frames[UpdateSoftwareFrame]
+    software_page.delete_all_labels()
+
 def update_branch_labels(branch_labels):
     global app, page
     software_page = app.frames[UpdateSoftwareFrame]
@@ -205,7 +210,7 @@ def render_close_openbox(app, close_render):
 
 def render_software_update(app, software_render):
     app.show_frame(UpdateSoftwareFrame)
-    software_render.subscribe(app, add_branch_label, software_select_branch, update_branch_labels)
+    software_render.subscribe(app, add_branch_label, software_select_branch, update_branch_labels, software_clear)
 
 def render_wifi(app, wifi_render):
     app.show_frame(WiFiPageFrame)

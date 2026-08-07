@@ -388,7 +388,6 @@ class PowerFrame(tk.Frame):
         self.confirmation_label.configure(text="Press Center Button to confirm shutdown")
 
 class UpdateSoftwareFrame(tk.Frame):
-    # TODO make the labels look good
     def __init__(self, parent, controller):
         tk.Frame.__init__(self, parent)
         
@@ -401,6 +400,7 @@ class UpdateSoftwareFrame(tk.Frame):
         divider.grid(row = 1, column = 0, sticky ="we", pady=10, padx=(10, 30))
         self.contentFrame = tk.Canvas(self, bg=SPOT_BLACK, highlightthickness=0, relief='ridge')
         self.contentFrame.grid(row = 2, column = 0, sticky ="nswe")
+        # columns are 0 inclusive, so to have only one column list it as 0
         self.contentFrame.grid_columnconfigure(0, weight=1)
         self.grid_rowconfigure(2, weight=1)
         self.confirmation_label = tk.Label(self.contentFrame, text ="Branch list:", font = LARGEFONT, background=SPOT_BLACK, foreground=SPOT_GREEN, wraplength=600)
@@ -440,6 +440,12 @@ class UpdateSoftwareFrame(tk.Frame):
         self.branch_index = index
         self.select_label(self.branch_index)
 
+    def delete_all_labels(self):
+        for lbl in self.branch_labels:
+            lbl.destroy()
+        self.branch_labels = []
+        self.branch_names = []
+            
 
 
 

@@ -536,9 +536,10 @@ class UpdateSoftwareRendering(Rendering):
         self.add_branch_label = None
         self.select_branch_callback = None
         self.update_branch_labels_callback = None
+        self.clear_labels_callback = None
         self.active_branch = active_branch
 
-    def subscribe(self, app, add_branch_label, select_branch, update_branch_labels):
+    def subscribe(self, app, add_branch_label, select_branch, update_branch_labels, clear_labels):
         if (add_branch_label == self.add_branch_label):
             return
 
@@ -547,6 +548,7 @@ class UpdateSoftwareRendering(Rendering):
         self.add_branch_label = add_branch_label
         self.select_branch_callback = select_branch
         self.update_branch_labels_callback = update_branch_labels
+        self.clear_labels_callback = clear_labels
 
         # adding the branches labels to the view
         for temp_branch in self.branch_names:
@@ -565,8 +567,9 @@ class UpdateSoftwareRendering(Rendering):
         self.select_branch_callback(index)
 
     def unsubscribe(self):
-        # TODO: implement the removing of all branches on the tk_page
+        self.clear_labels_callback()
         super().unsubscribe()
+        self.clear_labels_callback = None
         self.add_branch_label = None
         self.select_branch_callback = None
         self.update_branch_labels_callback = None
