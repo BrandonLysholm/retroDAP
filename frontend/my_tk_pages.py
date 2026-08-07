@@ -388,6 +388,7 @@ class PowerFrame(tk.Frame):
         self.confirmation_label.configure(text="Press Center Button to confirm shutdown")
 
 class UpdateSoftwareFrame(tk.Frame):
+    # TODO make the labels look good
     def __init__(self, parent, controller):
         tk.Frame.__init__(self, parent)
         
@@ -416,10 +417,10 @@ class UpdateSoftwareFrame(tk.Frame):
         # print('adding branch label' + new_branch)
         
         self.branch_names.append(new_branch)
-        temp_label = tk.Label(self.contentFrame, text = new_branch, font = MED_FONT, background=SPOT_BLACK, foreground=SPOT_GREEN, wraplength=600)
+        temp_label = tk.Label(self.contentFrame, text = new_branch, font = LARGEFONT, background=SPOT_BLACK, foreground=SPOT_GREEN)
         self.grid_rowconfigure(len(self.branch_names) + 1, weight=1)
         self.branch_labels.append(temp_label)
-        self.branch_labels[len(self.branch_labels)-1].grid(row=len(self.branch_names) + 1, column=0,sticky="nswe",padx=(0,10))
+        self.branch_labels[len(self.branch_labels)-1].grid(row=len(self.branch_names) + 1, column=0,padx=10,pady=10)
 
     def update_all_labels(self, new_branch_names):
         index = 0
@@ -430,11 +431,9 @@ class UpdateSoftwareFrame(tk.Frame):
 
     # stylizes the labels based on if they are selected or not
     def unselect_label(self, label_index):
-        self.branch_labels[label_index].configure(font = MED_FONT, background=SPOT_BLACK, foreground=SPOT_GREEN)
+        self.branch_labels[label_index].configure(background=SPOT_BLACK, foreground=SPOT_GREEN)
     def select_label(self, label_index):
-        self.branch_labels[label_index].configure(font = MED_FONT, background=SPOT_GREEN, foreground=SPOT_BLACK)
-
-    # TODO the logic for the ends should be handled elsewhere
+        self.branch_labels[label_index].configure(background=SPOT_GREEN, foreground=SPOT_BLACK)
 
     def select_branch(self, index):
         self.unselect_label(self.branch_index)

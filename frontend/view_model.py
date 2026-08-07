@@ -538,38 +538,31 @@ class UpdateSoftwareRendering(Rendering):
         self.update_branch_labels_callback = None
         self.active_branch = active_branch
 
-        print('constructer of rendering active branch is: ' + str(self.active_branch))
-
-
-
-
     def subscribe(self, app, add_branch_label, select_branch, update_branch_labels):
         if (add_branch_label == self.add_branch_label):
             return
 
-        # Here is where we will make the call to add each label
+        # assigning the callback functions
         self.app = app
-
         self.add_branch_label = add_branch_label
         self.select_branch_callback = select_branch
         self.update_branch_labels_callback = update_branch_labels
 
+        # adding the branches labels to the view
         for temp_branch in self.branch_names:
             self.add_branch_label(temp_branch)
-            
+
         self.select_branch_callback(self.active_branch)
 
     def update_labels(self, branch_labels, index):
         self.update_branch_labels_callback(branch_labels)
         self.select_branch_callback(index)
 
-
+    # changing on the view which label is currently being hovered over
     def scroll(self, index):
         if not self.select_branch_callback:
             return
         self.select_branch_callback(index)
-
-
 
     def unsubscribe(self):
         # TODO: implement the removing of all branches on the tk_page
@@ -652,7 +645,6 @@ class PowerPage():
         return self.previous_page
 
     def nav_select(self):
-        # TODO: Have this trigger the backlight also going off permanently so it does not turn on when the system goes off if possible
         self.live_render.update_label()
         os.system('sudo shutdown')
         return self
