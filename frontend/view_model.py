@@ -865,12 +865,13 @@ class UpdateSoftwarePage(DeveloperOptionsPage):
                 os.system('git pull')
 
                 # attempting to use the at command to get the program to close and relaunch, instead of restarting
-                # needs yet another callback function to close retroDAP
-                self.live_render.closeRetroDAP()
-
-
-                # using the at command to go to the right directory, and then reeopen retroDAP
                 os.system('at -f auto_restart_script now + 1min')
+
+                # needs yet another callback function to close retroDAP
+                # try closing openbox and relaunching that instead, since it seems that retroDAP is being opened in a different context
+                # TODO fully remove the callback function to close retroDAP
+                # self.live_render.closeRetroDAP()
+                os.system('pkill openbox')
 
 
                 # os.system('sudo shutdown -r now')

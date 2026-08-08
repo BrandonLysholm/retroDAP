@@ -1,2 +1,1 @@
-touch madeFromScript
-python3 spotifypod.py
+exec openbox-session
