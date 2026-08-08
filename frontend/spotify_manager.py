@@ -7,6 +7,7 @@ from spotipy.oauth2 import SpotifyOAuth
 import threading
 import time
 import json
+import os
 
 DEVICE_ID = 'f1a1b95ebf2fb51c91e400366a05fd2b6f60dd43' # This is raspotify
 
@@ -116,8 +117,9 @@ def check_internet(request):
         result = request()
         has_internet = True
     except Exception as e:
-        print("check_internet failure (spotify_manager.py line 119)")
-        print(e)
+        # printing it as a global message so that I can ssh into it to figure out why it is not
+        # communicating with Spotify API properly
+        os.system('wall "check_internet failure: ' + e + '"')
         result = None
         has_internet = False
     return result
