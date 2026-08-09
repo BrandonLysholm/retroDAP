@@ -75,6 +75,7 @@ Save client id and save secret id for future reference in this tutorial
     sudo vi .bash_profile
 
 In that file input the following:
+
     #!/bin/bash
     [[ -z $DISPLAY && $XDG_VTNR -eq 1 ]] && startx -- -nocursor
     # Disable any form of screen saver / screen blanking / power management
@@ -82,13 +83,14 @@ In that file input the following:
     xset s noblank
     export SPOTIPY_CLIENT_ID='your_SPOTIPY_CLIENT_ID'
     export SPOTIPY_CLIENT_SECRET='your_SPOTIPY_CLIENT_SECRET'
-    export SPOTIPY_REDIRECT_URI='http://localhost:8080'
+    export SPOTIPY_REDIRECT_URI='http://127.0.0.1::8080'
     export DISPLAY=:0.0
 
 ## Configure Xintric
     sudo vi /etc/X11/xinitrc
 
 Make that file look like the following: 
+
     #!/bin/sh
     # /etc/X11/xinit/xinitrc
     # global xinitrc file, used by all X sessions started by xinit (startx)
@@ -187,7 +189,7 @@ Once the Pi is connected, you will just see a black screen and a cursor. Right c
     cd spotify_oauth_demo
     python3 spotify_oauth_demo.py
 
-Then, on the black desktop, right click and select Web Browser Midori. Once the browser launches, visit the website http://localhost:8080 and go through the process of logging in via that website. Once you reach the page of gibberish, the authentication is successful. Once done, you can close both the web browser and the terminal emulator. If using a Raspberry Pi other than a Zero 2W, shutdown and switch back to the Zero 2W. SSH back into the Pi 
+Then, on the black desktop, right click and select Web Browser Midori. Once the browser launches, visit the website http://127.0.0.1:8080 and go through the process of logging in via that website. Once you reach the page of gibberish, the authentication is successful. Once done, you can close both the web browser and the terminal emulator. If using a Raspberry Pi other than a Zero 2W, shutdown and switch back to the Zero 2W. SSH back into the Pi 
 
 Once logged back in enter the following commands:
 

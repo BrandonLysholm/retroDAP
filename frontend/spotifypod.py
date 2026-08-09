@@ -210,7 +210,7 @@ def render_close_openbox(app, close_render):
 
 def render_software_update(app, software_render):
     app.show_frame(UpdateSoftwareFrame)
-    software_render.subscribe(app, add_branch_label, software_select_branch, update_branch_labels, software_clear, closeRetroDAP)
+    software_render.subscribe(app, add_branch_label, software_select_branch, update_branch_labels, software_clear)
 
 def render_wifi(app, wifi_render):
     app.show_frame(WiFiPageFrame)

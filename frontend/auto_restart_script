@@ -1,1 +1,2 @@
+sudo startx -- -nocursor
 exec openbox-session

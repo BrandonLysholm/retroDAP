@@ -538,9 +538,8 @@ class UpdateSoftwareRendering(Rendering):
         self.update_branch_labels_callback = None
         self.clear_labels_callback = None
         self.active_branch = active_branch
-        self.closeRetroDAP = None
 
-    def subscribe(self, app, add_branch_label, select_branch, update_branch_labels, clear_labels, closeRetroDAP):
+    def subscribe(self, app, add_branch_label, select_branch, update_branch_labels, clear_labels):
         if (add_branch_label == self.add_branch_label):
             return
 
@@ -550,7 +549,6 @@ class UpdateSoftwareRendering(Rendering):
         self.select_branch_callback = select_branch
         self.update_branch_labels_callback = update_branch_labels
         self.clear_labels_callback = clear_labels
-        self.closeRetroDAP = closeRetroDAP
 
         # adding the branches labels to the view
         for temp_branch in self.branch_names:
@@ -781,7 +779,7 @@ class CloseOpenboxPage(DeveloperOptionsPage):
         return self.previous_page
 
     def nav_select(self):
-        os.system('pkill openbox')
+        os.system('xkill -a')
         return self
 
     def nav_down(self):
@@ -861,20 +859,15 @@ class UpdateSoftwarePage(DeveloperOptionsPage):
         if self.selected_branch == self.active_branch:
             if (not self.has_updated):
                 self.has_updated = True
-                os.system('git reset -- hard')
+                os.system('git reset --hard')
                 os.system('git pull')
 
-                # attempting to use the at command to get the program to close and relaunch, instead of restarting
+                # using the at command to restart the xserver and then start openbox (which in startup auto launches retroDAP)
                 os.system('at -f auto_restart_script now + 1min')
 
-                # needs yet another callback function to close retroDAP
-                # try closing openbox and relaunching that instead, since it seems that retroDAP is being opened in a different context
-                # TODO fully remove the callback function to close retroDAP
-                # self.live_render.closeRetroDAP()
-                os.system('pkill openbox')
+                # killing xserver (and therefore openbox)
+                os.system('xkill -a')
 
-
-                # os.system('sudo shutdown -r now')
         # hovering over not the active branch, so need to swap over
         else:
             # checking out a different branch
