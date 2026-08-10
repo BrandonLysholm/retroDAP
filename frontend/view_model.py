@@ -779,7 +779,7 @@ class CloseOpenboxPage(DeveloperOptionsPage):
         return self.previous_page
 
     def nav_select(self):
-        os.system('xkill -a')
+        os.system('pkill openbox')
         return self
 
     def nav_down(self):
@@ -817,9 +817,6 @@ class CloseRetroDAPPage(DeveloperOptionsPage):
         return self.live_render
 
 class UpdateSoftwarePage(DeveloperOptionsPage):
-    # TODO: upgrade this
-    # Change software relaunch? Schedule system to run a command in 1min, then close retroDAP
-    # Best way to achieve this is to run the at command
     def __init__(self, previous_page):
         self.has_sub_page = False
         self.overrides_select = True
@@ -865,8 +862,9 @@ class UpdateSoftwarePage(DeveloperOptionsPage):
                 # using the at command to restart the xserver and then start openbox (which in startup auto launches retroDAP)
                 os.system('at -f auto_restart_script now + 1min')
 
-                # killing xserver (and therefore openbox)
-                os.system('xkill -a')
+                # killing openbox
+                # TODO fix this so that it does not cause issues if called twice without restarting the RPi
+                os.system('pkill openbox')
 
         # hovering over not the active branch, so need to swap over
         else:

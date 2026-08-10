@@ -119,7 +119,10 @@ def check_internet(request):
     except Exception as e:
         # printing it as a global message so that I can ssh into it to figure out why it is not
         # communicating with Spotify API properly
-        os.system('wall "check_internet failure: ' + e + '"')
+        os.system('wall "Issue with checking internet"')
+        # error_print = 'wall "Error: ' + e
+        # error_print.append('"')
+        # os.system(error_print)
         result = None
         has_internet = False
     return result
