@@ -859,12 +859,24 @@ class UpdateSoftwarePage(DeveloperOptionsPage):
                 os.system('git reset --hard')
                 os.system('git pull')
 
+                os.system('sudo shutdown -r now')
+
+
+                # TODO get this system working properly.
+                # At one stage in testing it was working, but when I cleaned up the code, it stopped working
+                # Unsure exactly what broke, as I tried various different ways to implement it, which include:
+                # changing etc/X11/Xwrapper.config to allowed_users=anybody & needs_root_rights=yes
+                # switching between pkill X and pkill openbox
+                # switching in auto_restart_script sudo startx -- -nocursor and sudo -u brandon startx -- -nocursor
+                # The issue might have occured elsewhere, but I just did so much switching back and forth that I never got it working properly
+
+
                 # using the at command to restart the xserver and then start openbox (which in startup auto launches retroDAP)
-                os.system('at -f auto_restart_script now + 1min')
+                # os.system('at -f auto_restart_script now + 1min')
 
                 # killing openbox
                 # TODO fix this so that it does not cause issues if called twice without restarting the RPi
-                os.system('pkill openbox')
+                # os.system('pkill openbox')
 
         # hovering over not the active branch, so need to swap over
         else:
