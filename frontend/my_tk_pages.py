@@ -389,11 +389,11 @@ class PowerFrame(tk.Frame):
 
 # Generic so that it can be used for both UpdateSoftwarePage and UpdatePlaybackPage
 class UpdateFrame(tk.Frame):
-    def __init__(self, parent, controller, my_header="", list_title=""):
+    def __init__(self, parent, controller):
         tk.Frame.__init__(self, parent)
         
         self.configure(bg=SPOT_BLACK)
-        self.header_label = tk.Label(self, text = my_header, font = LARGEFONT, background=SPOT_BLACK, foreground=SPOT_GREEN) 
+        self.header_label = tk.Label(self, text = "my_header", font = LARGEFONT, background=SPOT_BLACK, foreground=SPOT_GREEN) 
         self.header_label.grid(sticky='we', padx=(0, 10))
         self.grid_columnconfigure(0, weight=1)
         divider = tk.Canvas(self)
@@ -404,13 +404,17 @@ class UpdateFrame(tk.Frame):
         # columns are 0 inclusive, so to have only one column list it as 0
         self.contentFrame.grid_columnconfigure(0, weight=1)
         self.grid_rowconfigure(2, weight=1)
-        self.confirmation_label = tk.Label(self.contentFrame, text =list_title, font = LARGEFONT, background=SPOT_BLACK, foreground=SPOT_GREEN, wraplength=600)
-        self.confirmation_label.grid(row=0, column=0,sticky ="nswe", padx=(0,10))
+        self.description_label = tk.Label(self.contentFrame, text ="list_title", font = LARGEFONT, background=SPOT_BLACK, foreground=SPOT_GREEN, wraplength=600)
+        self.description_label.grid(row=0, column=0,sticky ="nswe", padx=(0,10))
 
         # added features to support multiple branches
         self.list_index = 0
         self.list_names = []
         self.list_labels = []
+
+    def update_descriptors(my_header,list_desc):
+        self.header_label.configure(text=my_header)
+        self.description_label.configure(text=list_desc)
 
 
     # takes in a string of the name of a branch, and adds it to the grid view
