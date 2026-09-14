@@ -209,7 +209,7 @@ def render_close_openbox(app, close_render):
     app.show_frame(CloseOpenboxFrame)
 
 def render_software_update(app, software_render):
-    app.show_frame(UpdateFrame("Update Software", "Branch list:"))
+    app.show_frame(UpdateFrame(my_header="Update Software", list_title="Branch list:"))
     software_render.subscribe(app, add_branch_label, software_select_branch, update_branch_labels, software_clear)
 
 def render_wifi(app, wifi_render):
