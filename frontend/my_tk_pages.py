@@ -79,7 +79,7 @@ class tkinterApp(tk.Tk):
    
         # iterating through a tuple consisting 
         # of the different page layouts 
-        for F in (StartPage, NowPlayingFrame, SearchFrame, PowerFrame, CloseOpenboxFrame, UpdateSoftwareFrame, WiFiPageFrame, CloseRetroDAPFrame, USBPassthroughFrame): 
+        for F in (StartPage, NowPlayingFrame, SearchFrame, PowerFrame, CloseOpenboxFrame, UpdateFrame, WiFiPageFrame, CloseRetroDAPFrame, USBPassthroughFrame): 
    
             frame = F(container, self) 
    
@@ -382,18 +382,18 @@ class PowerFrame(tk.Frame):
         self.confirmation_label = tk.Label(contentFrame, text ="Press Center Button to confirm shutdown", font = MED_FONT, background=SPOT_BLACK, foreground=SPOT_GREEN, wraplength=600)
         self.confirmation_label.grid(row=0, column=0,sticky ="nswe", padx=(0,10))
     
-    def update_power_label(self):c
+    def update_power_label(self):
         self.confirmation_label.configure(text="preparing shutdown")
     def revert_power_label(self):
         self.confirmation_label.configure(text="Press Center Button to confirm shutdown")
 
 # Generic so that it can be used for both UpdateSoftwarePage and UpdatePlaybackPage
 class UpdateFrame(tk.Frame):
-    def __init__(self, parent, controller, header, list_title):
+    def __init__(self, parent, controller, my_header="", list_title=""):
         tk.Frame.__init__(self, parent)
         
         self.configure(bg=SPOT_BLACK)
-        self.header_label = tk.Label(self, text = header, font = LARGEFONT, background=SPOT_BLACK, foreground=SPOT_GREEN) 
+        self.header_label = tk.Label(self, text = my_header, font = LARGEFONT, background=SPOT_BLACK, foreground=SPOT_GREEN) 
         self.header_label.grid(sticky='we', padx=(0, 10))
         self.grid_columnconfigure(0, weight=1)
         divider = tk.Canvas(self)
