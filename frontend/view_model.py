@@ -193,7 +193,7 @@ class SearchPage():
 class NowPlayingPage():
     def __init__(self, previous_page, header, command):
         self.has_sub_page = False
-        self.overrides_select = False
+        self.overrides_select = True
         self.previous_page = previous_page
         self.command = command
         self.header = header
@@ -228,6 +228,12 @@ class NowPlayingPage():
         pass
 
     def nav_select(self):
+        # Modify this so that it calls to update
+        # 1st do new API call to get up to date playback
+        # 2nd update the playback status
+        # 3rd update the screen
+        # seems like live_render.refresh() handles all 3 steps
+        self.live_render.refresh()
         return self
 
     def nav_back(self):

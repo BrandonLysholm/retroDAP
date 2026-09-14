@@ -125,6 +125,9 @@ Change device name (line 121)
 Then apply the changes:
     sudo systemctl restart raspotify
 
+
+need to document login: https://github.com/librespot-org/librespot/wiki/Options#oauth
+
 ## Enteriing Device ID
 To obtain your device id you first have to go to https://developer.spotify.com/console/get-users-available-devices/
 when you go the the website it will probably not list it, so start playback on your device, and then it should appear
