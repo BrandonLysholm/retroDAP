@@ -7,10 +7,6 @@ import re as re
 from functools import lru_cache 
 import os
 import subprocess
-# this does not work, unable to import from spotifypod
-# spotifypod can access stuff from here, but I cannot access stuff from spotifypod here
-# which is problematic since this is where I want to handle the shutdown
-# from spotifypod import quit_program as myQuit
 import RPi.GPIO as GPIO
 
 MENU_PAGE_SIZE = 6
@@ -26,6 +22,7 @@ UPDATE_SOFTWARE_RENDER = 6
 WIFI_SETTING_RENDER = 7
 CLOSE_RETRODAP_RENDER = 8
 USB_PASSTHROUGH_RENDER = 9
+UPDATE_PLAYBACK_RENDER = 10
 
 # Menu line item types
 LINE_NORMAL = 0
@@ -433,8 +430,10 @@ class SettingsPage(MenuPage):
     def __init__(self, previous_page):
         super().__init__("Settings", previous_page, has_sub_page=True)
         self.pages = [
-            WifiPage(self),
+            # TODO: get Playback page finished so that I can uncomment this and not cause it to crash
+            # UpdatePlaybackPage(self),
             PowerPage(self),
+            WifiPage(self),
             DeveloperOptionsPage(self)
         ]
         self.index = 0
@@ -637,6 +636,57 @@ class WifiSettingRendering(Rendering):
         self.change_pw_label = None
         self.change_input = None
         self.app = None
+
+
+# TODO: make the page generic, modify software, then copy/paste here before moving on
+class UpdatePlaybackRendering(Rendering):
+    def __init__(self, branch_names, active_branch):
+        super().__init__(UPDATE_PLAYBACK_RENDER)
+        # TODO: refactor necessary variable names
+        # there will also be the necessary changes of the device array storing two pieces of info, the device name and the device id
+        self.add_branches = None
+        self.branch_names = branch_names
+        self.add_branch_label = None
+        self.select_branch_callback = None
+        self.update_branch_labels_callback = None
+        self.clear_labels_callback = None
+        self.active_branch = active_branch
+
+    # TODO: refactor var names to get the proper system working
+    def subscribe(self, app, add_branch_label, select_branch, update_branch_labels, clear_labels):
+        if (add_branch_label == self.add_branch_label):
+            return
+
+        # assigning the callback functions
+        self.app = app
+        self.add_branch_label = add_branch_label
+        self.select_branch_callback = select_branch
+        self.update_branch_labels_callback = update_branch_labels
+        self.clear_labels_callback = clear_labels
+
+        # adding the branches labels to the view
+        for temp_branch in self.branch_names:
+            self.add_branch_label(temp_branch)
+
+        self.select_branch_callback(self.active_branch)
+
+    def update_labels(self, branch_labels, index):
+        self.update_branch_labels_callback(branch_labels)
+        self.select_branch_callback(index)
+
+    # changing on the view which label is currently being hovered over
+    def scroll(self, index):
+        if not self.select_branch_callback:
+            return
+        self.select_branch_callback(index)
+
+    def unsubscribe(self):
+        self.clear_labels_callback()
+        super().unsubscribe()
+        self.clear_labels_callback = None
+        self.add_branch_label = None
+        self.select_branch_callback = None
+        self.update_branch_labels_callback = None
 
 class PowerPage():
     def __init__(self, previous_page):
@@ -1018,6 +1068,55 @@ class PlaceHolderPage(MenuPage):
     def __init__(self, header, previous_page, has_sub_page=True, is_title = False):
         super().__init__(header, previous_page, has_sub_page, is_title)
 
+
+# building from the software page to build out playback device page, since it will operate similarly
+class UpdatePlaybackPage(SettingsPage):
+    def __init__(self, previous_page):
+        self.has_sub_page = False
+        self.overrides_select = True
+        self.header = "Playback Device"
+        self.is_title = False
+        self.previous_page = previous_page        
+
+        self.active_device = 0
+        self.selected_device = 0
+
+        self.device_list = self.get_devices()
+
+        # change to the playback rendering, but probably operate similarly
+        self.live_render=UpdateSoftwareRendering(self.device_list, self.active_device)
+
+    # fetches all the branches, and then formats it into a clean array
+    # Need to change this to instead make an API call to get the list of playback choices
+    def get_devices(self):
+        result_array = spotify_manager.DATASTORE.getDeviceList()
+        self.active_device = spotify_manager.DATASTORE.getActiveDevice()
+        self.selected_device = self.active_device
+
+        return result_array
+
+    def nav_back(self):
+        return self.previous_page
+
+    def nav_select(self):
+        # simple API call, then update the list
+        # API call logic should be placed in spotify_manager.py
+        return self
+
+    def nav_down(self):
+        if self.selected_device == 0:
+            return
+        self.selected_device -= 1
+        self.live_render.scroll(self.selected_device)
+
+    def nav_up(self):
+        if self.selected_device == len(self.device_list) - 1:
+            return
+        self.selected_device += 1
+        self.live_render.scroll(self.selected_device)
+
+    def render(self):
+        return self.live_render     
 
 # Will shutdown immediately after the hold switch has been toggled
 class usbPassthroughPage(MenuPage):

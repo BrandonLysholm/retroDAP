@@ -9,6 +9,7 @@ import time
 import json
 import os
 
+# TODO: instead of this being hardcoded in the repo, make it a environment variable similar to client ID
 DEVICE_ID = 'f1a1b95ebf2fb51c91e400366a05fd2b6f60dd43' # This is raspotify
 
 class UserDevice():
@@ -182,7 +183,7 @@ def get_album_tracks(id):
     return tracks
 
 def refresh_devices():
-    device = UserDevice(DEVICE_ID,'raspotify', True)
+    device = UserDevice(DEVICE_ID,'retroDAP', True)
     DATASTORE.setUserDevice(device)
 
 def parse_album(album):
@@ -296,7 +297,7 @@ def play_artist(artist_uri, device_id = None):
         #     print("error! no devices")
         #     return
         # device_id = devices[0].id
-        device_id = DEVICE_ID
+        device_id = DATASTORE.setUserDevice.id
     response = sp.start_playback(device_id=device_id, context_uri=artist_uri)
     refresh_now_playing()
     print(response)
@@ -311,7 +312,7 @@ def play_episode(episode_uri, device_id = None):
         #     print("error! no devices")
         #     return
         # device_id = devices[0].id
-        device_id = DEVICE_ID
+        device_id = DATASTORE.setUserDevice.id
     sp.start_playback(device_id=device_id, uris=[episode_uri])
 
 # Plays a specific song and queues up the rest of the album or playlist chosen from
@@ -330,8 +331,8 @@ def play_from_playlist(playist_uri, track_uri, device_id = None):
         #     print("error! no devices")
         #     return
         # device_id = devices[0].id
-        # device_id = DEVICE_ID
-    device_id = DEVICE_ID
+        # device_id = DATASTORE.setUserDevice.id
+    device_id = DATASTORE.setUserDevice.id
     sp.start_playback(device_id=device_id, context_uri=playist_uri, offset={"uri": track_uri})
     refresh_now_playing()
 
@@ -346,7 +347,7 @@ def play_from_show(show_uri, episode_uri, device_id = None):
         #     print("error! no devices")
         #     return
         # device_id = devices[0].id
-        device_id = DEVICE_ID
+        device_id = DATASTORE.setUserDevice.id
     sp.start_playback(device_id=device_id, context_uri=show_uri, offset={"uri": episode_uri})
     refresh_now_playing()
 
@@ -481,6 +482,49 @@ def toggle_play():
         pause()
     else:
         resume()
+
+
+def get_devices():
+    device_list = sp.devices()
+    # using this for debugging so that I can see the result since the documentation is sparse
+    print (device_list)
+    # TODO: clean up the result once I know the format
+    # the final result is to have every entry in the array a json object with 3 items, name, id, and if it is the current device
+    # there is the class userDevice that would work well for this
+
+    clean_list = []
+
+    device_number = 0
+    found_active = False
+    retroDAP_index = 0
+
+    # loops through the unclean list so that I can process it, plus find the active device
+    for device in device_list:
+        # TODO: clean it up
+        clean_list.append(device)
+        
+        # TODO: add logic to check if it is the currently active device
+        # if found the active device:
+        #     found_active = True
+        #     DATASTORE.getActiveDevice = device_number
+
+        # TODO: add logic to save index of retroDAP
+        # if retroDAP:
+        #     retroDAP_index = device_number
+
+    # if there is no currently active device, setting the active device to retroDAP
+    if not found_active:
+        # TODO: add API call to make this the active device - should be a separate function
+        DATASTORE.getActiveDevice = retroDAP_index
+    else:
+        #  change DATASTORE.setUserDevice(device class)
+        return
+
+    DATASTORE.getActiveDevice = clean_list
+
+
+
+
 
 def bg_loop():
     global sleep_time

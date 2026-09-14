@@ -9,7 +9,7 @@ from PIL import ImageTk, Image
 from sys import platform
 import os
 from fullEncoder import FullEncoder
-from my_tk_pages import tkinterApp, SearchFrame, Marquee, NowPlayingFrame, StartPage, PowerFrame, UpdateSoftwareFrame, CloseOpenboxFrame, WiFiPageFrame, CloseRetroDAPFrame, USBPassthroughFrame
+from my_tk_pages import tkinterApp, SearchFrame, Marquee, NowPlayingFrame, StartPage, PowerFrame, UpdateFrame, CloseOpenboxFrame, WiFiPageFrame, CloseRetroDAPFrame, USBPassthroughFrame
 
 import RPi.GPIO as GPIO
 
@@ -119,23 +119,23 @@ def update_search(q, ch, loading, results):
 # Used on update software page, adds another branch to the list of options
 def add_branch_label(branch_name):
     global app, page
-    software_page = app.frames[UpdateSoftwareFrame]
-    software_page.add_branch_label(branch_name)
+    software_page = app.frames[UpdateFrame]
+    software_page.add_label(branch_name)
 
 # changes which branch is currently being hovered over
 def software_select_branch(index):
     global app, page
-    software_page = app.frames[UpdateSoftwareFrame]
-    software_page.select_branch(index)
+    software_page = app.frames[UpdateFrame]
+    software_page.select_item(index)
 
 def software_clear():
     global app, page
-    software_page = app.frames[UpdateSoftwareFrame]
+    software_page = app.frames[UpdateFrame]
     software_page.delete_all_labels()
 
 def update_branch_labels(branch_labels):
     global app, page
-    software_page = app.frames[UpdateSoftwareFrame]
+    software_page = app.frames[UpdateFrame]
     software_page.update_all_labels(branch_labels)
 
 
@@ -209,7 +209,7 @@ def render_close_openbox(app, close_render):
     app.show_frame(CloseOpenboxFrame)
 
 def render_software_update(app, software_render):
-    app.show_frame(UpdateSoftwareFrame)
+    app.show_frame(UpdateFrame("Update Software", "Branch list:"))
     software_render.subscribe(app, add_branch_label, software_select_branch, update_branch_labels, software_clear)
 
 def render_wifi(app, wifi_render):

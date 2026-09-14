@@ -382,17 +382,18 @@ class PowerFrame(tk.Frame):
         self.confirmation_label = tk.Label(contentFrame, text ="Press Center Button to confirm shutdown", font = MED_FONT, background=SPOT_BLACK, foreground=SPOT_GREEN, wraplength=600)
         self.confirmation_label.grid(row=0, column=0,sticky ="nswe", padx=(0,10))
     
-    def update_power_label(self):
+    def update_power_label(self):c
         self.confirmation_label.configure(text="preparing shutdown")
     def revert_power_label(self):
         self.confirmation_label.configure(text="Press Center Button to confirm shutdown")
 
-class UpdateSoftwareFrame(tk.Frame):
-    def __init__(self, parent, controller):
+# Generic so that it can be used for both UpdateSoftwarePage and UpdatePlaybackPage
+class UpdateFrame(tk.Frame):
+    def __init__(self, parent, controller, header, list_title):
         tk.Frame.__init__(self, parent)
         
         self.configure(bg=SPOT_BLACK)
-        self.header_label = tk.Label(self, text ="Update Software", font = LARGEFONT, background=SPOT_BLACK, foreground=SPOT_GREEN) 
+        self.header_label = tk.Label(self, text = header, font = LARGEFONT, background=SPOT_BLACK, foreground=SPOT_GREEN) 
         self.header_label.grid(sticky='we', padx=(0, 10))
         self.grid_columnconfigure(0, weight=1)
         divider = tk.Canvas(self)
@@ -403,48 +404,46 @@ class UpdateSoftwareFrame(tk.Frame):
         # columns are 0 inclusive, so to have only one column list it as 0
         self.contentFrame.grid_columnconfigure(0, weight=1)
         self.grid_rowconfigure(2, weight=1)
-        self.confirmation_label = tk.Label(self.contentFrame, text ="Branch list:", font = LARGEFONT, background=SPOT_BLACK, foreground=SPOT_GREEN, wraplength=600)
+        self.confirmation_label = tk.Label(self.contentFrame, text =list_title, font = LARGEFONT, background=SPOT_BLACK, foreground=SPOT_GREEN, wraplength=600)
         self.confirmation_label.grid(row=0, column=0,sticky ="nswe", padx=(0,10))
 
         # added features to support multiple branches
-        self.branch_index = 0
-        self.branch_names = []
-        self.branch_labels = []
+        self.list_index = 0
+        self.list_names = []
+        self.list_labels = []
 
 
     # takes in a string of the name of a branch, and adds it to the grid view
-    def add_branch_label(self, new_branch):
-        # print('adding branch label' + new_branch)
-        
-        self.branch_names.append(new_branch)
-        temp_label = tk.Label(self.contentFrame, text = new_branch, font = LARGEFONT, background=SPOT_BLACK, foreground=SPOT_GREEN)
-        self.grid_rowconfigure(len(self.branch_names) + 1, weight=1)
-        self.branch_labels.append(temp_label)
-        self.branch_labels[len(self.branch_labels)-1].grid(row=len(self.branch_names) + 1, column=0,sticky="nw",padx=8,pady=2)
+    def add_label(self, new_item):
+        self.list_names.append(new_item)
+        temp_label = tk.Label(self.contentFrame, text = new_item, font = LARGEFONT, background=SPOT_BLACK, foreground=SPOT_GREEN)
+        self.grid_rowconfigure(len(self.list_names) + 1, weight=1)
+        self.list_labels.append(temp_label)
+        self.list_labels[len(self.list_labels)-1].grid(row=len(self.list_names) + 1, column=0,sticky="nw",padx=8,pady=2)
 
-    def update_all_labels(self, new_branch_names):
+    def update_all_labels(self, new_list_names):
         index = 0
-        for temp_branch in new_branch_names:
-            self.branch_names[index] = temp_branch
-            self.branch_labels[index].configure(text=temp_branch)
+        for temp_item in new_list_names:
+            self.list_names[index] = temp_branch
+            self.list_labels[index].configure(text=temp_item)
             index += 1
 
     # stylizes the labels based on if they are selected or not
     def unselect_label(self, label_index):
-        self.branch_labels[label_index].configure(background=SPOT_BLACK, foreground=SPOT_GREEN)
+        self.list_labels[label_index].configure(background=SPOT_BLACK, foreground=SPOT_GREEN)
     def select_label(self, label_index):
-        self.branch_labels[label_index].configure(background=SPOT_GREEN, foreground=SPOT_BLACK)
+        self.list_labels[label_index].configure(background=SPOT_GREEN, foreground=SPOT_BLACK)
 
-    def select_branch(self, index):
-        self.unselect_label(self.branch_index)
-        self.branch_index = index
-        self.select_label(self.branch_index)
+    def select_item(self, index):
+        self.unselect_label(self.list_index)
+        self.list_index = index
+        self.select_label(self.list_index)
 
     def delete_all_labels(self):
-        for lbl in self.branch_labels:
+        for lbl in self.list_labels:
             lbl.destroy()
-        self.branch_labels = []
-        self.branch_names = []
+        self.list_labels = []
+        self.list_names = []
             
 
 
