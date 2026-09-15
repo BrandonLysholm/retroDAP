@@ -412,7 +412,7 @@ class UpdateFrame(tk.Frame):
         self.list_names = []
         self.list_labels = []
 
-    def update_descriptors(my_header,list_desc):
+    def update_descriptors(self, my_header,list_desc):
         self.header_label.configure(text=my_header)
         self.description_label.configure(text=list_desc)
 
