@@ -485,6 +485,8 @@ def toggle_play():
 
 
 def get_devices():
+    # TODO: get this to run at startup, so that hopefully playback becomes smoother
+    # since it does set the playback device to retroDAP if no other device is currently the playback device
     device_list = sp.devices()
     # using this for debugging so that I can see the result since the documentation is sparse
     print (device_list)
