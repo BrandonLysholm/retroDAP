@@ -533,7 +533,9 @@ class CloseRetroDAPRendering(Rendering):
         self.callback = callback
         self.app = app
 
-class UpdateSoftwareRendering(Rendering):
+# Generic UpdateRendering
+# TODO: change var names to not be branch specific
+class UpdateRendering(Rendering):
     def __init__(self, branch_names, active_branch):
         super().__init__(UPDATE_SOFTWARE_RENDER)
         self.add_branches = None
@@ -579,8 +581,15 @@ class UpdateSoftwareRendering(Rendering):
         self.select_branch_callback = None
         self.update_branch_labels_callback = None
 
+class UpdateSoftwareRendering(UpdateRendering):
+    def __init__(self):
+        super().__init__(UPDATE_SOFTWARE_RENDER)
 
-class USBPassthroughRendering(Rendering):
+class UpdatePlaybackRendering(UpdateRendering):
+    def __init__(self):
+        super().__init__(UPDATE_PLAYBACK_RENDER)
+
+class USBPassthroughRendering(UpdateRendering):
     def __init__(self):
         super().__init__(USB_PASSTHROUGH_RENDER)
         self.callback = None
@@ -636,57 +645,6 @@ class WifiSettingRendering(Rendering):
         self.change_pw_label = None
         self.change_input = None
         self.app = None
-
-
-# TODO: make the page generic, modify software, then copy/paste here before moving on
-class UpdatePlaybackRendering(Rendering):
-    def __init__(self, branch_names, active_branch):
-        super().__init__(UPDATE_PLAYBACK_RENDER)
-        # TODO: refactor necessary variable names
-        # there will also be the necessary changes of the device array storing two pieces of info, the device name and the device id
-        self.add_branches = None
-        self.branch_names = branch_names
-        self.add_branch_label = None
-        self.select_branch_callback = None
-        self.update_branch_labels_callback = None
-        self.clear_labels_callback = None
-        self.active_branch = active_branch
-
-    # TODO: refactor var names to get the proper system working
-    def subscribe(self, app, add_branch_label, select_branch, update_branch_labels, clear_labels):
-        if (add_branch_label == self.add_branch_label):
-            return
-
-        # assigning the callback functions
-        self.app = app
-        self.add_branch_label = add_branch_label
-        self.select_branch_callback = select_branch
-        self.update_branch_labels_callback = update_branch_labels
-        self.clear_labels_callback = clear_labels
-
-        # adding the branches labels to the view
-        for temp_branch in self.branch_names:
-            self.add_branch_label(temp_branch)
-
-        self.select_branch_callback(self.active_branch)
-
-    def update_labels(self, branch_labels, index):
-        self.update_branch_labels_callback(branch_labels)
-        self.select_branch_callback(index)
-
-    # changing on the view which label is currently being hovered over
-    def scroll(self, index):
-        if not self.select_branch_callback:
-            return
-        self.select_branch_callback(index)
-
-    def unsubscribe(self):
-        self.clear_labels_callback()
-        super().unsubscribe()
-        self.clear_labels_callback = None
-        self.add_branch_label = None
-        self.select_branch_callback = None
-        self.update_branch_labels_callback = None
 
 class PowerPage():
     def __init__(self, previous_page):
