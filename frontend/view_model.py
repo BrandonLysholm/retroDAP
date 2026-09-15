@@ -582,11 +582,11 @@ class UpdateRendering(Rendering):
         self.update_branch_labels_callback = None
 
 class UpdateSoftwareRendering(UpdateRendering):
-    def __init__(self):
+    def __init__(self, branch_names, active_branch):
         super().__init__(branch_names, active_branch, UPDATE_SOFTWARE_RENDER)
 
 class UpdatePlaybackRendering(UpdateRendering):
-    def __init__(self):
+    def __init__(self, branch_names, active_branch):
         super().__init__(branch_names, active_branch, UPDATE_PLAYBACK_RENDER)
 
 class USBPassthroughRendering(Rendering):
