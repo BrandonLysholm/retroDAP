@@ -536,7 +536,7 @@ class CloseRetroDAPRendering(Rendering):
 # Generic UpdateRendering
 # TODO: change var names to not be branch specific
 class UpdateRendering(Rendering):
-    def __init__(self, branch_names, active_branch):
+    def __init__(self, branch_names, active_branch, render_id):
         super().__init__(UPDATE_SOFTWARE_RENDER)
         self.add_branches = None
         self.branch_names = branch_names
@@ -583,13 +583,13 @@ class UpdateRendering(Rendering):
 
 class UpdateSoftwareRendering(UpdateRendering):
     def __init__(self):
-        super().__init__(UPDATE_SOFTWARE_RENDER)
+        super().__init__(branch_names, active_branch, UPDATE_SOFTWARE_RENDER)
 
 class UpdatePlaybackRendering(UpdateRendering):
     def __init__(self):
-        super().__init__(UPDATE_PLAYBACK_RENDER)
+        super().__init__(branch_names, active_branch, UPDATE_PLAYBACK_RENDER)
 
-class USBPassthroughRendering(UpdateRendering):
+class USBPassthroughRendering(Rendering):
     def __init__(self):
         super().__init__(USB_PASSTHROUGH_RENDER)
         self.callback = None
